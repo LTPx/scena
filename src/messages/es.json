@@ -1,0 +1,11 @@
+{
+  "Header": {
+    "services": "Servicios",
+    "projects": "Proyectos",
+    "about": "Nosotros",
+    "showrooms": "Showrooms",
+    "news": "Noticias",
+    "outlet": "Outlet",
+    "contact": "Contacto"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Header": {
+    "services": "Services",
+    "projects": "Projects",
+    "about": "About",
+    "showrooms": "Showrooms",
+    "news": "News",
+    "outlet": "Outlet",
+    "contact": "Contact"
+  }
+}
