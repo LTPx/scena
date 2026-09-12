@@ -7,5 +7,16 @@
     "news": "Noticias",
     "outlet": "Outlet",
     "contact": "Contacto"
+  },
+  "Footer": {
+    "ctaTitle": "¿Te apasiona la tecnología y su integración en la arquitectura?",
+    "ctaButton": "Únete a nuestro equipo",
+    "newsletterLabel": "Suscríbete a nuestra Newsletter:",
+    "emailPlaceholder": "E mail",
+    "send": "Enviar",
+    "followUs": "Síguenos en:",
+    "privacyPolicy": "Privacy Policy",
+    "cookies": "Cookies",
+    "designBy": "Design by"
   }
 }
