@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { routing } from "@/routing";
 import Header from "../components/Header";
 import "./globals.css";
+import IntroLoader from "../components/IntroLoader";
+import Hero from "../components/Hero";
+import OurServices from "../components/OurServices";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -28,7 +31,6 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
           {children}
         </NextIntlClientProvider>
       </body>

@@ -1,12 +1,22 @@
 "use client";
 
 import Footer from "../components/Footer";
+import Gallery from "../components/Gallery";
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import IntroLoader from "../components/IntroLoader";
+import OurServices from "../components/OurServices";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <h1 className="p-10 text-2xl">Scenaasdas</h1>
-      <Footer/>
-    </main>
+   <>
+      <IntroLoader />
+      <Header />
+      <Hero />
+      <OurServices />
+      <Gallery/>
+      {/* aquí irán Showrooms y Proyectos destacados cuando los hagamos */}
+      <Footer />
+    </>
   );
 }
