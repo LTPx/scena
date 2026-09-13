@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 interface GalleryImage {
@@ -11,22 +11,23 @@ interface GalleryImage {
 }
 
 const IMAGES: GalleryImage[] = [
-  { src: "/images/gallery-1.png", aspect: "landscape" },
-  { src: "/images/gallery-2.png", aspect: "portrait" },
-  { src: "/images/gallery-3.png", aspect: "landscape" },
+  { src: "/images/gallery-1.png", aspect: "portrait" },
+  { src: "/images/gallery-2.png", aspect: "landscape" },
+  { src: "/images/gallery-3.jpg", aspect: "square" },
+  { src: "/images/gallery-4.jpg", aspect: "landscape" },
+  { src: "/images/gallery-5.jpg", aspect: "portrait" },
 ];
 
+// Ancho relativo de cada imagen, siempre a h-full (100vh)
 const ASPECT_WIDTH_CLASS: Record<string, string> = {
-  landscape: "w-[70vw] md:w-[55vw]",
-  portrait: "w-[45vw] md:w-[32vw]",
-  square: "w-[55vw] md:w-[40vw]",
+  landscape: "w-[85vw] md:w-[65vw]",
+  portrait: "w-[50vw] md:w-[32vw]",
+  square: "w-[70vw] md:w-[50vw]",
 };
 
-// Cuánto scroll "extra" (en vh) se le da por cada 100vw que debe recorrer el track.
-// Más alto = gesto de scroll más largo para recorrer toda la galería.
-const VH_PER_100VW_TRAVEL = 60;
+const VH_PER_100VW_TRAVEL = 130;
 
-export default function Gallery({ title = "Galería" }: { title?: string }) {
+export default function Gallery() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [travelDistance, setTravelDistance] = useState(0);
@@ -55,13 +56,7 @@ export default function Gallery({ title = "Galería" }: { title?: string }) {
     offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 25,
-    mass: 0.5,
-  });
-
-  const trackX = useTransform(smoothProgress, [0, 1], [0, -travelDistance]);
+  const trackX = useTransform(scrollYProgress, [0, 1], [0, -travelDistance]);
 
   return (
     <div
@@ -70,19 +65,15 @@ export default function Gallery({ title = "Galería" }: { title?: string }) {
       className="relative bg-[#F6F1EA]"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        <h2 className="absolute left-8 top-10 z-10 font-[Gellix] text-2xl text-[#A89572]">
-          {title}
-        </h2>
-
         <motion.div
           ref={trackRef}
           style={{ x: trackX }}
-          className="flex h-full items-center gap-6 pl-8 pr-[10vw]"
+          className="flex h-full items-center gap-4"
         >
           {IMAGES.map((img, i) => (
             <div
               key={img.src}
-              className={`relative h-[70vh] flex-shrink-0 overflow-hidden rounded-md ${
+              className={`relative h-full flex-shrink-0 ${
                 ASPECT_WIDTH_CLASS[img.aspect ?? "landscape"]
               }`}
             >

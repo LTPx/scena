@@ -26,8 +26,8 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative isolate overflow-hidden px-6 py-10 text-white md:h-[868px] md:px-10 md:py-[45px]">
-      <Image
+<footer className="relative isolate z-0 overflow-hidden px-6 py-10 text-white md:h-[868px] md:px-10 md:py-[45px]">      
+    <Image
         src="/footer-bg.png"
         alt=""
         fill
