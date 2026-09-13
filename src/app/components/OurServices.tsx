@@ -63,13 +63,18 @@ export default function OurServices() {
 
   // Pila de capas de imagen. La primera se queda estática de por vida;
   // cada vez que cambia el servicio activo se apila una nueva encima,
-  // que desliza desde abajo y tapa a la anterior. La anterior NO se
-  // anima "para salir": se queda quieta y solo se retira del array
-  // cuando la nueva termina de cubrirla del todo (onAnimationComplete),
-  // así se garantiza que la superposición dure la transición completa.
+  // que desliza desde abajo (scroll hacia abajo) o desde arriba (scroll
+  // hacia arriba) y tapa a la anterior. La anterior NO se anima "para
+  // salir": se queda quieta y solo se retira del array cuando la nueva
+  // termina de cubrirla del todo (onAnimationComplete), así se garantiza
+  // que la superposición dure la transición completa.
   const [layers, setLayers] = useState<
-    { index: number; id: number | "initial" }[]
-  >([{ index: 0, id: "initial" }]);
+    {
+      index: number;
+      id: number | "initial";
+      direction: "down" | "up";
+    }[]
+  >([{ index: 0, id: "initial", direction: "down" }]);
   const layerIdRef = useRef(0);
   const prevIndexRef = useRef(0);
 
@@ -88,9 +93,16 @@ export default function OurServices() {
 
   useEffect(() => {
     if (prevIndexRef.current === activeIndex) return;
+
+    // Si el índice sube, el scroll va hacia abajo -> la imagen nueva
+    // entra desde abajo. Si el índice baja, el scroll va hacia arriba
+    // -> la imagen nueva entra desde arriba.
+    const direction: "down" | "up" =
+      activeIndex > prevIndexRef.current ? "down" : "up";
+
     prevIndexRef.current = activeIndex;
     layerIdRef.current += 1;
-    const newLayer = { index: activeIndex, id: layerIdRef.current };
+    const newLayer = { index: activeIndex, id: layerIdRef.current, direction };
     setLayers((prev) => [...prev, newLayer]);
   }, [activeIndex]);
 
@@ -161,21 +173,24 @@ export default function OurServices() {
         <div className="absolute left-1/2 top-1/2 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50 z-10" />
 
         {/* Columna derecha: cada imagen nueva se APILA y se desliza por
-            encima de la anterior. La anterior permanece fija, visible,
-            y solo se elimina del DOM cuando la nueva termina de cubrirla
-            (ver onAnimationComplete) — así la superposición dura toda
-            la transición, no un instante. */}
+            encima de la anterior. Si el scroll va hacia abajo entra desde
+            abajo (y: 100% -> 0%); si va hacia arriba entra desde arriba
+            (y: -100% -> 0%). La anterior permanece fija, visible, y solo
+            se elimina del DOM cuando la nueva termina de cubrirla (ver
+            onAnimationComplete) — así la superposición dura toda la
+            transición, no un instante. */}
         <div className="relative w-1/2 h-full overflow-hidden">
           {layers.map((layer, i) => {
             const isTopLayer = i === layers.length - 1;
             const isInitial = layer.id === "initial";
+            const enterFrom = layer.direction === "down" ? "100%" : "-100%";
 
             return (
               <motion.div
                 key={layer.id}
                 className="absolute inset-0"
                 style={{ zIndex: i }}
-                initial={isInitial ? false : { y: "100%" }}
+                initial={isInitial ? false : { y: enterFrom }}
                 animate={{ y: "0%" }}
                 transition={SLIDE_TRANSITION}
                 onAnimationComplete={() => {
