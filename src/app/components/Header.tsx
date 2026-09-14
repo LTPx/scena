@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -35,10 +35,18 @@ const LOCALES = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [animate, setAnimate] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const locale = useLocale();
   const t = useTranslations("Header");
   const tSub = useTranslations("HeaderSub");
+  const rafIds = useRef<number[]>([]);
+
+  const [warmed, setWarmed] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setWarmed(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -49,7 +57,7 @@ export default function Header() {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "Escape") closeMenu();
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -58,6 +66,27 @@ export default function Header() {
   useEffect(() => {
     if (!isOpen) setActiveKey(null);
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      rafIds.current.forEach((id) => cancelAnimationFrame(id));
+    };
+  }, []);
+
+  function openMenu() {
+    setIsOpen(true);
+
+    const id1 = requestAnimationFrame(() => {
+      const id2 = requestAnimationFrame(() => setAnimate(true));
+      rafIds.current.push(id2);
+    });
+    rafIds.current.push(id1);
+  }
+
+  function closeMenu() {
+    setAnimate(false);
+    setIsOpen(false);
+  }
 
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
@@ -74,7 +103,7 @@ export default function Header() {
 
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={openMenu}
           aria-expanded={isOpen}
           aria-label="Abrir menu"
           className="flex items-center justify-center"
@@ -87,17 +116,16 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Overlay del menu */}
       <div
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
-          isOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-50 ${
+          isOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
         aria-hidden={!isOpen}
       >
-        {/* Panel fijo de 400px, fiel a Figma */}
-        <div className="relative h-[400px] w-full bg-[#BCB6A8]">
+        <div
+          className="relative h-[400px] w-full bg-[#BCB6A8] transition-opacity duration-300 ease-out"
+          style={{ opacity: animate ? 1 : 0 }}
+        >
           <div className="flex items-start justify-between p-[40px]">
             <div className="flex items-start gap-[170px]">
               <Link href="/" className="flex items-center">
@@ -107,7 +135,7 @@ export default function Header() {
                   className="h-[20px] w-auto"
                 />
               </Link>
-              {/* fila de nav + submenu, el onMouseLeave va aca para que no se cierre al pasar entre columnas */}
+
               <div className="flex" onMouseLeave={() => setActiveKey(null)}>
                 <nav className="flex flex-col gap-1">
                   {NAV_ITEMS.map((item) => {
@@ -134,7 +162,7 @@ export default function Header() {
                       <Link
                         key={item.href}
                         href={item.href}
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeMenu}
                         onMouseEnter={() => setActiveKey(null)}
                         className={classes}
                       >
@@ -153,7 +181,7 @@ export default function Header() {
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={closeMenu}
                       className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
                     >
                       {tSub(`${activeItem.key}.${sub.key}`)}
@@ -185,7 +213,7 @@ export default function Header() {
 
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
+                onClick={closeMenu}
                 aria-label="Cerrar menu"
                 className="flex items-center justify-center"
               >
@@ -198,13 +226,23 @@ export default function Header() {
             </div>
           </div>
         </div>
-
-        {/* zona de abajo: deja ver lo que hay detras, pero borroso */}
         <div
-          className="absolute inset-x-0 top-[400px] bottom-0"
+          className="absolute inset-x-0 top-[400px] bottom-0 transition-[backdrop-filter] duration-300 ease-out"
           style={{
-            backdropFilter: "blur(200px)",
-            WebkitBackdropFilter: "blur(200px)",
+            backdropFilter: animate
+              ? "blur(100px)"
+              : warmed
+                ? "blur(0.01px)"
+                : "blur(0px)",
+            WebkitBackdropFilter: animate
+              ? "blur(100px)"
+              : warmed
+                ? "blur(0.01px)"
+                : "blur(0px)",
+            willChange: "backdrop-filter",
+            opacity: isOpen || animate ? 1 : 0,
+            transitionProperty:
+              "backdrop-filter, -webkit-backdrop-filter, opacity",
           }}
         />
       </div>
