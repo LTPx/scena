@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <IntroLoader />
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <OurServices />
       <Gallery />

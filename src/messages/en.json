@@ -8,6 +8,15 @@
     "outlet": "Outlet",
     "contact": "Contact"
   },
+  "HeaderSub": {
+    "services": {
+      "engineering": "Engineering",
+      "audioVideo": "Audio & Video",
+      "lightingDesign": "Lighting Design",
+      "homeAutomation": "Home Automation",
+      "mep": "MEP"
+    }
+  },
   "Footer": {
     "ctaTitle": "Are you passionate about technology and its integration into architecture?",
     "ctaButton": "Join our team",
