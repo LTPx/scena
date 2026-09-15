@@ -2,12 +2,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/routing";
-import Header from "../components/Header";
-import "./globals.css";
-import IntroLoader from "../components/IntroLoader";
-import Hero from "../components/Hero";
-import OurServices from "../components/OurServices";
-import SmoothScrollProvider from "../components/SmoothScrollProvider";
+import "./globals.css";;
+import App from "./app";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -30,10 +26,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body>   
+      <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header/>
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+          <App locale={locale}>{children}</App>
         </NextIntlClientProvider>
       </body>
     </html>
