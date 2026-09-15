@@ -75,7 +75,7 @@ export default function FeaturedProjects({ projects }: Props) {
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "250vh",
       }}
-      className="relative z-0 bg-[#F6F1EA]"
+      className="relative z-0"
     >
       <div className="sticky top-0 flex h-screen flex-col overflow-hidden pt-10">
         <h2 className="mb-8 px-8 font-[Gellix] text-2xl text-[#A89572]">

@@ -33,7 +33,7 @@ export default function IntroLoader() {
           exit={{ y: "100%" }}
           transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
           onClick={() => setIsDone(true)}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#F6F1EA]"
+          className="fixed inset-0 z-[100] flex items-center justify-center"
         >
           <video
             ref={videoRef}

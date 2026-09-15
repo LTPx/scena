@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #F6F5F1;
   --foreground: #171717;
 }
 
@@ -10,13 +10,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -55,8 +48,8 @@ body {
   overflow: hidden;
   isolation: isolate;
 
-  background-color: rgba(188, 182, 168, 0.45); /* BCB6A8 */
-  border: 0.5px solid rgba(246, 245, 241, 0.6); /* F6F5F1 */
+  background-color: rgba(188, 182, 168, 0.45);
+  border: 0.5px solid rgba(246, 245, 241, 0.6);
 }
 
 .btn-office::before {

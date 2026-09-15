@@ -65,7 +65,7 @@ export default function Hero({ heroPage }: HeroProps) {
       style={{
         height: `${heroPage.length * 100}vh`,
       }}
-      className="relative bg-[#F6F1EA]"
+      className="relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <div

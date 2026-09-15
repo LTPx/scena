@@ -2,10 +2,12 @@ import { ImageAcf } from "./wordpress-page";
 
 export interface HomePageWp {
   hero_page: MediaFileWp[];
+  intro_description: DescriptionWp;
   our_services: ServiceWp[];
   gallery: GalleryHomeWp[];
   where_we_make_difference: WhereWeMakeDifferenceWp;
   projects: ProjectHomeWp[];
+  visit_us_description: DescriptionWp;
 }
 
 export interface MediaFileWp {
@@ -48,6 +50,10 @@ export interface ProjectCategoryWp {
   id: number;
   name: string;
   slug: string;
+}
+
+export interface DescriptionWp {
+  description: string;
 }
 
 

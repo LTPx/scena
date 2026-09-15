@@ -70,7 +70,7 @@ export default function WhereWeMakeDifference({ data }: Props) {
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "150vh",
       }}
-      className="relative bg-[#F6F1EA]"
+      className="relative"
     >
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         <h2 className="mb-12 whitespace-pre-line px-8 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] md:px-16">

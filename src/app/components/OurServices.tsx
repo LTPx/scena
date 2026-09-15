@@ -94,7 +94,7 @@ export default function OurServices({
       }}
       className="relative"
     >
-      <div className="sticky top-0 flex h-screen overflow-hidden bg-[#F6F1EA]">
+      <div className="sticky top-0 flex h-screen overflow-hidden">
         {/* LEFT SIDE */}
         <div className="flex h-full w-1/2 flex-col px-16 py-14">
           <h2 className="pt-2 font-[Gellix] text-3xl text-[#A89572]">
