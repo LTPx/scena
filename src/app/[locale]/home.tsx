@@ -29,6 +29,7 @@ function HomePage({ home_information }: Props) {
         <IntroDescription
           description={home_information.visit_us_description.description}
           buttonHref="/contact"
+          buttonLabel="Visítanos"
         />
       </section>
       <Gallery gallery={home_information.gallery} />

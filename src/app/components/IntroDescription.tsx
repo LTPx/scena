@@ -29,13 +29,14 @@ function IntroDescription({
           className="
             ml-2 align-middle
             inline-flex items-center justify-center gap-[10px]
-            w-[122px] h-[35px]
+            w-fit h-[35px]
             rounded-full
             bg-white
             pt-[5px] pr-4 pb-[5px] pl-4
             font-gellix font-normal text-[14px] leading-[100%] tracking-normal
             text-[#A89572]
-            hover:bg-white/90 transition-colors
+            transition-colors duration-200
+            hover:bg-[#A89572] hover:text-white
           "
         >
           {buttonLabel}
