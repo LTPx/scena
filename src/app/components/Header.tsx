@@ -91,7 +91,7 @@ export default function Header() {
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
   return (
-    <header className="sticky top-0 left-0 z-50 w-full bg-transparent">
+    <header className="fixed top-0 left-0 z-100 w-full bg-transparent">
       <div className="flex items-center justify-between p-[40px]">
         <Link href="/" className="flex items-center">
           <img
