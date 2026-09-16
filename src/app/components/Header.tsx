@@ -33,6 +33,13 @@ const LOCALES = [
   { code: "de", label: "De" },
 ];
 
+// Columnas reutilizadas del grid de 12
+const LOGO_COLS = "col-start-1 col-span-2";
+const MAIN_NAV_COLS = "col-start-3 col-span-2";
+const SUB_NAV_COLS = "col-start-6 col-span-5"; // igual que CONTENT_COLS en PressDetailPage
+const LOCALE_COLS = "col-start-11 col-span-1";
+const CLOSE_COLS = "col-start-12 col-span-1";
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -92,8 +99,9 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 z-100 w-full bg-transparent">
-      <div className="flex items-center justify-between p-[40px]">
-        <Link href="/" className="flex items-center">
+      {/* Barra superior (cerrado) — mismo grid que el resto */}
+      <div className="grid grid-cols-12 items-center gap-x-6 px-10 py-10">
+        <Link href="/" className={`${LOGO_COLS} flex items-center`}>
           <img
             src="/logos/logo-header-white.svg"
             alt="scena"
@@ -106,7 +114,7 @@ export default function Header() {
           onClick={openMenu}
           aria-expanded={isOpen}
           aria-label="Abrir menu"
-          className="flex items-center justify-center"
+          className={`${CLOSE_COLS} flex items-center justify-end`}
         >
           <img
             src="/logos/logo-menu-white.svg"
@@ -126,104 +134,104 @@ export default function Header() {
           className="relative h-[400px] w-full bg-[#BCB6A8] transition-opacity duration-300 ease-out"
           style={{ opacity: animate ? 1 : 0 }}
         >
-          <div className="flex items-start justify-between p-[40px]">
-            <div className="flex items-start gap-[170px]">
-              <Link href="/" className="flex items-center">
-                <img
-                  src="/logos/logo-header-white.svg"
-                  alt="scena"
-                  className="h-[20px] w-auto"
-                />
-              </Link>
+          <div className="grid grid-cols-12 items-start gap-x-6 px-10 py-10">
+            <Link href="/" className={`${LOGO_COLS} flex items-center`}>
+              <img
+                src="/logos/logo-header-white.svg"
+                alt="scena"
+                className="h-[20px] w-auto"
+              />
+            </Link>
 
-              <div className="flex" onMouseLeave={() => setActiveKey(null)}>
-                <nav className="flex flex-col gap-1">
-                  {NAV_ITEMS.map((item) => {
-                    const hasSub = !!item.subItems?.length;
-                    const isDimmed =
-                      activeKey !== null && activeKey !== item.key;
-                    const classes = `w-fit text-[40px] leading-[40px] transition-opacity duration-200 ${
-                      isDimmed ? "opacity-30" : "opacity-100 hover:opacity-70"
-                    } text-[#F6F5F1]`;
+            <nav
+              className={`${MAIN_NAV_COLS} flex flex-col gap-1`}
+              onMouseLeave={() => setActiveKey(null)}
+            >
+              {NAV_ITEMS.map((item) => {
+                const hasSub = !!item.subItems?.length;
+                const isDimmed = activeKey !== null && activeKey !== item.key;
+                const classes = `w-fit text-[40px] leading-[40px] transition-opacity duration-200 ${
+                  isDimmed ? "opacity-30" : "opacity-100 hover:opacity-70"
+                } text-[#F6F5F1]`;
 
-                    if (hasSub) {
-                      return (
-                        <span
-                          key={item.href}
-                          onMouseEnter={() => setActiveKey(item.key)}
-                          className={`${classes} cursor-default`}
-                        >
-                          {t(item.key)}
-                        </span>
-                      );
-                    }
+                if (hasSub) {
+                  return (
+                    <span
+                      key={item.href}
+                      onMouseEnter={() => setActiveKey(item.key)}
+                      className={`${classes} cursor-default`}
+                    >
+                      {t(item.key)}
+                    </span>
+                  );
+                }
 
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={closeMenu}
-                        onMouseEnter={() => setActiveKey(null)}
-                        className={classes}
-                      >
-                        {t(item.key)}
-                      </Link>
-                    );
-                  })}
-                </nav>
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMenu}
+                    onMouseEnter={() => setActiveKey(null)}
+                    className={classes}
+                  >
+                    {t(item.key)}
+                  </Link>
+                );
+              })}
+            </nav>
 
-                <nav
-                  className={`ml-16 flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
-                    activeItem ? "opacity-100" : "pointer-events-none opacity-0"
-                  }`}
+            <nav
+              className={`${SUB_NAV_COLS} flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
+                activeItem ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+              onMouseLeave={() => setActiveKey(null)}
+            >
+              {activeItem?.subItems?.map((sub) => (
+                <Link
+                  key={sub.href}
+                  href={sub.href}
+                  onClick={closeMenu}
+                  className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
                 >
-                  {activeItem?.subItems?.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={closeMenu}
-                      className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
-                    >
-                      {tSub(`${activeItem.key}.${sub.key}`)}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </div>
-            <div className="flex items-center gap-[95px]">
-              <nav className="flex items-center gap-2 text-[16px] text-neutral-800">
-                {LOCALES.map((l, i) => (
-                  <span key={l.code} className="flex items-center gap-2">
-                    <Link
-                      href="/"
-                      locale={l.code}
-                      className={`font-normal not-italic text-[16px] leading-[135%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166] ${
-                        locale === l.code ? "" : "opacity-70"
-                      }`}
-                    >
-                      {l.label}
-                    </Link>
+                  {tSub(`${activeItem.key}.${sub.key}`)}
+                </Link>
+              ))}
+            </nav>
 
-                    {i < LOCALES.length - 1 && (
-                      <span className="text-[#F6F5F1]">|</span>
-                    )}
-                  </span>
-                ))}
-              </nav>
+            <nav
+              className={`${LOCALE_COLS} flex items-center gap-2 text-[16px] text-neutral-800`}
+            >
+              {LOCALES.map((l, i) => (
+                <span key={l.code} className="flex items-center gap-2">
+                  <Link
+                    href="/"
+                    locale={l.code}
+                    className={`font-normal not-italic text-[16px] leading-[135%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166] ${
+                      locale === l.code ? "" : "opacity-70"
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
 
-              <button
-                type="button"
-                onClick={closeMenu}
-                aria-label="Cerrar menu"
-                className="flex items-center justify-center"
-              >
-                <img
-                  src="/logos/close-menu.svg"
-                  alt=""
-                  className="h-[38px] w-auto"
-                />
-              </button>
-            </div>
+                  {i < LOCALES.length - 1 && (
+                    <span className="text-[#F6F5F1]">|</span>
+                  )}
+                </span>
+              ))}
+            </nav>
+
+            <button
+              type="button"
+              onClick={closeMenu}
+              aria-label="Cerrar menu"
+              className={`${CLOSE_COLS} flex items-center justify-end`}
+            >
+              <img
+                src="/logos/close-menu.svg"
+                alt=""
+                className="h-[38px] w-auto"
+              />
+            </button>
           </div>
         </div>
         <div

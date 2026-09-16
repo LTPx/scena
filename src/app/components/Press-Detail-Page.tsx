@@ -57,7 +57,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 
 export default function PressDetailPage({ data }: Props) {
   return (
-    <article className="px-6 py-10 md:px-10 md:py-[clamp(24px,6vh,60px)]">
+    <article className="w-full px-6 md:px-10">
       <div className="grid grid-cols-1 gap-y-8 md:grid-cols-12 md:gap-x-6 md:gap-y-16">
         {/* Fila 1: Noticias / 01 / Título — cols 3, 5, 6 */}
         <span className="font-sans text-base text-neutral-500 md:col-start-3 md:col-span-2">
@@ -73,7 +73,7 @@ export default function PressDetailPage({ data }: Props) {
         </h1>
 
         {/* Fila 2: imagen hero — full-bleed, col 3 a 12 */}
-        <div className={`relative aspect-[16/9] w-full overflow-hidden ${MEDIA_COLS}`}>
+        <div className="relative aspect-[16/9] w-full overflow-hidden md:col-start-3 md:col-span-10">
           <Image
             src={data.hero_image.url}
             alt={data.hero_image.alt}
@@ -83,11 +83,14 @@ export default function PressDetailPage({ data }: Props) {
           />
         </div>
 
-        {/* Bloques de contenido desde WP */}
         {data.content.map((block, index) => (
           <div
             key={index}
-            className={block.type === "video" ? MEDIA_COLS : CONTENT_COLS}
+            className={
+              block.type === "video"
+                ? "md:col-start-3 md:col-span-10"
+                : "md:col-start-6 md:col-span-5"
+            }
           >
             <ContentBlock block={block} />
           </div>
