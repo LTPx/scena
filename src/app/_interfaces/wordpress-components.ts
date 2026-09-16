@@ -79,3 +79,14 @@ export interface ContactPageWp {
   background_image: ImageAcf;
   offices: ContactOfficeWp[];
 }
+
+export interface NewsItemWp {
+  id: number;
+  title: string;
+  slug: string;
+}
+
+export interface NewsPageWp {
+  title: string;
+  news: NewsItemWp[];
+}
