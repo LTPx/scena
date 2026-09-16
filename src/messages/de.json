@@ -27,5 +27,17 @@
     "privacyPolicy": "Datenschutz",
     "cookies": "Cookies",
     "designBy": "Design von"
+  },
+  "Contact": {
+    "ctaTitle": "Begeistern Sie sich für Technologie und ihre Integration in die Architektur?",
+    "ctaButton": "Werden Sie Teil unseres Teams",
+    "newsletterLabel": "Abonnieren Sie unseren Newsletter:",
+    "emailPlaceholder": "E-Mail",
+    "send": "Senden",
+    "followUs": "Folgen Sie uns:",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn",
+    "backgroundAlt": "Hintergrundbild Kontakt",
+    "tagline": "living <br></br>technology"
   }
 }

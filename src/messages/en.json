@@ -27,5 +27,17 @@
     "privacyPolicy": "Privacy Policy",
     "cookies": "Cookies",
     "designBy": "Design by"
+  },
+  "Contact": {
+    "ctaTitle": "Are you passionate about technology and its integration into architecture?",
+    "ctaButton": "Join our team",
+    "newsletterLabel": "Subscribe to our Newsletter:",
+    "emailPlaceholder": "E mail",
+    "send": "Send",
+    "followUs": "Follow us on:",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn",
+    "backgroundAlt": "Contact background",
+    "tagline": "living <br></br>technology"
   }
 }

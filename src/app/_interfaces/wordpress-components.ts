@@ -67,3 +67,15 @@ export interface ShowroomPageWp {
   description: string;
   gallery: ImageAcf[];
 }
+
+export interface ContactOfficeWp {
+  label: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+export interface ContactPageWp {
+  background_image: ImageAcf;
+  offices: ContactOfficeWp[];
+}

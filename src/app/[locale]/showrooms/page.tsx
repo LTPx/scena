@@ -1,12 +1,12 @@
 import ShowroomsSection from "@/app/components/ShowroomsSection";
 import { mockShowroomsPage } from "@/app/mocks/showroons";
 
-async function Showrooms(nextParams: {
-  params: { locale: "es" | "de" | "en" };
+async function Showrooms({
+  params,
+}: {
+  params: Promise<{ locale: "es" | "de" | "en" }>;
 }) {
-  const {
-    params: { locale },
-  } = nextParams;
+  const { locale } = await params;
 
   const data = mockShowroomsPage;
 

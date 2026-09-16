@@ -1,0 +1,50 @@
+import { ContactPageWp } from "../_interfaces/wordpress-components";
+
+export const contactMock: ContactPageWp = {
+  background_image: {
+    ID: 123,
+    id: 123,
+    title: "contact-bg",
+    filename: "contact-bg.png",
+    filesize: 0,
+    url: "/images/contact-bg.png",
+    link: "",
+    alt: "",
+    author: "",
+    description: "",
+    caption: "",
+    name: "contact-bg",
+    status: "inherit",
+    uploaded_to: 0,
+    date: new Date(),
+    modified: new Date(),
+    menu_order: 0,
+    mime_type: "image/png",
+    type: "image",
+    subtype: "png",
+    icon: "",
+    width: 1920,
+    height: 1080,
+    sizes: {} as any,
+  },
+  offices: [
+    {
+      label: "Experience Center",
+      address: "Fray Luis de León, 9 - 07011 Palma",
+      phone: "+34 871 571 460",
+      email: "scena@e-scena.com",
+    },
+    {
+      label: "Technical Office",
+      address: "Gran Via Asima, 31 - 07009 Palma",
+      phone: "+34 971 29 04 87",
+      email: "scena@e-scena.com",
+    },
+    {
+      label: "B&O Mallorca",
+      address: "Calle Catalunya, 3 - 07011 Palma",
+      phone: "+34 971 666 833",
+      email: "bangolufsen@e-scena.com",
+    },
+  ],
+};
