@@ -55,26 +55,23 @@ export const mockShowroomsPage: ShowroomPageWp = {
       label: "Experience Center",
       contact:
         "Fray Luís de León, 9 - 07011 Palma<br />+34 871 571 460<br />scena@e-scena.com",
+      description:
+        "Tu tienda Bang & Olufsen en<br />Palma de Mallorca.Sumérgete en<br />una experiencia única de sonido<br />e imagen premium.",
     },
     {
       label: "B&O Mallorca",
       contact:
         "Calle Catalunya, 3 - 07011 Palma<br />+34 971 666 833<br />bangolufsen@e-scena.com",
+      description:
+        "En más de 400 metros cuadrados<br />aunamos en diferentes salas<br />nuestras soluciones en iluminación,<br />domótica y audio & vídeo",
     },
   ],
-  description:
-    "Tu tienda Bang & Olufsen en<br />Palma de Mallorca.Sumérgete en<br />una experiencia única de sonido<br />e imagen premium.",
   gallery: [
     mockImage("/images/hero-1.png", "Showroom", 2400, 1350),
-
     mockImage("/images/hero-1.png", "Showroom detalle 1", 1200, 1600),
-
     mockImage("/images/hero-2.png", "Showroom detalle 2", 1400, 1300),
-
     mockImage("/images/hero-3.png", "Showroom detalle 3", 2800, 1200),
-
     mockImage("/images/gallery-1.png", "Showroom detalle 4", 1000, 1600),
-
     mockImage("/images/gallery-2.png", "Showroom detalle 5", 1920, 1280),
   ],
 };

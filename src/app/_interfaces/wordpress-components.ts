@@ -59,12 +59,12 @@ export interface DescriptionWp {
 export interface ShowroomLocationWp {
   label: string;
   contact: string;
+  description: string;
 }
 
 export interface ShowroomPageWp {
   title: string;
   locations: ShowroomLocationWp[];
-  description: string;
   gallery: ImageAcf[];
 }
 
@@ -100,19 +100,19 @@ export interface MediaImageWp {
 
 export interface NewsContentBlockWp {
   type: "paragraph" | "image" | "quote" | "video";
-  text?: string; // paragraph | quote
-  image?: MediaImageWp; // image
+  text?: string;
+  image?: MediaImageWp;
   video?: {
     url: string;
     poster?: MediaImageWp;
-  }; // video
+  };
 }
 
 export interface NewsDetailWp {
   id: number;
   slug: string;
-  category: string; // "Noticias"
-  number: string; // "01"
+  category: string;
+  number: string;
   title: string;
   hero_image: MediaImageWp;
   content: NewsContentBlockWp[];

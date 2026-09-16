@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, wrap } from "framer-motion";
 import Image from "next/image";
 import { ShowroomPageWp } from "../_interfaces/wordpress-components";
+import Grid, { COLS } from "./layout/Grid";
 
 interface Props {
   data: ShowroomPageWp;
@@ -80,8 +81,10 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
         ))}
       </motion.div>
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="pointer-events-auto absolute top-[40px] left-[320px] text-white">
+      <div className="pointer-events-none absolute inset-0 bg-black/20" />
+
+      <Grid className="pointer-events-none absolute inset-x-0 top-0 py-10">
+        <div className={`${COLS.content} pointer-events-auto text-white`}>
           <h2 className="font-gellix font-normal text-[40px] leading-[100%] tracking-normal mb-4">
             {data.title}
           </h2>
@@ -120,14 +123,16 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
             dangerouslySetInnerHTML={{ __html: activeLocation.contact }}
           />
         </div>
+      </Grid>
 
-        <div className="pointer-events-auto absolute bottom-[40px] left-[320px] right-8 text-white">
+      <Grid className="pointer-events-none absolute inset-x-0 bottom-0 py-10">
+        <div className={`${COLS.wideText} pointer-events-auto text-white`}>
           <p
             className="font-gellix font-normal text-[40px] leading-[100%] tracking-normal text-[#F6F5F1]"
-            dangerouslySetInnerHTML={{ __html: data.description }}
+            dangerouslySetInnerHTML={{ __html: activeLocation.description }}
           />
         </div>
-      </div>
+      </Grid>
     </section>
   );
 }
