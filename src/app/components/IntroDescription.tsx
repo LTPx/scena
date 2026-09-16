@@ -1,5 +1,7 @@
 "use client";
 
+import Grid, { COLS } from "./layout/Grid";
+
 interface Props {
   description: string;
   buttonLabel?: string;
@@ -11,18 +13,20 @@ function IntroDescription({
   buttonLabel = "Ver Proyectos",
   buttonHref = "/proyectos",
 }: Props) {
+  const html = description.replace(/\n/g, "<br />");
+
   return (
-    <div className="relative">
+    <Grid className="py-[200px]">
       <div
-        className="
-          w-full max-w-[1043px]
+        className={`
+          ${COLS.wideTextFull}
           font-gellix font-normal
           text-[40px] leading-[100%] tracking-normal
           text-[#B4A78C]
           [&>p]:inline
-        "
+        `}
       >
-        <span dangerouslySetInnerHTML={{ __html: description }} />
+        <span dangerouslySetInnerHTML={{ __html: html }} />
 
         <a
           href={buttonHref}
@@ -42,7 +46,7 @@ function IntroDescription({
           {buttonLabel}
         </a>
       </div>
-    </div>
+    </Grid>
   );
 }
 

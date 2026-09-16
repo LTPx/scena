@@ -18,20 +18,16 @@ function HomePage({ home_information }: Props) {
     <div>
       <IntroLoader />
       <Hero heroPage={home_information.hero_page} />
-      <section className="pl-[clamp(24px,15vw,280px)] pt-[clamp(100px,13vw,250px)] pb-[clamp(80px,10vw,185px)]">
-        <IntroDescription
-          description={home_information.intro_description.description}
-          buttonHref="/proyectos"
-        />
-      </section>
+      <IntroDescription
+        description={home_information.intro_description.description}
+        buttonHref="/proyectos"
+      />
       <OurServices services={home_information.our_services} />
-      <section className="pl-[clamp(24px,15vw,280px)] py-[clamp(100px,13vw,250px)]">
-        <IntroDescription
-          description={home_information.visit_us_description.description}
-          buttonHref="/contact"
-          buttonLabel="Visítanos"
-        />
-      </section>
+      <IntroDescription
+        description={home_information.visit_us_description.description}
+        buttonHref="/contact"
+        buttonLabel="Visítanos"
+      />
       <Gallery gallery={home_information.gallery} />
       <WhereWeMakeDifference data={home_information.where_we_make_difference} />
       <FeaturedProjects projects={home_information.projects} />

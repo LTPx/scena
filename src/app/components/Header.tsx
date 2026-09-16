@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import Grid, { COLS } from "./layout/Grid";
 
 type SubItem = { key: string; href: string };
 type NavItem = { key: string; href: string; subItems?: SubItem[] };
@@ -32,13 +33,6 @@ const LOCALES = [
   { code: "es", label: "Es" },
   { code: "de", label: "De" },
 ];
-
-// Columnas reutilizadas del grid de 12
-const LOGO_COLS = "col-start-1 col-span-2";
-const MAIN_NAV_COLS = "col-start-3 col-span-2";
-const SUB_NAV_COLS = "col-start-6 col-span-5"; // igual que CONTENT_COLS en PressDetailPage
-const LOCALE_COLS = "col-start-11 col-span-1";
-const CLOSE_COLS = "col-start-12 col-span-1";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,9 +93,8 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 z-100 w-full bg-transparent">
-      {/* Barra superior (cerrado) — mismo grid que el resto */}
-      <div className="grid grid-cols-12 items-center gap-x-6 px-10 py-10">
-        <Link href="/" className={`${LOGO_COLS} flex items-center`}>
+      <Grid as="div" className="items-center py-10">
+        <Link href="/" className={`${COLS.logo} flex items-center`}>
           <img
             src="/logos/logo-header-white.svg"
             alt="scena"
@@ -114,7 +107,7 @@ export default function Header() {
           onClick={openMenu}
           aria-expanded={isOpen}
           aria-label="Abrir menu"
-          className={`${CLOSE_COLS} flex items-center justify-end`}
+          className={`${COLS.close} flex items-center justify-end`}
         >
           <img
             src="/logos/logo-menu-white.svg"
@@ -122,7 +115,7 @@ export default function Header() {
             className="h-[20px] w-auto"
           />
         </button>
-      </div>
+      </Grid>
 
       <div
         className={`fixed inset-0 z-50 ${
@@ -134,8 +127,8 @@ export default function Header() {
           className="relative h-[400px] w-full bg-[#BCB6A8] transition-opacity duration-300 ease-out"
           style={{ opacity: animate ? 1 : 0 }}
         >
-          <div className="grid grid-cols-12 items-start gap-x-6 px-10 py-10">
-            <Link href="/" className={`${LOGO_COLS} flex items-center`}>
+          <Grid className="items-start py-10">
+            <Link href="/" className={`${COLS.logo} flex items-center`}>
               <img
                 src="/logos/logo-header-white.svg"
                 alt="scena"
@@ -144,7 +137,7 @@ export default function Header() {
             </Link>
 
             <nav
-              className={`${MAIN_NAV_COLS} flex flex-col gap-1`}
+              className={`${COLS.navMain} flex flex-col gap-1`}
               onMouseLeave={() => setActiveKey(null)}
             >
               {NAV_ITEMS.map((item) => {
@@ -181,7 +174,7 @@ export default function Header() {
             </nav>
 
             <nav
-              className={`${SUB_NAV_COLS} flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
+              className={`${COLS.navSub} flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
               onMouseLeave={() => setActiveKey(null)}
@@ -199,7 +192,7 @@ export default function Header() {
             </nav>
 
             <nav
-              className={`${LOCALE_COLS} flex items-center gap-2 text-[16px] text-neutral-800`}
+              className={`${COLS.locale} flex items-center gap-2 text-[16px] text-neutral-800`}
             >
               {LOCALES.map((l, i) => (
                 <span key={l.code} className="flex items-center gap-2">
@@ -224,7 +217,7 @@ export default function Header() {
               type="button"
               onClick={closeMenu}
               aria-label="Cerrar menu"
-              className={`${CLOSE_COLS} flex items-center justify-end`}
+              className={`${COLS.close} flex items-center justify-end`}
             >
               <img
                 src="/logos/close-menu.svg"
@@ -232,7 +225,7 @@ export default function Header() {
                 className="h-[38px] w-auto"
               />
             </button>
-          </div>
+          </Grid>
         </div>
         <div
           className="absolute inset-x-0 top-[400px] bottom-0 transition-[backdrop-filter] duration-300 ease-out"

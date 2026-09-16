@@ -18,12 +18,12 @@ export const homeMock: HomePageWp = {
 
   intro_description: {
     description:
-      "Design of intelligent and unique spaces. We transform sound, video, and lighting into memorable environments for your home or business.",
+      "Design of intelligent and unique spaces. We transform\n sound, video, and lighting into memorable environments\n for your home or business.",
   },
 
   visit_us_description: {
     description:
-      "Toca, siente, escucha, observa y deja que la magia de Scena inunde tus sentidos. Si quieres vivir lo que es una auténtica experiencia audiovisual, visita nuestro showroom de Palma de Mallorca.",
+      "Toca, siente, escucha, observa y deja que la magia de\n Scena inunde tus sentidos. Si quieres vivir lo que es una\n auténtica experiencia audiovisual, visita nuestro showroom\n de Palma de Mallorca.",
   },
 
   where_we_make_difference: {

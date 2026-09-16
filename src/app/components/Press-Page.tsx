@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NewsPageWp } from "@/app/_interfaces/wordpress-components";
 import { Link } from "@/navigation";
+import Grid, { COLS } from "./layout/Grid";
 
 interface Props {
   data: NewsPageWp;
@@ -28,7 +29,6 @@ export default function PressPage({ data }: Props) {
       },
       {
         root,
-        // solo el 20% superior del contenedor cuenta como "franja activa"
         rootMargin: "0px 0px -80% 0px",
         threshold: 0,
       },
@@ -39,17 +39,18 @@ export default function PressPage({ data }: Props) {
   }, [data.news.length]);
 
   return (
-    <div className="relative isolate z-0 h-dvh overflow-hidden px-6 py-10 md:px-10 md:py-[clamp(24px,6vh,60px)]">
-      <div className="grid h-full gap-12 md:grid-cols-[1fr_1.4fr] md:gap-[clamp(40px,6vw,90px)]">
-        {/* Columna izquierda: estática */}
-        <div className="flex min-h-0 flex-col justify-start pt-[clamp(16px,5vh,40px)]">
-          <h1 className="max-w-md font-sans text-[clamp(24px,3vw,40px)] leading-tight text-[color:var(--color-press-title,#8a6a4e)]">
+    <div className="relative isolate z-0 h-dvh overflow-hidden py-10 md:py-[clamp(24px,6vh,60px)]">
+      <Grid fullHeight className="items-start">
+        <div className={`${COLS.content} flex min-h-0 flex-col justify-start`}>
+          <h1 className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
             {data.title}
           </h1>
         </div>
 
-        {/* Columna derecha: scroll propio */}
-        <div ref={scrollRef} className="h-full min-h-0 overflow-y-auto pr-4">
+        <div
+          ref={scrollRef}
+          className={`${COLS.newsList} h-full min-h-0 overflow-y-auto pr-4`}
+        >
           <div className="flex flex-col gap-[clamp(24px,5vh,56px)] pb-[45vh]">
             {data.news.map((item, index) => (
               <div
@@ -58,21 +59,25 @@ export default function PressPage({ data }: Props) {
                   itemRefs.current[index] = el;
                 }}
                 data-index={index}
-                className={`grid grid-cols-[40px_1fr] gap-4 transition-opacity duration-300 ${
+                className={`grid ${COLS.newsItemGrid} transition-opacity duration-300 ${
                   activeIndex === index ? "opacity-100" : "opacity-30"
                 }`}
               >
-                <span className="text-sm">
+                <span
+                  className={`${COLS.newsNumber} font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]`}
+                >
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <Link href={`/press/${item.slug}`}>
-                  <p className="text-[15px] leading-snug">{item.title}</p>
-                </Link>{" "}
+                <Link href={`/press/${item.slug}`} className={COLS.newsTitle}>
+                  <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                    {item.title}
+                  </p>
+                </Link>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </Grid>
     </div>
   );
 }

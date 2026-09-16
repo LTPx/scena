@@ -3,15 +3,11 @@ import {
   NewsContentBlockWp,
   NewsDetailWp,
 } from "@/app/_interfaces/wordpress-components";
+import Grid, { COLS } from "./layout/Grid";
 
 interface Props {
   data: NewsDetailWp;
 }
-
-// Columnas que usa el texto/imagen "de contenido" (angosto, alineado al título)
-const CONTENT_COLS = "md:col-start-6 md:col-span-5";
-// Columnas que usa el media "full-bleed" (hero, video)
-const MEDIA_COLS = "md:col-start-3 md:col-span-10";
 
 function ContentBlock({ block }: { block: NewsContentBlockWp }) {
   switch (block.type) {
@@ -57,23 +53,29 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 
 export default function PressDetailPage({ data }: Props) {
   return (
-    <article className="w-full px-6 md:px-10">
-      <div className="grid grid-cols-1 gap-y-8 md:grid-cols-12 md:gap-x-6 md:gap-y-16">
-        {/* Fila 1: Noticias / 01 / Título — cols 3, 5, 6 */}
-        <span className="font-sans text-base text-neutral-500 md:col-start-3 md:col-span-2">
+    <article className="w-full">
+      <Grid className="gap-y-8 md:gap-y-16">
+        <span
+          className={`${COLS.pressCategory} font-sans text-base text-neutral-500`}
+        >
           {data.category}
         </span>
 
-        <span className="text-xs text-neutral-400 md:col-start-5 md:col-span-1 md:self-start">
+        <span
+          className={`${COLS.pressNumber} self-start text-xs text-neutral-400`}
+        >
           {data.number}
         </span>
 
-        <h1 className="font-sans text-[clamp(20px,2.4vw,32px)] leading-snug text-[color:var(--color-press-title,#8a6a4e)] md:col-start-6 md:col-span-5">
+        <h1
+          className={`${COLS.pressTitle} font-sans text-[clamp(20px,2.4vw,32px)] leading-snug text-[color:var(--color-press-title,#8a6a4e)]`}
+        >
           {data.title}
         </h1>
 
-        {/* Fila 2: imagen hero — full-bleed, col 3 a 12 */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden md:col-start-3 md:col-span-10">
+        <div
+          className={`${COLS.pressMedia} relative aspect-[16/9] w-full overflow-hidden`}
+        >
           <Image
             src={data.hero_image.url}
             alt={data.hero_image.alt}
@@ -87,15 +89,13 @@ export default function PressDetailPage({ data }: Props) {
           <div
             key={index}
             className={
-              block.type === "video"
-                ? "md:col-start-3 md:col-span-10"
-                : "md:col-start-6 md:col-span-5"
+              block.type === "video" ? COLS.pressMedia : COLS.pressContent
             }
           >
             <ContentBlock block={block} />
           </div>
         ))}
-      </div>
+      </Grid>
     </article>
   );
 }
