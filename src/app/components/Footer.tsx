@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Grid, { COLS } from "./layout/Grid";
 
 const OFFICES = [
   {
@@ -28,8 +29,8 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-<footer className="relative isolate z-0 overflow-hidden px-6 py-10 text-white md:h-[868px] md:px-10 md:py-[45px]">      
-    <Image
+    <footer className="relative isolate z-0 overflow-hidden py-10 text-white h-[calc(100vh)] md:py-[45px]">
+      <Image
         src="/footer-bg.png"
         alt=""
         fill
@@ -37,8 +38,10 @@ export default function Footer() {
         className="-z-10 object-cover"
       />
 
-      <div className="grid gap-12 md:h-full md:grid-cols-3 md:gap-[90px]">
-        <div className="flex flex-col justify-end">
+      <Grid className="h-full gap-y-12">
+        <div
+          className={`${COLS.footerTagline} row-start-1 flex min-h-0 flex-col justify-end`}
+        >
           <div className="flex items-baseline gap-4">
             <Image
               src="/logo-footer.svg"
@@ -50,7 +53,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between">
+        <div
+          className={`${COLS.footerCta} row-start-1 flex min-h-0 flex-col justify-between`}
+        >
           <div className="flex flex-col gap-[95px]">
             <div>
               <h2 className="color-text-footer text-3xl font-normal leading-[50px] md:text-[42px]">
@@ -83,7 +88,9 @@ export default function Footer() {
           </span>
         </div>
 
-        <div className="flex flex-col justify-between">
+        <div
+          className={`${COLS.footerOffices} row-start-1 flex min-h-0 flex-col justify-between overflow-y-auto`}
+        >
           <div className="flex flex-col gap-[35px]">
             {OFFICES.map((office) => (
               <div key={office.label}>
@@ -117,7 +124,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </Grid>
     </footer>
   );
 }
