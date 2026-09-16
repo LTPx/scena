@@ -90,3 +90,30 @@ export interface NewsPageWp {
   title: string;
   news: NewsItemWp[];
 }
+
+export interface MediaImageWp {
+  url: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+export interface NewsContentBlockWp {
+  type: "paragraph" | "image" | "quote" | "video";
+  text?: string; // paragraph | quote
+  image?: MediaImageWp; // image
+  video?: {
+    url: string;
+    poster?: MediaImageWp;
+  }; // video
+}
+
+export interface NewsDetailWp {
+  id: number;
+  slug: string;
+  category: string; // "Noticias"
+  number: string; // "01"
+  title: string;
+  hero_image: MediaImageWp;
+  content: NewsContentBlockWp[];
+}
