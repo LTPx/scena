@@ -104,4 +104,11 @@ export const COLS = {
   pressMedia: "col-start-3 col-span-10",
   // Bloque de contenido angosto (párrafo, imagen chica, quote) — col 6 a 10
   pressContent: "col-start-6 col-span-5",
+  // --- ContactPage / Footer ---
+  // "living technology" — bottom-left, col 1 a 4
+  footerTagline: "col-start-1 col-span-4",
+  // CTA + newsletter — col 6 a 8
+  footerCta: "col-start-6 col-span-3",
+  // Lista de oficinas — col 10 a 11
+  footerOffices: "col-start-10 col-span-2",
 } as const;

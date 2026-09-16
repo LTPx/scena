@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ContactPageWp } from "../_interfaces/wordpress-components";
+import Grid, { COLS } from "./layout/Grid";
 
 interface Props {
   data: ContactPageWp;
@@ -20,8 +21,10 @@ export default function ContactPage({ data }: Props) {
         priority={false}
         className="-z-10 object-cover"
       />
-      <div className="grid h-full gap-[clamp(16px,4vh,48px)] md:grid-cols-3 md:gap-[clamp(40px,6vw,90px)]">
-        <div className="flex min-h-0 flex-col justify-end">
+      <Grid className="!px-0 h-full gap-y-[clamp(16px,4vh,48px)]">
+        <div
+          className={`${COLS.footerTagline} row-start-1 flex min-h-0 flex-col justify-end`}
+        >
           <div className="flex items-baseline gap-4">
             <span className="color-text-footer font-serif text-[clamp(28px,5vh,66px)] italic leading-none">
               {t.rich("tagline", {
@@ -31,7 +34,9 @@ export default function ContactPage({ data }: Props) {
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-col justify-between">
+        <div
+          className={`${COLS.footerCta} row-start-1 flex min-h-0 flex-col justify-between`}
+        >
           <div className="flex flex-col gap-[clamp(24px,8vh,95px)]">
             <div>
               <h2 className="color-text-footer text-[clamp(20px,3.5vh,42px)] font-normal leading-tight">
@@ -70,7 +75,9 @@ export default function ContactPage({ data }: Props) {
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-col justify-between overflow-y-auto">
+        <div
+          className={`${COLS.footerOffices} row-start-1 flex min-h-0 flex-col justify-start overflow-y-auto`}
+        >
           <div className="flex flex-col gap-[clamp(12px,3.5vh,35px)]">
             {data.offices.map((office) => (
               <div key={office.label}>
@@ -88,7 +95,7 @@ export default function ContactPage({ data }: Props) {
             ))}
           </div>
         </div>
-      </div>
+      </Grid>
     </div>
   );
 }
