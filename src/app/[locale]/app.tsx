@@ -17,7 +17,7 @@ async function App(props: Props) {
       <SmoothScrollProvider>
         <div className="bg-body">{children}</div>
       </SmoothScrollProvider>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

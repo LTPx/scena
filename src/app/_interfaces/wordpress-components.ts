@@ -56,4 +56,14 @@ export interface DescriptionWp {
   description: string;
 }
 
+export interface ShowroomLocationWp {
+  label: string;
+  contact: string;
+}
 
+export interface ShowroomPageWp {
+  title: string;
+  locations: ShowroomLocationWp[];
+  description: string;
+  gallery: ImageAcf[];
+}
