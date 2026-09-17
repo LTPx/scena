@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Link } from "@/navigation";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Grid, { COLS } from "./layout/Grid";
 
@@ -34,6 +34,29 @@ const LOCALES = [
   { code: "de", label: "De" },
 ];
 
+// Cada sección de cada página debe marcarse con:
+//   data-header-theme="dark"   -> sección con imagen / fondo oscuro -> ícono BLANCO
+//   data-header-theme="light"  -> sección con fondo claro           -> ícono BROWN
+// El header mide, en cada scroll, qué sección está detrás DEL LOGO y qué
+// sección está detrás DEL BOTÓN DE MENÚ por separado (pueden ser distintas,
+// como en un layout partido a la mitad: texto claro a la izquierda, imagen
+// a la derecha), y cambia cada ícono de forma independiente.
+type HeaderTheme = "dark" | "light";
+const DEFAULT_THEME: HeaderTheme = "dark";
+
+function themeAtPoint(x: number, y: number): HeaderTheme {
+  if (typeof document === "undefined") return DEFAULT_THEME;
+  const el = document.elementFromPoint(x, y);
+  const themedEl = el?.closest<HTMLElement>("[data-header-theme]");
+  return themedEl?.dataset.headerTheme === "light" ? "light" : DEFAULT_THEME;
+}
+
+function themeAtElement(el: HTMLElement | null): HeaderTheme {
+  if (!el) return DEFAULT_THEME;
+  const rect = el.getBoundingClientRect();
+  return themeAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -42,6 +65,64 @@ export default function Header() {
   const t = useTranslations("Header");
   const tSub = useTranslations("HeaderSub");
   const rafIds = useRef<number[]>([]);
+  const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const [logoTheme, setLogoTheme] = useState<HeaderTheme>(DEFAULT_THEME);
+  const [menuTheme, setMenuTheme] = useState<HeaderTheme>(DEFAULT_THEME);
+  const tickingRef = useRef(false);
+  const logoVariant = logoTheme === "light" ? "brown" : "white";
+  const menuVariant = menuTheme === "light" ? "brown" : "white";
+
+  const updateTheme = useCallback(() => {
+    const headerEl = headerRef.current;
+    if (!headerEl) return;
+
+    // El header está siempre "encima" (fixed + z-index alto), así que sin
+    // esto elementFromPoint solo encontraría al propio header, nunca lo que
+    // hay detrás. Lo apagamos un instante solo para medir.
+    const prevPointerEvents = headerEl.style.pointerEvents;
+    headerEl.style.pointerEvents = "none";
+
+    const nextLogoTheme = themeAtElement(logoRef.current);
+    const nextMenuTheme = themeAtElement(menuButtonRef.current);
+
+    headerEl.style.pointerEvents = prevPointerEvents;
+
+    setLogoTheme((prev) => (prev === nextLogoTheme ? prev : nextLogoTheme));
+    setMenuTheme((prev) => (prev === nextMenuTheme ? prev : nextMenuTheme));
+  }, []);
+
+  // Reacciona al scroll (mientras el menú está cerrado) para saber qué
+  // sección está pasando por detrás de cada ícono en cada momento.
+  useEffect(() => {
+    if (isOpen) return;
+    updateTheme();
+
+    function onScroll() {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      requestAnimationFrame(() => {
+        updateTheme();
+        tickingRef.current = false;
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [isOpen, updateTheme]);
+
+  // Al cambiar de página (navegación cliente), recalcula una vez que el
+  // nuevo contenido ya está en el DOM.
+  useEffect(() => {
+    const id = requestAnimationFrame(updateTheme);
+    return () => cancelAnimationFrame(id);
+  }, [pathname, updateTheme]);
 
   const [warmed, setWarmed] = useState(false);
   useEffect(() => {
@@ -92,17 +173,25 @@ export default function Header() {
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
   return (
-    <header className="fixed top-0 left-0 z-100 w-full bg-transparent">
+    <header
+      ref={headerRef}
+      className="fixed top-0 left-0 z-100 w-full bg-transparent"
+    >
       <Grid as="div" className="items-center py-10">
-        <Link href="/" className={`${COLS.logo} flex items-center`}>
+        <Link
+          ref={logoRef}
+          href="/"
+          className={`${COLS.logo} flex items-center`}
+        >
           <img
-            src="/logos/logo-header-white.svg"
+            src={`/logos/logo-header-${logoVariant}.svg`}
             alt="scena"
             className="h-[20px] w-auto"
           />
         </Link>
 
         <button
+          ref={menuButtonRef}
           type="button"
           onClick={openMenu}
           aria-expanded={isOpen}
@@ -110,7 +199,7 @@ export default function Header() {
           className={`${COLS.close} flex items-center justify-end`}
         >
           <img
-            src="/logos/logo-menu-white.svg"
+            src={`/logos/logo-menu-${menuVariant}.svg`}
             alt=""
             className="h-[20px] w-auto"
           />

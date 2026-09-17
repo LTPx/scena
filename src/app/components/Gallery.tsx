@@ -9,10 +9,7 @@ interface GalleryProps {
   gallery: GalleryHomeWp[];
 }
 
-const ASPECT_WIDTH_CLASS: Record<
-  GalleryHomeWp["aspect"],
-  string
-> = {
+const ASPECT_WIDTH_CLASS: Record<GalleryHomeWp["aspect"], string> = {
   landscape: "w-[85vw] md:w-[65vw]",
   portrait: "w-[50vw] md:w-[32vw]",
   square: "w-[70vw] md:w-[50vw]",
@@ -34,19 +31,14 @@ export default function Gallery({ gallery }: GalleryProps) {
       const trackWidth = trackRef.current.scrollWidth;
       const viewportWidth = window.innerWidth;
 
-      const distance = Math.max(
-        trackWidth - viewportWidth,
-        0,
-      );
+      const distance = Math.max(trackWidth - viewportWidth, 0);
 
       setTravelDistance(distance);
 
       const vh = window.innerHeight;
 
       const extraScroll =
-        (distance / viewportWidth) *
-        (VH_PER_100VW_TRAVEL / 100) *
-        vh;
+        (distance / viewportWidth) * (VH_PER_100VW_TRAVEL / 100) * vh;
 
       setWrapperHeight(vh + extraScroll);
     };
@@ -65,11 +57,7 @@ export default function Gallery({ gallery }: GalleryProps) {
     offset: ["start start", "end end"],
   });
 
-  const trackX = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, -travelDistance],
-  );
+  const trackX = useTransform(scrollYProgress, [0, 1], [0, -travelDistance]);
 
   if (!gallery?.length) {
     return null;
@@ -78,10 +66,10 @@ export default function Gallery({ gallery }: GalleryProps) {
   return (
     <section
       ref={wrapperRef}
+      // Toda la galería es imagen -> ícono BLANCO (logo y menú).
+      data-header-theme="dark"
       style={{
-        height: wrapperHeight
-          ? `${wrapperHeight}px`
-          : "150vh",
+        height: wrapperHeight ? `${wrapperHeight}px` : "150vh",
       }}
       className="relative"
     >

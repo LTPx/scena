@@ -185,7 +185,7 @@ export const homeMock: HomePageWp = {
       project: "villa-calatrava",
       title: "Villa Calatrava",
       feature_image: {
-        url: "/images/project-villa-calatrava.jpg",
+        url: "/images/hero-1.png",
         alt: "Villa Calatrava",
       },
       categories: [
@@ -205,7 +205,7 @@ export const homeMock: HomePageWp = {
       project: "delphinus",
       title: "Delphinus",
       feature_image: {
-        url: "/images/project-delphinus.jpg",
+        url: "/images/hero-1.png",
         alt: "Delphinus",
       },
       categories: [
@@ -225,7 +225,7 @@ export const homeMock: HomePageWp = {
       project: "cygnus",
       title: "Cygnus",
       feature_image: {
-        url: "/images/project-cygnus.jpg",
+        url: "/images/hero-1.png",
         alt: "Cygnus",
       },
       categories: [

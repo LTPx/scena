@@ -71,6 +71,9 @@ export default function WhereWeMakeDifference({ data }: Props) {
   return (
     <div
       ref={wrapperRef}
+      // Fondo claro con tarjetas blancas, sin imagen a pantalla completa ->
+      // ícono CAFÉ (logo y menú) durante toda la sección.
+      data-header-theme="light"
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "150vh",
       }}

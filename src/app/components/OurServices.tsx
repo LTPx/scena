@@ -79,6 +79,11 @@ export default function OurServices({ services }: OurServicesProps) {
     >
       <Grid
         fullHeight
+        // Fondo por defecto de esta sección: claro. Cualquier punto del
+        // header que caiga aquí (título, lista, texto) usará logo/ícono
+        // "brown", EXCEPTO donde explícitamente digamos lo contrario más
+        // abajo (la columna de la imagen).
+        data-header-theme="light"
         className="sticky top-0 grid-rows-[auto_1fr] py-14 overflow-hidden"
       >
         <h2
@@ -135,6 +140,11 @@ export default function OurServices({ services }: OurServicesProps) {
         <div className="absolute left-1/2 top-1/2 z-10 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50" />
 
         <div
+          // Esta columna es la foto: mientras el botón de menú (arriba a la
+          // derecha) esté encima de ella, debe usar el ícono "white". Al
+          // estar anidado dentro del Grid "light" de arriba, esta marca
+          // "dark" gana para cualquier punto dentro de esta columna.
+          data-header-theme="dark"
           className={`${COLS.media} relative row-start-1 row-end-3 -my-14 -mr-10 overflow-hidden`}
         >
           {layers.map((layer, index) => {

@@ -62,6 +62,8 @@ export default function Hero({ heroPage }: HeroProps) {
   return (
     <section
       ref={wrapperRef}
+      // Todo el Hero es imagen/video de fondo -> ícono BLANCO (logo y menú).
+      data-header-theme="dark"
       style={{
         height: `${heroPage.length * 100}vh`,
       }}

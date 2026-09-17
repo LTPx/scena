@@ -42,8 +42,7 @@ export default function FeaturedProjects({ projects }: Props) {
 
       const baseHeight = viewportHeight + extraScrollForTravel;
 
-      const bufferHeight =
-        (REVEAL_BUFFER_VH / 100) * viewportHeight;
+      const bufferHeight = (REVEAL_BUFFER_VH / 100) * viewportHeight;
 
       const totalHeight = baseHeight + bufferHeight;
 
@@ -72,6 +71,10 @@ export default function FeaturedProjects({ projects }: Props) {
   return (
     <div
       ref={wrapperRef}
+      // Por defecto (título, espacios entre tarjetas) -> ícono CAFÉ.
+      // Cada tarjeta de proyecto de abajo se marca aparte como "dark"
+      // porque es una imagen a pantalla casi completa.
+      data-header-theme="light"
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "250vh",
       }}
@@ -90,14 +93,14 @@ export default function FeaturedProjects({ projects }: Props) {
           {projects.map((project, i) => (
             <div
               key={`${project.project}-${i}`}
+              // Esta tarjeta ES la imagen del proyecto -> ícono BLANCO
+              // mientras el logo/menú estén encima de ella.
+              data-header-theme="dark"
               className={`relative h-full flex-shrink-0 overflow-hidden rounded-md ${CARD_WIDTH_CLASS}`}
             >
               <Image
                 src={project.feature_image.url}
-                alt={
-                  project.feature_image.alt ||
-                  project.title
-                }
+                alt={project.feature_image.alt || project.title}
                 fill
                 priority={i === 0}
                 className="object-cover"
@@ -111,10 +114,7 @@ export default function FeaturedProjects({ projects }: Props) {
 
               <div className="absolute bottom-8 right-8 flex gap-2">
                 {project.categories.map((category) => (
-                  <span
-                    key={category.id}
-                    className="btn-office"
-                  >
+                  <span key={category.id} className="btn-office">
                     {category.name}
                   </span>
                 ))}
