@@ -39,7 +39,10 @@ export default function PressPage({ data }: Props) {
   }, [data.news.length]);
 
   return (
-    <div className="relative isolate z-0 h-dvh overflow-hidden py-10 md:py-[clamp(24px,6vh,60px)]">
+    <div
+      data-header-theme="light"
+      className="relative isolate z-0 h-dvh overflow-hidden py-10 md:py-[clamp(24px,6vh,60px)]"
+    >
       <Grid fullHeight className="items-start">
         <div className={`${COLS.content} flex min-h-0 flex-col justify-start`}>
           <h1 className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">

@@ -21,7 +21,10 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
     case "image":
       if (!block.image) return null;
       return (
-        <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <div
+          data-header-theme="dark"
+          className="relative aspect-[4/3] w-full overflow-hidden"
+        >
           <Image
             src={block.image.url}
             alt={block.image.alt}
@@ -41,9 +44,13 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
     case "video":
       if (!block.video) return null;
       return (
-        <video className="w-full" controls poster={block.video.poster?.url}>
-          <source src={block.video.url} type="video/mp4" />
-        </video>
+        <div
+          data-header-theme="dark"
+        >
+          <video className="w-full" controls poster={block.video.poster?.url}>
+            <source src={block.video.url} type="video/mp4" />
+          </video>
+        </div>
       );
 
     default:
@@ -53,7 +60,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 
 export default function PressDetailPage({ data }: Props) {
   return (
-    <article className="w-full">
+    <article data-header-theme="light" className="w-full">
       <Grid className="gap-y-8 md:gap-y-16">
         <span
           className={`${COLS.pressCategory} font-sans text-base text-neutral-500`}
@@ -74,6 +81,7 @@ export default function PressDetailPage({ data }: Props) {
         </h1>
 
         <div
+          data-header-theme="dark"
           className={`${COLS.pressMedia} relative aspect-[16/9] w-full overflow-hidden`}
         >
           <Image
