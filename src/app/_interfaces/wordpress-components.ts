@@ -117,3 +117,18 @@ export interface NewsDetailWp {
   hero_image: MediaImageWp;
   content: NewsContentBlockWp[];
 }
+
+export interface ProjectFilterWp {
+  label: string;
+  slug: string;
+}
+
+export interface ProjectListItemWp extends ProjectHomeWp {
+  slug: string;
+}
+
+export interface ProjectsPageWp {
+  title: string;
+  filters: ProjectFilterWp[];
+  projects: ProjectListItemWp[];
+}

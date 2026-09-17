@@ -20,12 +20,12 @@ const NAV_ITEMS: NavItem[] = [
       { key: "mep", href: "/servicios/mep" },
     ],
   },
-  { key: "projects", href: "/proyectos" },
-  { key: "about", href: "/nosotros" },
+  { key: "projects", href: "/projects" },
+  { key: "about", href: "/about-us" },
   { key: "showrooms", href: "/showrooms" },
-  { key: "news", href: "/noticias" },
+  { key: "news", href: "/press" },
   { key: "outlet", href: "/outlet" },
-  { key: "contact", href: "/contacto" },
+  { key: "contact", href: "/contact" },
 ];
 
 const LOCALES = [

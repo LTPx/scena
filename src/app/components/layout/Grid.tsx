@@ -115,6 +115,8 @@ export const COLS = {
   // Lista/columna derecha, arranca donde termina "content" (col 6, línea 7)
   // y llega hasta el borde derecho del grid (col 12). Usado en PressPage.
   newsList: "col-start-7 col-end-13",
+  projectsTitle: "col-start-3 col-span-3",
+  projectFilters: "col-start-6 col-end-13",
   // Sub-grid DENTRO de newsList (6 columnas reales: 7 a 12, mismo gutter):
   // al ser una subdivisión de un tramo de columnas iguales del grid exterior
   // con la misma cantidad de columnas y el mismo gap, cada sub-columna mide

@@ -5,14 +5,21 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 import { ProjectHomeWp } from "../_interfaces/wordpress-components";
+import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
 
 interface Props {
   projects: ProjectHomeWp[];
 }
 
-const CARD_WIDTH_CLASS = "w-[90vw] lg:w-[85vw]";
-const VH_PER_100VW_TRAVEL = 90;
+const CARD_SPAN = 10;
+const CARD_START_COL = 3;
+const TAGS_START_COL = 6;
 
+const CARD_GAP_PX = 9;
+
+const END_SPACER_PX = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
+
+const VH_PER_100VW_TRAVEL = 90;
 const REVEAL_BUFFER_VH = 100;
 
 export default function FeaturedProjects({ projects }: Props) {
@@ -41,9 +48,7 @@ export default function FeaturedProjects({ projects }: Props) {
         viewportHeight;
 
       const baseHeight = viewportHeight + extraScrollForTravel;
-
       const bufferHeight = (REVEAL_BUFFER_VH / 100) * viewportHeight;
-
       const totalHeight = baseHeight + bufferHeight;
 
       setWrapperHeight(totalHeight);
@@ -51,9 +56,7 @@ export default function FeaturedProjects({ projects }: Props) {
     };
 
     measure();
-
     window.addEventListener("resize", measure);
-
     return () => window.removeEventListener("resize", measure);
   }, []);
 
@@ -68,35 +71,44 @@ export default function FeaturedProjects({ projects }: Props) {
     [0, -travelDistance],
   );
 
+  const startOffset = offsetForColumn(CARD_START_COL);
+  const cardWidth = colSpanWidth(CARD_SPAN);
+  const tagsLeftOffset = `calc(${offsetForColumn(TAGS_START_COL)} - ${offsetForColumn(
+    CARD_START_COL,
+  )})`;
+
   return (
     <div
       ref={wrapperRef}
-      // Por defecto (título, espacios entre tarjetas) -> ícono CAFÉ.
-      // Cada tarjeta de proyecto de abajo se marca aparte como "dark"
-      // porque es una imagen a pantalla casi completa.
       data-header-theme="light"
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "250vh",
       }}
       className="relative z-0"
     >
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden pt-10">
-        <h2 className="mb-8 px-8 font-[Gellix] text-2xl text-[#A89572]">
+      <div className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[40px]">
+        <h2
+          className="mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572]"
+          style={{ paddingLeft: startOffset }}
+        >
           Proyectos destacados
         </h2>
 
         <motion.div
           ref={trackRef}
-          style={{ x: trackX }}
-          className="flex flex-1 gap-6 px-8"
+          style={{
+            x: trackX,
+            paddingLeft: startOffset,
+            gap: `${CARD_GAP_PX}px`,
+          }}
+          className="flex flex-1"
         >
           {projects.map((project, i) => (
             <div
               key={`${project.project}-${i}`}
-              // Esta tarjeta ES la imagen del proyecto -> ícono BLANCO
-              // mientras el logo/menú estén encima de ella.
               data-header-theme="dark"
-              className={`relative h-full flex-shrink-0 overflow-hidden rounded-md ${CARD_WIDTH_CLASS}`}
+              style={{ width: cardWidth }}
+              className="relative h-full flex-shrink-0 overflow-hidden"
             >
               <Image
                 src={project.feature_image.url}
@@ -107,12 +119,14 @@ export default function FeaturedProjects({ projects }: Props) {
               />
 
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
-
-              <span className="absolute bottom-8 left-8 font-[Gellix] text-2xl text-[#F6F5F1]">
+              <span className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#F6F5F1]">
                 {project.title}
               </span>
 
-              <div className="absolute bottom-8 right-8 flex gap-2">
+              <div
+                className="absolute bottom-8 flex gap-2"
+                style={{ left: tagsLeftOffset }}
+              >
                 {project.categories.map((category) => (
                   <span key={category.id} className="btn-office">
                     {category.name}
@@ -121,6 +135,12 @@ export default function FeaturedProjects({ projects }: Props) {
               </div>
             </div>
           ))}
+
+          <div
+            aria-hidden
+            style={{ width: `${END_SPACER_PX}px` }}
+            className="h-full flex-shrink-0"
+          />
         </motion.div>
       </div>
     </div>
