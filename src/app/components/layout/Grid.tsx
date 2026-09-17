@@ -14,6 +14,44 @@ export const GRID_COLS = "grid-cols-12";
 export const GRID_GAP = "gap-x-6"; // 24px = gutter
 export const GRID_MARGIN = "px-10"; // 40px = margen
 
+// Valores numéricos (mismos que arriba, pero como números) para poder
+// calcular anchos de elementos que viven FUERA del grid CSS nativo,
+// como un track de scroll horizontal con overflow (ver
+// WhereWeMakeDifference).
+export const GRID_MARGIN_PX = 40;
+export const GRID_GUTTER_PX = 24;
+export const GRID_COLS_COUNT = 12;
+
+/** Ancho de UNA columna del grid, como expresión CSS calc() reutilizable. */
+export const COL_WIDTH_CALC = `((100vw - ${2 * GRID_MARGIN_PX}px - ${
+  (GRID_COLS_COUNT - 1) * GRID_GUTTER_PX
+}px) / ${GRID_COLS_COUNT})`;
+
+/**
+ * Ancho de un bloque que ocupa `span` columnas consecutivas (incluye
+ * los gutters internos entre esas columnas). Úsalo para elementos que
+ * necesitan un ancho explícito en px/vw fuera de un grid nativo
+ * (p.ej. cards en un carrusel de scroll horizontal).
+ */
+export function colSpanWidth(span: number) {
+  return `calc(${COL_WIDTH_CALC} * ${span} + ${(span - 1) * GRID_GUTTER_PX}px)`;
+}
+
+/**
+ * Distancia desde el borde izquierdo de la pantalla hasta el INICIO
+ * de `startCol` (1-indexed). offsetForColumn(3) = distancia hasta el
+ * borde izquierdo de la columna 3, o sea, margen + columnas 1-2 + sus
+ * gutters. Úsalo como padding-left de un contenedor con overflow para
+ * que su primer hijo arranque exactamente en esa columna.
+ */
+export function offsetForColumn(startCol: number) {
+  const colsBefore = startCol - 1;
+  if (colsBefore === 0) return `${GRID_MARGIN_PX}px`;
+  return `calc(${GRID_MARGIN_PX}px + ${COL_WIDTH_CALC} * ${colsBefore} + ${
+    colsBefore * GRID_GUTTER_PX
+  }px)`;
+}
+
 type GridOwnProps<T extends ElementType> = {
   /** Elemento HTML a renderizar (div, section, header...). Default: "div" */
   as?: T;
@@ -61,7 +99,8 @@ export const COLS = {
   navMain: "col-start-3 col-span-2",
   // Submenú del Header (Engineering, Audio & Video...) — arranca donde
   // termina navMain (línea 5) para quedar CONTIGUO al lado, no debajo.
-  navSub: "col-start-6 col-span-4", // Bloque de "contenido angosto" (título/texto), col 3 a 6, usado en:
+  navSub: "col-start-6 col-span-4",
+  // Bloque de "contenido angosto" (título/texto), col 3 a 6, usado en:
   // Header (submenu, versión anterior), OurServices (heading + content),
   // PressDetailPage (CONTENT_COLS)
   content: "col-start-3 col-span-4",
@@ -104,6 +143,7 @@ export const COLS = {
   pressMedia: "col-start-3 col-span-10",
   // Bloque de contenido angosto (párrafo, imagen chica, quote) — col 6 a 10
   pressContent: "col-start-6 col-span-5",
+
   // --- ContactPage / Footer ---
   // "living technology" — bottom-left, col 1 a 4
   footerTagline: "col-start-1 col-span-4",
@@ -112,3 +152,14 @@ export const COLS = {
   // Lista de oficinas — col 10 a 11
   footerOffices: "col-start-10 col-span-2",
 } as const;
+
+export function trackCardWidth(
+  totalCols: number,
+  cardCount: number,
+  gapPx: number,
+) {
+  const totalWidth = `calc(${COL_WIDTH_CALC} * ${totalCols} + ${
+    (totalCols - 1) * GRID_GUTTER_PX
+  }px)`;
+  return `calc((${totalWidth} - ${(cardCount - 1) * gapPx}px) / ${cardCount})`;
+}

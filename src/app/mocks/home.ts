@@ -69,6 +69,16 @@ export const homeMock: HomePageWp = {
           alt: "Diseño a medida",
         },
       },
+      {
+        number: "05",
+        title: "Diseño a medida Nueva",
+        description:
+          "Cada proyecto responde a la arquitectura y estilo de vida del cliente.",
+        icon: {
+          url: "/icons/orbit.svg",
+          alt: "Diseño a medida",
+        },
+      },
     ],
   },
 
