@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { GalleryHomeWp } from "../_interfaces/wordpress-components";
+import { offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
@@ -16,6 +17,11 @@ const ASPECT_WIDTH_CLASS: Record<GalleryHomeWp["aspect"], string> = {
 };
 
 const VH_PER_100VW_TRAVEL = 130;
+
+const GALLERY_TRACK_OFFSET = offsetForColumn(1);
+
+const GALLERY_GAP_PX = 10;
+const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - GALLERY_GAP_PX, 0);
 
 export default function Gallery({ gallery }: GalleryProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -66,7 +72,6 @@ export default function Gallery({ gallery }: GalleryProps) {
   return (
     <section
       ref={wrapperRef}
-      // Toda la galería es imagen -> ícono BLANCO (logo y menú).
       data-header-theme="dark"
       style={{
         height: wrapperHeight ? `${wrapperHeight}px` : "150vh",
@@ -78,8 +83,9 @@ export default function Gallery({ gallery }: GalleryProps) {
           ref={trackRef}
           style={{
             x: trackX,
+            paddingLeft: GALLERY_TRACK_OFFSET,
           }}
-          className="flex h-full items-center gap-4"
+          className="flex h-full items-center gap-[10px]"
         >
           {gallery.map((item, index) => {
             const image = item.image;
@@ -102,6 +108,12 @@ export default function Gallery({ gallery }: GalleryProps) {
               </div>
             );
           })}
+
+          <div
+            aria-hidden
+            style={{ width: `${END_SPACER_WIDTH}px` }}
+            className="h-full flex-shrink-0"
+          />
         </motion.div>
       </div>
     </section>

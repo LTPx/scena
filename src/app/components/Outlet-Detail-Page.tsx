@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "@/navigation";
 import { OutletProductWp } from "../_interfaces/wordpress-components";
 import Grid, {
   COLS,
@@ -24,14 +23,23 @@ const CONTENT_WIDTH = colSpanWidth(5);
 const NEXT_ARROW_LEFT = offsetForColumn(12);
 const PREV_ARROW_LEFT = `calc(${offsetForColumn(11)} + 40px)`;
 
+// Actualiza SOLO la barra de direcciones (para que el link sea
+// compartible), sin pasar por el router de Next. router.replace()
+// dispara un fetch del Server Component por el nuevo slug, y mientras
+// esa respuesta llega, React puede suspender el árbol y cortar la
+// animación en curso -> eso era el parpadeo. history.replaceState
+// no toca React ni el servidor en absoluto: es invisible para
+// framer-motion.
+function updateUrlSilently(slug: string) {
+  if (typeof window === "undefined") return;
+  const segments = window.location.pathname.split("/");
+  segments[segments.length - 1] = slug;
+  window.history.replaceState(window.history.state, "", segments.join("/"));
+}
+
 export default function OutletDetailPage({ products, initialSlug }: Props) {
-  const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Fuente de verdad ÚNICA para lo que se ve en pantalla. Se lee de
-  // initialSlug solo en el mount inicial (carga directa / link
-  // compartido); después, SOLO los clicks la cambian. La URL nunca
-  // se vuelve a leer para corregir esto -> cero condición de carrera.
   const [currentIndex, setCurrentIndex] = useState(() =>
     Math.max(
       products.findIndex((p) => p.slug === initialSlug),
@@ -60,11 +68,7 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
     setIsTransitioning(true);
     setCurrentIndex(nextIndex);
     setGalleryIndex(0);
-
-    // Solo escribimos la URL para que el link sea compartible/SEO.
-    // No leemos de vuelta -> no hay nada que resincronizar ni que
-    // pueda desfasarse.
-    router.replace(`/outlet/${products[nextIndex].slug}`, { scroll: false });
+    updateUrlSilently(products[nextIndex].slug);
   }
 
   function goNext() {

@@ -198,6 +198,7 @@ export interface AboutPageWp {
   title: string;
   description: string;
   gallery: GalleryHomeWp[];
+  team_gallery: GalleryHomeWp[];
   team: AboutTeamWp;
   differentiators: AboutDifferentiatorsWp;
   partners: AboutPartnersWp;

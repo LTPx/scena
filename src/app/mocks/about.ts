@@ -19,6 +19,26 @@ export const aboutMock: AboutPageWp = {
       aspect: "square",
     },
   ],
+  team_gallery: [
+    {
+      image: { url: "/images/gallery-1.png", alt: "Oficina Scena" },
+      aspect: "landscape",
+    },
+    {
+      image: {
+        url: "/images/gallery-2.png",
+        alt: "Equipo trabajando",
+      },
+      aspect: "landscape",
+    },
+    {
+      image: {
+        url: "/images/gallery-3.jpg",
+        alt: "Espacio de trabajo",
+      },
+      aspect: "landscape",
+    },
+  ],
   team: {
     description:
       "La grandeza de nuestra empresa se basa en la calidad y el esfuerzo de nuestro equipo que está formado por:",
@@ -46,7 +66,8 @@ export const aboutMock: AboutPageWp = {
       { id: 21, title: "Sales" },
       { id: 22, title: "Managing Director" },
     ],
-    cta_title: "¿Te apasiona la tecnología y su integración en la arquitectura?",
+    cta_title:
+      "¿Te apasiona la tecnología y su integración en la arquitectura?",
     cta_label: "Únete a nuestro equipo",
   },
   differentiators: {
@@ -56,13 +77,19 @@ export const aboutMock: AboutPageWp = {
         title: "Líneas\nde negocio",
         description:
           "Ingeniería, Iluminación, Domótica, Audio & Video y MEP son nuestras cinco áreas, integradas en un servicio All-In-One con un único punto de contacto para diseñar, gestionar y ejecutar cada proyecto.",
-        icon: { url: "/images/icons/lineas-negocio.svg", alt: "Líneas de negocio" },
+        icon: {
+          url: "/images/icons/lineas-negocio.svg",
+          alt: "Líneas de negocio",
+        },
       },
       {
         title: "Equipo y\nespecialización",
         description:
           "Creemos que los equipos más eficientes son aquellos donde cada miembro tiene una función específica. Un especialista por área forma un grupo cohesionado capaz de responder a cualquier proyecto.",
-        icon: { url: "/images/icons/equipo.svg", alt: "Equipo y especialización" },
+        icon: {
+          url: "/images/icons/equipo.svg",
+          alt: "Equipo y especialización",
+        },
       },
       {
         title: "Última\ntecnología",
@@ -74,7 +101,10 @@ export const aboutMock: AboutPageWp = {
         title: "Orientación\nal proyecto",
         description:
           "Uniendo máxima funcionalidad y lujo en cada experiencia que creamos para nuestros clientes.",
-        icon: { url: "/images/icons/proyecto.svg", alt: "Orientación al proyecto" },
+        icon: {
+          url: "/images/icons/proyecto.svg",
+          alt: "Orientación al proyecto",
+        },
       },
     ],
   },
@@ -82,13 +112,41 @@ export const aboutMock: AboutPageWp = {
     description:
       "En escena trabajamos con arquitectos y promotores con los que compartimos una misma visión, creando juntos proyectos cuidados y de alta calidad.",
     partners: [
-      { id: 1, name: "Partner 1", logo: { url: "/images/partners/partner-1.svg", alt: "Partner 1" } },
-      { id: 2, name: "Partner 2", logo: { url: "/images/partners/partner-2.svg", alt: "Partner 2" } },
-      { id: 3, name: "Partner 3", logo: { url: "/images/partners/partner-3.svg", alt: "Partner 3" } },
-      { id: 4, name: "Partner 4", logo: { url: "/images/partners/partner-4.svg", alt: "Partner 4" } },
-      { id: 5, name: "Partner 5", logo: { url: "/images/partners/partner-5.svg", alt: "Partner 5" } },
-      { id: 6, name: "Partner 6", logo: { url: "/images/partners/partner-6.svg", alt: "Partner 6" } },
-      { id: 7, name: "Partner 7", logo: { url: "/images/partners/partner-7.svg", alt: "Partner 7" } },
+      {
+        id: 1,
+        name: "Partner 1",
+        logo: { url: "/images/partners/partner-1.svg", alt: "Partner 1" },
+      },
+      {
+        id: 2,
+        name: "Partner 2",
+        logo: { url: "/images/partners/partner-2.svg", alt: "Partner 2" },
+      },
+      {
+        id: 3,
+        name: "Partner 3",
+        logo: { url: "/images/partners/partner-3.svg", alt: "Partner 3" },
+      },
+      {
+        id: 4,
+        name: "Partner 4",
+        logo: { url: "/images/partners/partner-4.svg", alt: "Partner 4" },
+      },
+      {
+        id: 5,
+        name: "Partner 5",
+        logo: { url: "/images/partners/partner-5.svg", alt: "Partner 5" },
+      },
+      {
+        id: 6,
+        name: "Partner 6",
+        logo: { url: "/images/partners/partner-6.svg", alt: "Partner 6" },
+      },
+      {
+        id: 7,
+        name: "Partner 7",
+        logo: { url: "/images/partners/partner-7.svg", alt: "Partner 7" },
+      },
     ],
   },
 };
