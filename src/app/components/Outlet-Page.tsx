@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { OutletPageWp } from "../_interfaces/wordpress-components";
 import Grid, { COLS, offsetForColumn, trackCardWidth } from "./layout/Grid";
+import { Link } from "@/navigation";
 
 interface Props {
   data: OutletPageWp;
@@ -77,33 +78,40 @@ export default function OutletPage({ data }: Props) {
           className="flex h-full pr-10"
         >
           {filteredProducts.map((product) => (
-            <div
+            <Link
               key={product.id}
+              href={`/outlet/${product.slug}`}
               style={{ width: CARD_WIDTH }}
               className="flex flex-shrink-0 flex-col"
             >
-              <div className="relative aspect-square w-full flex-shrink-0 overflow-hidden bg-white">
-                <Image
-                  src={product.image.url}
-                  alt={product.image.alt || product.name}
-                  fill
-                  sizes="33vw"
-                  className="object-contain p-8"
-                />
-              </div>
+              <div
+                key={product.id}
+                style={{ width: CARD_WIDTH }}
+                className="flex flex-shrink-0 flex-col"
+              >
+                <div className="relative aspect-square w-full flex-shrink-0 overflow-hidden bg-white">
+                  <Image
+                    src={product.image.url}
+                    alt={product.image.alt || product.name}
+                    fill
+                    sizes="33vw"
+                    className="object-contain p-8"
+                  />
+                </div>
 
-              <div className="mt-4 flex flex-col gap-1">
-                <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-                  {product.name}
-                </p>
-                <p className="font-[Gellix] text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-                  <span className="line-through opacity-50">
-                    Precio original {product.original_price}
-                  </span>{" "}
-                  | precio Outlet {product.outlet_price}
-                </p>
+                <div className="mt-4 flex flex-col gap-1">
+                  <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                    {product.name}
+                  </p>
+                  <p className="font-[Gellix] text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                    <span className="line-through opacity-50">
+                      Precio original {product.original_price}
+                    </span>{" "}
+                    | precio Outlet {product.outlet_price}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

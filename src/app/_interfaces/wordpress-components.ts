@@ -214,10 +214,15 @@ export interface OutletProductWp {
   id: number;
   slug: string;
   name: string;
-  category: string; // matches OutletCategoryWp.slug
+  category: string;
   original_price: string;
   outlet_price: string;
-  image: ImageAcf;
+  image: ImageAcf; // thumbnail usado en el listado
+  // --- Campos solo usados en el detalle ---
+  color_name?: string;
+  description?: string;
+  note?: string;
+  gallery?: ImageAcf[]; // fotos del producto, controla los dots
 }
 
 export interface OutletPageWp {
