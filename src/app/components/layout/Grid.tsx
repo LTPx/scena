@@ -161,6 +161,11 @@ export const COLS = {
   aboutDescription: "col-start-3 col-end-8",
   // AboutPage: descripción del tab Partners, col 3 a 11
   aboutPartnersDescription: "col-start-3 col-end-11",
+  // OutletPage: label "Outlet", col 3-4 (mismo criterio que pressCategory)
+  outletLabel: "col-start-3 col-span-2",
+  // OutletPage: heading + descripción + filtros, col 6 hasta el borde
+  // derecho del grid (col-end 13)
+  outletContent: "col-start-6 col-end-13",
 } as const;
 
 export function trackCardWidth(

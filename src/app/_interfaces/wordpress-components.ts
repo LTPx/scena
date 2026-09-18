@@ -202,3 +202,28 @@ export interface AboutPageWp {
   differentiators: AboutDifferentiatorsWp;
   partners: AboutPartnersWp;
 }
+
+// --- OutletPage ---
+
+export interface OutletCategoryWp {
+  label: string;
+  slug: string;
+}
+
+export interface OutletProductWp {
+  id: number;
+  slug: string;
+  name: string;
+  category: string; // matches OutletCategoryWp.slug
+  original_price: string;
+  outlet_price: string;
+  image: ImageAcf;
+}
+
+export interface OutletPageWp {
+  label: string;
+  title: string;
+  description: string;
+  categories: OutletCategoryWp[];
+  products: OutletProductWp[];
+}
