@@ -145,7 +145,6 @@ export const COLS = {
   pressMedia: "col-start-3 col-span-10",
   // Bloque de contenido angosto (párrafo, imagen chica, quote) — col 6 a 10
   pressContent: "col-start-6 col-span-5",
-
   // --- ContactPage / Footer ---
   // "living technology" — bottom-left, col 1 a 4
   footerTagline: "col-start-1 col-span-4",
@@ -153,6 +152,9 @@ export const COLS = {
   footerCta: "col-start-6 col-span-3",
   // Lista de oficinas — col 10 a 11
   footerOffices: "col-start-10 col-span-2",
+  projectMeta: "col-start-3 col-span-2",
+  // Headline + descripción del proyecto — col 6 a 11
+  projectContent: "col-start-6 col-span-6",
 } as const;
 
 export function trackCardWidth(
@@ -164,4 +166,28 @@ export function trackCardWidth(
     (totalCols - 1) * GRID_GUTTER_PX
   }px)`;
   return `calc((${totalWidth} - ${(cardCount - 1) * gapPx}px) / ${cardCount})`;
+}
+
+export const PROJECT_IMAGE_SPAN = {
+  vertical: 5,
+  horizontal: 10,
+} as const;
+
+export const PROJECT_IMAGE_HEIGHT = {
+  vertical: 1000,
+  horizontal: 913,
+} as const;
+
+export type ProjectImageOrientation = keyof typeof PROJECT_IMAGE_SPAN;
+
+export function maxStartColFor(orientation: ProjectImageOrientation) {
+  return GRID_COLS_COUNT - PROJECT_IMAGE_SPAN[orientation] + 1;
+}
+
+export function clampStartCol(
+  startCol: number,
+  orientation: ProjectImageOrientation,
+) {
+  const max = maxStartColFor(orientation);
+  return Math.min(Math.max(Math.round(startCol) || 1, 1), max);
 }

@@ -132,3 +132,28 @@ export interface ProjectsPageWp {
   filters: ProjectFilterWp[];
   projects: ProjectListItemWp[];
 }
+
+export interface ProjectMetaItemWp {
+  label: string;
+  value: string;
+}
+
+export interface ProjectImageBlockWp {
+  type: "image";
+  orientation: "vertical" | "horizontal";
+  image: ImageAcf;
+  start_col: number;
+}
+
+export type ProjectContentBlockWp = ProjectImageBlockWp;
+
+export interface ProjectDetailWp {
+  slug: string;
+  title: string;
+  categories: ProjectCategoryWp[];
+  hero_image: ImageAcf;
+  meta: ProjectMetaItemWp[];
+  headline: string;
+  description: string;
+  content: ProjectContentBlockWp[];
+}
