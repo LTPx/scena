@@ -79,15 +79,11 @@ export default function OurServices({ services }: OurServicesProps) {
     >
       <Grid
         fullHeight
-        // Fondo por defecto de esta sección: claro. Cualquier punto del
-        // header que caiga aquí (título, lista, texto) usará logo/ícono
-        // "brown", EXCEPTO donde explícitamente digamos lo contrario más
-        // abajo (la columna de la imagen).
         data-header-theme="light"
-        className="sticky top-0 grid-rows-[auto_1fr] py-14 overflow-hidden"
+        className="sticky top-0 grid-rows-[auto_1fr_auto] py-[40px] overflow-hidden"
       >
         <h2
-          className={`${COLS.content} row-start-1 pt-2 font-[Gellix] text-3xl text-[#A89572]`}
+          className={`${COLS.content} row-start-1 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
         >
           Nuestros servicios
         </h2>
@@ -108,44 +104,49 @@ export default function OurServices({ services }: OurServicesProps) {
 
           <div className={COLS.content}>
             <AnimatePresence mode="wait">
-              <motion.div
+              <motion.h3
                 key={active.title}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
+                className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]"
               >
-                <h3 className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]">
-                  {active.title}
-                </h3>
-
-                <p className="mt-6 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80">
-                  {active.description}
-                </p>
-              </motion.div>
+                {active.title}
+              </motion.h3>
             </AnimatePresence>
+          </div>
+        </div>
 
-            <div className="mt-8 flex items-center gap-6">
-              <button className="rounded-full bg-[#A89572] px-6 py-2 font-[Gellix] text-sm text-[#F6F1EA] transition-opacity hover:opacity-90">
-                know more
-              </button>
+        {/* descripción + botones: fila propia, siempre pegada abajo */}
+        <div className={`${COLS.content} row-start-3 flex flex-col`}>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={active.title}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
+            >
+              {active.description}
+            </motion.p>
+          </AnimatePresence>
 
-              <button className="font-[Gellix] text-sm text-[#A89572] underline-offset-4 hover:underline">
-                See Projects
-              </button>
-            </div>
+          <div className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
+            <button className="btn-gellix btn-gellix-active">know more</button>
+
+            <button className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white">
+              See Projects
+            </button>
           </div>
         </div>
 
         <div className="absolute left-1/2 top-1/2 z-10 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50" />
 
         <div
-          // Esta columna es la foto: mientras el botón de menú (arriba a la
-          // derecha) esté encima de ella, debe usar el ícono "white". Al
-          // estar anidado dentro del Grid "light" de arriba, esta marca
-          // "dark" gana para cualquier punto dentro de esta columna.
           data-header-theme="dark"
-          className={`${COLS.media} relative row-start-1 row-end-3 -my-14 -mr-10 overflow-hidden`}
+          className={`${COLS.media} relative row-start-1 row-end-4 -my-14 -mr-10 overflow-hidden`}
         >
           {layers.map((layer, index) => {
             const isTopLayer = index === layers.length - 1;
