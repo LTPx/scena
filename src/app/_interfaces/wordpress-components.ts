@@ -157,3 +157,48 @@ export interface ProjectDetailWp {
   description: string;
   content: ProjectContentBlockWp[];
 }
+
+// --- AboutPage ---
+
+export interface AboutTeamPositionWp {
+  id: number;
+  title: string;
+}
+
+export interface AboutTeamWp {
+  description: string;
+  positions: AboutTeamPositionWp[];
+  cta_title: string;
+  cta_label: string;
+}
+
+export interface AboutDifferentiatorCardWp {
+  title: string;
+  description: string;
+  icon: ImageAcf;
+}
+
+export interface AboutDifferentiatorsWp {
+  title: string;
+  cards: AboutDifferentiatorCardWp[];
+}
+
+export interface PartnerWp {
+  id: number;
+  name: string;
+  logo: ImageAcf;
+}
+
+export interface AboutPartnersWp {
+  description: string;
+  partners: PartnerWp[];
+}
+
+export interface AboutPageWp {
+  title: string;
+  description: string;
+  gallery: GalleryHomeWp[];
+  team: AboutTeamWp;
+  differentiators: AboutDifferentiatorsWp;
+  partners: AboutPartnersWp;
+}

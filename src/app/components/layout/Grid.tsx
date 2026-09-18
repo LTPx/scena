@@ -155,6 +155,12 @@ export const COLS = {
   projectMeta: "col-start-3 col-span-2",
   // Headline + descripción del proyecto — col 6 a 11
   projectContent: "col-start-6 col-span-6",
+  teamList: "col-start-8 col-end-13",
+  aboutTitle: "col-start-3 col-end-11",
+  // AboutPage: descripción intro debajo del título, col 3 a 8
+  aboutDescription: "col-start-3 col-end-8",
+  // AboutPage: descripción del tab Partners, col 3 a 11
+  aboutPartnersDescription: "col-start-3 col-end-11",
 } as const;
 
 export function trackCardWidth(
