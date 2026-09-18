@@ -22,12 +22,23 @@ const SLIDE_TRANSITION = {
   ease: [0.76, 0, 0.24, 1] as const,
 };
 
+const GROUP_TRANSITION = {
+  duration: 0.6,
+  ease: [0.76, 0, 0.24, 1] as const,
+};
+
+const CTA_TRANSITION = {
+  duration: 0.5,
+  ease: [0.76, 0, 0.24, 1] as const,
+};
+
 export default function OurServices({ services }: OurServicesProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [seeProjects, setSeeProjects] = useState(false);
 
-  const [layers, setLayers] = useState<
+  const [layers, setLayers] = useState <
     { index: number; id: number | "initial"; direction: "down" | "up" }[]
   >([{ index: 0, id: "initial", direction: "down" }]);
 
@@ -82,20 +93,38 @@ export default function OurServices({ services }: OurServicesProps) {
         data-header-theme="light"
         className="sticky top-0 grid-rows-[auto_1fr_auto] py-[40px] overflow-hidden"
       >
-        <h2
-          className={`${COLS.content} row-start-1 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-        >
-          Nuestros servicios
-        </h2>
+        {/* Header: "Nuestros servicios" <-> "Servicios" */}
+        <div className={`${COLS.content} row-start-1 overflow-hidden`}>
+          <AnimatePresence mode="wait">
+            <motion.h2
+              key={seeProjects ? "servicios" : "nuestros-servicios"}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+            >
+              {seeProjects ? "Servicios" : "Nuestros servicios"}
+            </motion.h2>
+          </AnimatePresence>
+        </div>
 
-        <div className="col-start-1 col-span-6 row-start-2 grid grid-cols-6 items-start gap-x-6 self-center">
+        {/* Lista + título: se centra (colapsado) o sube arriba (expandido) */}
+        <motion.div
+          layout
+          transition={GROUP_TRANSITION}
+          className={`col-start-1 col-span-6 row-start-2 grid grid-cols-6 items-start gap-x-6 ${
+            seeProjects ? "self-start mt-[50px]" : "self-center"
+          }`}
+        >
           <ul className={`${COLS.list} flex flex-col gap-2`}>
             {services.map((service, index) => (
               <li
                 key={service.label}
-                className={`cursor-default font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] transition-opacity duration-500 ${
-                  index === activeIndex ? "opacity-100" : "opacity-40"
-                }`}
+                onClick={() => seeProjects && setActiveIndex(index)}
+                className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] transition-opacity duration-500 ${
+                  seeProjects ? "cursor-pointer" : "cursor-default"
+                } ${index === activeIndex ? "opacity-100" : "opacity-40"}`}
               >
                 {service.label}
               </li>
@@ -105,42 +134,107 @@ export default function OurServices({ services }: OurServicesProps) {
           <div className={COLS.content}>
             <AnimatePresence mode="wait">
               <motion.h3
-                key={active.title}
+                key={
+                  seeProjects
+                    ? `label-${active.label}`
+                    : `title-${active.title}`
+                }
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]"
               >
-                {active.title}
+                {seeProjects ? active.label : active.title}
               </motion.h3>
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
 
-        {/* descripción + botones: fila propia, siempre pegada abajo */}
+        {/* Descripción / contenido expandido: fila propia, pegada abajo */}
         <div className={`${COLS.content} row-start-3 flex flex-col`}>
           <AnimatePresence mode="wait">
-            <motion.p
-              key={active.title}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
-            >
-              {active.description}
-            </motion.p>
+            {!seeProjects ? (
+              <motion.p
+                key="short-desc"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
+              >
+                {active.description}
+              </motion.p>
+            ) : (
+              // key incluye active.label: así se re-dispara el exit/enter
+              // cada vez que cambia el servicio activo, no solo al abrir/cerrar
+              <motion.div
+                key={`expanded-${active.label}`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="max-h-[42vh] overflow-y-auto pr-2"
+              >
+                <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80 mb-6">
+                  {active.title}
+                </p>
+                <div
+                  className="service-expanded-content"
+                  dangerouslySetInnerHTML={{
+                    __html: active.expanded_content,
+                  }}
+                />
+              </motion.div>
+            )}
           </AnimatePresence>
 
-          <div className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
-            <button className="btn-gellix btn-gellix-active">know more</button>
-
-            <button className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white">
-              See Projects
-            </button>
-          </div>
+          {/* Par "know more" / "See Projects": solo en modo colapsado,
+              vive dentro de la columna de contenido, debajo del párrafo */}
+          <AnimatePresence>
+            {!seeProjects && (
+              <motion.div
+                layoutId="services-cta"
+                layout
+                transition={CTA_TRANSITION}
+                className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
+                exit={{ opacity: 0 }}
+              >
+                <button className="btn-gellix btn-gellix-active">
+                  know more
+                </button>
+                <button
+                  onClick={() => setSeeProjects(true)}
+                  className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"
+                >
+                  See Projects
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Botón "Cerrar": solo en modo expandido, columna 1 (bajo la lista),
+            MISMO layoutId que el bloque de arriba -> Framer anima el salto
+            de posición automáticamente (magic move) */}
+        <AnimatePresence>
+          {seeProjects && (
+            <motion.div
+              layoutId="services-cta"
+              layout
+              transition={CTA_TRANSITION}
+              className="col-start-1 col-span-2 row-start-3 self-end w-fit"
+              exit={{ opacity: 0 }}
+            >
+              <button
+                onClick={() => setSeeProjects(false)}
+                className="btn-gellix bg-white text-[#A89572] hover:bg-[#A89572] hover:text-white"
+              >
+                Cerrar
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="absolute left-1/2 top-1/2 z-10 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50" />
 

@@ -19,6 +19,7 @@ export interface ServiceWp {
   label: string;
   title: string;
   description: string;
+  expanded_content: string; // HTML del WYSIWYG de WP: roadmap + diferenciales (h4 + ul/li)
   image: ImageAcf;
 }
 
