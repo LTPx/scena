@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F6F5F1;
+  --background: #f6f5f1;
   --foreground: #171717;
 }
 
@@ -19,11 +19,11 @@ body {
 }
 
 .color-text-footer {
-  color: #F6F5F1;
+  color: #f6f5f1;
 }
 
 .text-btn-footer {
-  color: #A89572;
+  color: #a89572;
   font-size: 14px;
 }
 
@@ -77,7 +77,7 @@ body {
   font-size: 16px;
   line-height: 135%;
   letter-spacing: 0%;
-  color: #F6F5F1;
+  color: #f6f5f1;
 }
 
 .paragraph-final-footer {
@@ -86,11 +86,25 @@ body {
   font-size: 14px;
   line-height: 150%;
   letter-spacing: 0%;
-  color: #F6F5F1;
+  color: #f6f5f1;
 }
 
 @layer components {
   .btn-gellix {
-    @apply inline-flex h-[35px] items-center justify-center rounded-full bg-white px-4 font-[Gellix] text-[14px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572];
+    @apply inline-flex h-[35px] w-fit items-center justify-center rounded-full bg-white px-4 py-[5px] text-[14px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572] transition-colors duration-200;
+    
+    font-family: Gellix, sans-serif;
+  }
+
+  .btn-gellix:hover {
+    @apply bg-[#A89572] text-white;
+  }
+
+  .btn-gellix-default {
+    @apply bg-white text-[#A89572];
+  }
+
+  .btn-gellix-active {
+    @apply bg-[#A89572] text-[#F6F5F1];
   }
 }

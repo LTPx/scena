@@ -22,7 +22,6 @@ export default function ProjectsPage({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="relative isolate z-0">
-      {/* Título + filtros flotando arriba, sticky sobre el listado */}
       <div className="sticky top-0 z-100 bg-[linear-gradient(0deg,rgba(246,245,241,0)_0%,#F6F5F1_49.65%)] pb-10">
         <Grid className="items-center pt-10">
           <div className={COLS.projectsTitle}>
@@ -39,16 +38,15 @@ export default function ProjectsPage({ data }: Props) {
           >
             {data.filters.map((filter) => {
               const isActive = activeFilter === filter.slug;
+
               return (
                 <button
                   key={filter.slug}
+                  type="button"
                   onClick={() => setActiveFilter(filter.slug)}
-                  className={`rounded-full h-[35px] px-4 py-[5px] font-[Gellix] text-[14px] font-normal not-italic transition-colors ${
-                    isActive
-                      ? "bg-[#A89572] text-[#F6F5F1]"
-                      : "bg-white text-[#A89572]"
+                  className={`btn-gellix ${
+                    isActive ? "btn-gellix-active" : "btn-gellix-default"
                   }`}
-                  style={{ lineHeight: "100%", letterSpacing: "0%" }}
                 >
                   {filter.label}
                 </button>
@@ -57,7 +55,7 @@ export default function ProjectsPage({ data }: Props) {
           </div>
         </Grid>
       </div>
-      {/* Listado vertical de proyectos */}
+
       <div className="flex flex-col gap-6 pb-24 pt-6 md:gap-10 md:pt-10">
         {filteredProjects.map((item) => (
           <Grid key={item.project}>
