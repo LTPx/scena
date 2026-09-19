@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { ProjectHomeWp } from "../_interfaces/wordpress-components";
 import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
+import GlassButton from "./GlassButton";
 
 interface Props {
   projects: ProjectHomeWp[];
@@ -128,9 +129,12 @@ export default function FeaturedProjects({ projects }: Props) {
                 style={{ left: tagsLeftOffset }}
               >
                 {project.categories.map((category) => (
-                  <span key={category.id} className="btn-office">
+                  <GlassButton
+                    key={category.id}
+                    href={`/projects?category=${category.slug}`}
+                  >
                     {category.name}
-                  </span>
+                  </GlassButton>
                 ))}
               </div>
             </div>

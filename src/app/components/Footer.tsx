@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Grid, { COLS } from "./layout/Grid";
+import GlassButton from "./GlassButton";
 
 const OFFICES = [
   {
@@ -61,7 +62,7 @@ export default function Footer() {
               <h2 className="color-text-footer text-3xl font-normal leading-[50px] md:text-[42px]">
                 {t("ctaTitle")}
               </h2>
-              <a href="/contacto" className="mt-4 btn-footer">
+              <a href="/contacto" className="mt-4 btn-gellix">
                 {t("ctaButton")}
               </a>
             </div>
@@ -75,7 +76,7 @@ export default function Footer() {
                 placeholder={t("emailPlaceholder")}
                 className="w-full border-b border-white/60 bg-transparent pb-2 text-[12px] placeholder-white/70 outline-none focus:border-white"
               />
-              <button type="submit" className="mt-4 btn-footer">
+              <button type="submit" className="cursor-pointer mt-4 btn-gellix">
                 {t("send")}
               </button>
             </form>
@@ -94,7 +95,9 @@ export default function Footer() {
           <div className="flex flex-col gap-[35px]">
             {OFFICES.map((office) => (
               <div key={office.label}>
-                <span className="btn-office">{office.label}</span>
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>
                 <p className="mt-[14px] paragraph-footer">
                   {office.address}
                   <br />

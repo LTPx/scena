@@ -9,7 +9,7 @@ export const projectDetailMock: Record<string, ProjectDetailWp> = {
       { id: 2, name: "Engineering", slug: "engineering" },
     ],
     hero_image: {
-      url: "/images/gallery-1.png",
+      url: "/images/gallery-3.jpg",
       alt: "Sala de estar de Villa Calatrava",
     } as any,
     meta: [

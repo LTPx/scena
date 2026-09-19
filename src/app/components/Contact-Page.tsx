@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ContactPageWp } from "../_interfaces/wordpress-components";
 import Grid, { COLS } from "./layout/Grid";
+import GlassButton from "./GlassButton";
 
 interface Props {
   data: ContactPageWp;
@@ -42,7 +43,7 @@ export default function ContactPage({ data }: Props) {
               <h2 className="color-text-footer text-[clamp(20px,3.5vh,42px)] font-normal leading-tight">
                 {t("ctaTitle")}
               </h2>
-              <a href="/contacto" className="mt-4 btn-footer">
+              <a href="/contacto" className="mt-4 btn-gellix">
                 {t("ctaButton")}
               </a>
             </div>
@@ -56,7 +57,7 @@ export default function ContactPage({ data }: Props) {
                 placeholder={t("emailPlaceholder")}
                 className="w-full border-b border-white/60 bg-transparent pb-2 text-[12px] placeholder-white/70 outline-none focus:border-white"
               />
-              <button type="submit" className="mt-4 btn-footer">
+              <button type="submit" className="cursor-pointer mt-4 btn-gellix">
                 {t("send")}
               </button>
             </form>
@@ -81,7 +82,9 @@ export default function ContactPage({ data }: Props) {
           <div className="flex flex-col gap-[clamp(12px,3.5vh,35px)]">
             {data.offices.map((office) => (
               <div key={office.label}>
-                <span className="btn-office">{office.label}</span>
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>{" "}
                 <p className="mt-[clamp(6px,1.4vh,14px)] paragraph-footer">
                   {office.address}
                   <br />

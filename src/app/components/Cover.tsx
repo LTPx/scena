@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { MediaFileWp } from "../_interfaces/wordpress-components";
 
@@ -10,26 +10,19 @@ interface Props {
 }
 
 export function Cover(props: Props) {
-  const {
-    children,
-    className,
-    media,
-    img
-  } = props;
+  const { children, className = "", media, img } = props;
+
+  const mediaClassName = `${className} h-[550px] w-full object-cover lg:h-[100dvh]`;
 
   return (
-    <div className={`cover-video-container`}>
-      {img && (
-        <img
-        src={img}
-        className={`${className} w-full h-[550px] lg:h-[95vh] object-cover`}
-      />
-      )}
-      {media?.type === 'video' && (
+    <div className="cover-video-container relative">
+      {img && <img src={img} alt="" className={mediaClassName} />}
+
+      {media?.type === "video" && (
         <video
-          className={`${className} w-full h-[550px] lg:h-[95vh] object-cover`}
-          autoPlay={true}
-          loop={true}
+          className={mediaClassName}
+          autoPlay
+          loop
           muted
           playsInline
           preload="auto"
@@ -37,21 +30,20 @@ export function Cover(props: Props) {
           <source src={media.url} type="video/mp4" />
         </video>
       )}
-      {media?.type === 'image' && (
-        <img
-          src={media.url}
-          className={`${className} w-full h-[550px] lg:h-[95vh] object-cover`}
-        />
+
+      {media?.type === "image" && (
+        <img src={media.url} alt="" className={mediaClassName} />
       )}
+
       <div
-        className={`absolute lg:h-full inset-0 md:h-[550px] ${className}`}
+        className="absolute inset-0 z-[1] h-[550px] lg:h-full"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.25))',
-          zIndex: 1,
+          background:
+            "linear-gradient(360deg, rgba(255, 255, 255, 0) 71.7%, rgba(0, 0, 0, 0.4) 96.97%)",
         }}
       />
-      <div className="absolute inset-0 flex items-center justify-center z-10">
+
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
         {children}
       </div>
     </div>
