@@ -38,7 +38,7 @@ export default function OurServices({ services }: OurServicesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [seeProjects, setSeeProjects] = useState(false);
 
-  const [layers, setLayers] = useState <
+  const [layers, setLayers] = useState<
     { index: number; id: number | "initial"; direction: "down" | "up" }[]
   >([{ index: 0, id: "initial", direction: "down" }]);
 
@@ -174,9 +174,9 @@ export default function OurServices({ services }: OurServicesProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="max-h-[42vh] overflow-y-auto pr-2"
+                className="max-h-[70vh] overflow-y-auto pr-2"
               >
-                <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80 mb-6">
+                <p className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572] mb-6">
                   {active.title}
                 </p>
                 <div
