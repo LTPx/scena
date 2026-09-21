@@ -173,6 +173,7 @@ export const COLS = {
   outletDetailNext: "col-start-12 col-span-1",
   // Hero: título, col 3 a 5
   heroTitle: "col-start-3 col-end-8",
+  galleryTitle: "col-start-3 col-end-7",
 } as const;
 
 export function trackCardWidth(

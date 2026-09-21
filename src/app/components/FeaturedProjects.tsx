@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 import { ProjectHomeWp } from "../_interfaces/wordpress-components";
 import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
 import GlassButton from "./GlassButton";
+import TypewriterText from "./TypewriterText";
 
 interface Props {
   projects: ProjectHomeWp[];
@@ -26,6 +27,8 @@ const REVEAL_BUFFER_VH = 100;
 export default function FeaturedProjects({ projects }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(stickyRef, { once: true, amount: 0.9 });
 
   const [travelDistance, setTravelDistance] = useState(0);
   const [trackFraction, setTrackFraction] = useState(1);
@@ -87,14 +90,17 @@ export default function FeaturedProjects({ projects }: Props) {
       }}
       className="relative z-0"
     >
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[40px]">
+      <div
+        ref={stickyRef}
+        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[40px]"
+      >
+        {" "}
         <h2
           className="mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572]"
           style={{ paddingLeft: startOffset }}
         >
-          Proyectos destacados
+          <TypewriterText text="Proyectos destacados" play={isInView} />
         </h2>
-
         <motion.div
           ref={trackRef}
           style={{

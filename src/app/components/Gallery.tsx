@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { GalleryHomeWp } from "../_interfaces/wordpress-components";
-import { offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
+import { offsetForColumn, GRID_MARGIN_PX, COLS } from "./layout/Grid";
+import SectionTitle from "./SectionTitle";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
@@ -26,6 +27,8 @@ const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - GALLERY_GAP_PX, 0);
 export default function Gallery({ gallery }: GalleryProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(stickyRef, { once: true, amount: 0.9 });
 
   const [travelDistance, setTravelDistance] = useState(0);
   const [wrapperHeight, setWrapperHeight] = useState(0);
@@ -78,7 +81,7 @@ export default function Gallery({ gallery }: GalleryProps) {
       }}
       className="relative"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div ref={stickyRef} className="sticky top-0 h-screen overflow-hidden">
         <motion.div
           ref={trackRef}
           style={{
@@ -115,6 +118,11 @@ export default function Gallery({ gallery }: GalleryProps) {
             className="h-full flex-shrink-0"
           />
         </motion.div>
+        <SectionTitle
+          text={"Nuestros showrooms"}
+          visible={isInView}
+          colsClassName={COLS.galleryTitle}
+        />
       </div>
     </section>
   );
