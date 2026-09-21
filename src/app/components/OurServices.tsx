@@ -6,10 +6,12 @@ import {
   AnimatePresence,
   useScroll,
   useMotionValueEvent,
+  useInView,
 } from "framer-motion";
 import Image from "next/image";
 import { ServiceWp } from "../_interfaces/wordpress-components";
 import Grid, { COLS } from "./layout/Grid";
+import TypewriterText from "./TypewriterText";
 
 interface OurServicesProps {
   services: ServiceWp[];
@@ -37,7 +39,8 @@ export default function OurServices({ services }: OurServicesProps) {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [seeProjects, setSeeProjects] = useState(false);
-
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.5 });
   const [layers, setLayers] = useState<
     { index: number; id: number | "initial"; direction: "down" | "up" }[]
   >([{ index: 0, id: "initial", direction: "down" }]);
@@ -89,6 +92,7 @@ export default function OurServices({ services }: OurServicesProps) {
       className="relative"
     >
       <Grid
+        ref={sectionRef}
         fullHeight
         data-header-theme="light"
         className="sticky top-0 grid-rows-[auto_1fr_auto] py-[40px] overflow-hidden"
@@ -98,13 +102,15 @@ export default function OurServices({ services }: OurServicesProps) {
           <AnimatePresence mode="wait">
             <motion.h2
               key={seeProjects ? "servicios" : "nuestros-servicios"}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
             >
-              {seeProjects ? "Servicios" : "Nuestros servicios"}
+              <TypewriterText
+                text={seeProjects ? "Servicios" : "Nuestros servicios"}
+                play={isInView}
+              />
             </motion.h2>
           </AnimatePresence>
         </div>
@@ -119,15 +125,30 @@ export default function OurServices({ services }: OurServicesProps) {
         >
           <ul className={`${COLS.list} flex flex-col gap-2`}>
             {services.map((service, index) => (
-              <li
+              <motion.li
                 key={service.label}
                 onClick={() => seeProjects && setActiveIndex(index)}
-                className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] transition-opacity duration-500 ${
+                initial={{ x: -100, opacity: 0 }}
+                animate={
+                  isInView ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
+                }
+                transition={{
+                  duration: 1,
+                  delay: index * 0.14,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] ${
                   seeProjects ? "cursor-pointer" : "cursor-default"
-                } ${index === activeIndex ? "opacity-100" : "opacity-40"}`}
+                }`}
               >
-                {service.label}
-              </li>
+                <motion.span
+                  className="block"
+                  animate={{ opacity: index === activeIndex ? 1 : 0.4 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {service.label}
+                </motion.span>
+              </motion.li>
             ))}
           </ul>
 

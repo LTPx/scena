@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MediaFileWp } from "../_interfaces/wordpress-components";
+import Grid, { COLS } from "./layout/Grid";
 
 interface HeroProps {
   heroPage: MediaFileWp[];
@@ -16,14 +17,12 @@ export default function Hero({ heroPage }: HeroProps) {
   useEffect(() => {
     function calcProgress() {
       const el = wrapperRef.current;
-
       if (!el) return;
 
       const rect = el.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
 
       let raw = total > 0 ? -rect.top / total : 0;
-
       raw = Math.min(Math.max(raw, 0), 1);
 
       setProgress(raw);
@@ -38,38 +37,28 @@ export default function Hero({ heroPage }: HeroProps) {
       });
     }
 
-    window.addEventListener("scroll", onScroll, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", onScroll, { passive: true });
     calcProgress();
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-
-      if (rafId.current !== null) {
-        cancelAnimationFrame(rafId.current);
-      }
+      if (rafId.current !== null) cancelAnimationFrame(rafId.current);
     };
   }, []);
 
-  if (!heroPage?.length) {
-    return null;
-  }
+  if (!heroPage?.length) return null;
 
   const trackX = -progress * (heroPage.length - 1) * 100;
 
   return (
     <section
       ref={wrapperRef}
-      // Todo el Hero es imagen/video de fondo -> ícono BLANCO (logo y menú).
       data-header-theme="dark"
-      style={{
-        height: `${heroPage.length * 100}vh`,
-      }}
+      style={{ height: `${heroPage.length * 100}vh` }}
       className="relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Track horizontal con las imágenes/videos */}
         <div
           style={{
             width: `${heroPage.length * 100}vw`,
@@ -106,6 +95,14 @@ export default function Hero({ heroPage }: HeroProps) {
             </div>
           ))}
         </div>
+
+        <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[40px]">
+          <h1 className={`${COLS.heroTitle} hero-title`}>
+            The art of living
+            <br />
+            technology
+          </h1>
+        </Grid>
       </div>
     </section>
   );

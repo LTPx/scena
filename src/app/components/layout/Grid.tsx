@@ -166,11 +166,13 @@ export const COLS = {
   // OutletPage: heading + descripción + filtros, col 6 hasta el borde
   // derecho del grid (col-end 13)
   outletContent: "col-start-6 col-end-13",
-    // OutletDetailPage
+  // OutletDetailPage
   outletDetailTitle: "col-start-6 col-end-13",
   outletDetailImage: "col-start-1 col-end-6",
   outletDetailContent: "col-start-6 col-span-5",
   outletDetailNext: "col-start-12 col-span-1",
+  // Hero: título, col 3 a 5
+  heroTitle: "col-start-3 col-end-8",
 } as const;
 
 export function trackCardWidth(
