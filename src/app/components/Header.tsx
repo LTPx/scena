@@ -4,6 +4,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Grid, { COLS } from "./layout/Grid";
+import {
+  INTRO_REVEAL_TRANSITION,
+  useIntroPlaying,
+} from "../context/introStore";
+import { motion } from "framer-motion";
 
 type SubItem = { key: string; href: string };
 type NavItem = { key: string; href: string; subItems?: SubItem[] };
@@ -34,13 +39,6 @@ const LOCALES = [
   { code: "de", label: "De" },
 ];
 
-// Cada sección de cada página debe marcarse con:
-//   data-header-theme="dark"   -> sección con imagen / fondo oscuro -> ícono BLANCO
-//   data-header-theme="light"  -> sección con fondo claro           -> ícono BROWN
-// El header mide, en cada scroll, qué sección está detrás DEL LOGO y qué
-// sección está detrás DEL BOTÓN DE MENÚ por separado (pueden ser distintas,
-// como en un layout partido a la mitad: texto claro a la izquierda, imagen
-// a la derecha), y cambia cada ícono de forma independiente.
 type HeaderTheme = "dark" | "light";
 const DEFAULT_THEME: HeaderTheme = "dark";
 
@@ -74,14 +72,11 @@ export default function Header() {
   const tickingRef = useRef(false);
   const logoVariant = logoTheme === "light" ? "brown" : "white";
   const menuVariant = menuTheme === "light" ? "brown" : "white";
-
+  const introPlaying = useIntroPlaying();
   const updateTheme = useCallback(() => {
     const headerEl = headerRef.current;
     if (!headerEl) return;
 
-    // El header está siempre "encima" (fixed + z-index alto), así que sin
-    // esto elementFromPoint solo encontraría al propio header, nunca lo que
-    // hay detrás. Lo apagamos un instante solo para medir.
     const prevPointerEvents = headerEl.style.pointerEvents;
     headerEl.style.pointerEvents = "none";
 
@@ -94,8 +89,6 @@ export default function Header() {
     setMenuTheme((prev) => (prev === nextMenuTheme ? prev : nextMenuTheme));
   }, []);
 
-  // Reacciona al scroll (mientras el menú está cerrado) para saber qué
-  // sección está pasando por detrás de cada ícono en cada momento.
   useEffect(() => {
     if (isOpen) return;
     updateTheme();
@@ -117,8 +110,6 @@ export default function Header() {
     };
   }, [isOpen, updateTheme]);
 
-  // Al cambiar de página (navegación cliente), recalcula una vez que el
-  // nuevo contenido ya está en el DOM.
   useEffect(() => {
     const id = requestAnimationFrame(updateTheme);
     return () => cancelAnimationFrame(id);
@@ -177,34 +168,40 @@ export default function Header() {
       ref={headerRef}
       className="fixed top-0 left-0 z-100 w-full bg-transparent"
     >
-      <Grid as="div" className="items-center py-10">
-        <Link
-          ref={logoRef}
-          href="/"
-          className={`${COLS.logo} flex items-center`}
-        >
-          <img
-            src={`/logos/logo-header-${logoVariant}.svg`}
-            alt="scena"
-            className="h-[20px] w-auto"
-          />
-        </Link>
+      <motion.div
+        initial={false}
+        animate={{ y: introPlaying ? "-100%" : "0%" }}
+        transition={introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION}
+      >
+        <Grid as="div" className="items-center py-10">
+          <Link
+            ref={logoRef}
+            href="/"
+            className={`${COLS.logo} flex items-center`}
+          >
+            <img
+              src={`/logos/logo-header-${logoVariant}.svg`}
+              alt="scena"
+              className="h-[20px] w-auto"
+            />
+          </Link>
 
-        <button
-          ref={menuButtonRef}
-          type="button"
-          onClick={openMenu}
-          aria-expanded={isOpen}
-          aria-label="Abrir menu"
-          className={`${COLS.close} flex items-center justify-end`}
-        >
-          <img
-            src={`/logos/logo-menu-${menuVariant}.svg`}
-            alt=""
-            className="h-[20px] w-auto"
-          />
-        </button>
-      </Grid>
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={openMenu}
+            aria-expanded={isOpen}
+            aria-label="Abrir menu"
+            className={`${COLS.close} flex items-center justify-end`}
+          >
+            <img
+              src={`/logos/logo-menu-${menuVariant}.svg`}
+              alt=""
+              className="h-[20px] w-auto"
+            />
+          </button>
+        </Grid>
+      </motion.div>
 
       <div
         className={`fixed inset-0 z-50 ${

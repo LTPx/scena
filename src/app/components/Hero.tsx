@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MediaFileWp } from "../_interfaces/wordpress-components";
 import Grid, { COLS } from "./layout/Grid";
+import {
+  INTRO_REVEAL_TRANSITION,
+  useIntroPlaying,
+} from "../context/introStore";
+import { motion } from "framer-motion";
 
 interface HeroProps {
   heroPage: MediaFileWp[];
@@ -13,6 +18,7 @@ export default function Hero({ heroPage }: HeroProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const rafId = useRef<number | null>(null);
+  const introPlaying = useIntroPlaying();
 
   useEffect(() => {
     function calcProgress() {
@@ -58,7 +64,6 @@ export default function Hero({ heroPage }: HeroProps) {
       className="relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Track horizontal con las imágenes/videos */}
         <div
           style={{
             width: `${heroPage.length * 100}vw`,
@@ -97,11 +102,18 @@ export default function Hero({ heroPage }: HeroProps) {
         </div>
 
         <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[40px]">
-          <h1 className={`${COLS.heroTitle} hero-title`}>
+          <motion.h1
+            initial={false}
+            animate={{ y: introPlaying ? "-150%" : "0%" }}
+            transition={
+              introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION
+            }
+            className={`${COLS.heroTitle} hero-title`}
+          >
             The art of living
             <br />
             technology
-          </h1>
+          </motion.h1>
         </Grid>
       </div>
     </section>
