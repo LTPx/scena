@@ -1,27 +1,34 @@
+"use client";
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SmoothScrollProvider from "../components/SmoothScrollProvider";
-import type { Locale } from "use-intl";
+import { usePathname } from "@/navigation";
+
+const HIDDEN_FOOTER_ROUTES = ["/contact", "/press", "/outlet", "/showrooms"];
 
 interface Props {
-  children: any;
-  locale: Locale;
+  children: React.ReactNode;
 }
 
-async function App(props: Props) {
-  const { children } = props;
+function App({ children }: Props) {
+  const pathname = usePathname();
+
+  const hideFooter = HIDDEN_FOOTER_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
 
   return (
     <div className="relative">
       <div className="fixed inset-0 z-0 h-screen">
-        <Footer />
+        {!hideFooter && <Footer />}
       </div>
 
       <div className="relative z-10">
         <Header />
 
         <SmoothScrollProvider>
-          <main className="pb-[100vh]">
+          <main className={hideFooter ? "" : "pb-[100vh]"}>
             <div className="bg-body">{children}</div>
           </main>
         </SmoothScrollProvider>
