@@ -9,7 +9,6 @@ import SectionTitle from "./SectionTitle";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
-
   title?: string;
 }
 
@@ -122,17 +121,11 @@ export default function Gallery({ gallery, title }: GalleryProps) {
         </motion.div>
 
         {title && (
-          <>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[220px] bg-gradient-to-b from-black/35 via-black/10 to-transparent"
-            />
-            <SectionTitle
-              text={title}
-              visible={isInView}
-              colsClassName={COLS.galleryTitle}
-            />
-          </>
+          <SectionTitle
+            text={title}
+            visible={isInView}
+            colsClassName={COLS.galleryTitle}
+          />
         )}
       </div>
     </section>
