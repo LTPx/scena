@@ -9,6 +9,8 @@ import SectionTitle from "./SectionTitle";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
+
+  title?: string;
 }
 
 const ASPECT_WIDTH_CLASS: Record<GalleryHomeWp["aspect"], string> = {
@@ -24,7 +26,7 @@ const GALLERY_TRACK_OFFSET = offsetForColumn(1);
 const GALLERY_GAP_PX = 10;
 const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - GALLERY_GAP_PX, 0);
 
-export default function Gallery({ gallery }: GalleryProps) {
+export default function Gallery({ gallery, title }: GalleryProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -118,11 +120,20 @@ export default function Gallery({ gallery }: GalleryProps) {
             className="h-full flex-shrink-0"
           />
         </motion.div>
-        <SectionTitle
-          text={"Nuestros showrooms"}
-          visible={isInView}
-          colsClassName={COLS.galleryTitle}
-        />
+
+        {title && (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[220px] bg-gradient-to-b from-black/35 via-black/10 to-transparent"
+            />
+            <SectionTitle
+              text={title}
+              visible={isInView}
+              colsClassName={COLS.galleryTitle}
+            />
+          </>
+        )}
       </div>
     </section>
   );

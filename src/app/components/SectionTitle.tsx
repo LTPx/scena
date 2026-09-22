@@ -1,6 +1,7 @@
 "use client";
 
 import Grid from "./layout/Grid";
+import TypewriterText from "./TypewriterText";
 
 interface SectionTitleProps {
   text: string;
@@ -21,10 +22,9 @@ export default function SectionTitle({
   return (
     <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[40px]">
       <h2
-        style={{ visibility: visible ? "visible" : "hidden" }}
         className={`${colsClassName} ${colorClassName} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%]`}
       >
-        {text}
+        <TypewriterText text={text} play={visible} />
       </h2>
     </Grid>
   );

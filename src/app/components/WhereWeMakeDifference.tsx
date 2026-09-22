@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 
 import { WhereWeMakeDifferenceWp } from "../_interfaces/wordpress-components";
 import Grid, {
@@ -11,6 +17,7 @@ import Grid, {
   offsetForColumn,
   GRID_MARGIN_PX,
 } from "./layout/Grid";
+import TypewriterText from "./TypewriterText";
 
 interface Props {
   data: WhereWeMakeDifferenceWp;
@@ -29,6 +36,7 @@ export default function WhereWeMakeDifference({ data }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(titleRef, { once: true, amount: 0.9 });
   const [travelDistance, setTravelDistance] = useState(0);
   const [wrapperHeight, setWrapperHeight] = useState(0);
   const [tracksTop, setTracksTop] = useState(TITLE_TOP_PX + TITLE_CARDS_GAP_PX);
@@ -94,7 +102,7 @@ export default function WhereWeMakeDifference({ data }: Props) {
             <h2
               className={`${COLS.content} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
             >
-              {data.title}
+              <TypewriterText text={data.title} play={isInView} />
             </h2>
           </Grid>
         </div>

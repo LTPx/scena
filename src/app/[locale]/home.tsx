@@ -29,7 +29,10 @@ function HomePage({ home_information }: Props) {
           buttonHref="/contact"
           buttonLabel="Visítanos"
         />
-        <Gallery gallery={home_information.gallery} />
+        <Gallery
+          gallery={home_information.gallery}
+          title="Nuestros showrooms"
+        />
         <WhereWeMakeDifference
           data={home_information.where_we_make_difference}
         />
