@@ -14,9 +14,14 @@ interface HeroProps {
   heroPage: MediaFileWp[];
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
 export default function Hero({ heroPage }: HeroProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [titleHideProgress, setTitleHideProgress] = useState(0);
   const rafId = useRef<number | null>(null);
   const introPlaying = useIntroPlaying();
 
@@ -26,16 +31,20 @@ export default function Hero({ heroPage }: HeroProps) {
       if (!el) return;
 
       const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
 
-      const heroImageScrollDistance =
-        (heroPage.length - 1) * window.innerHeight;
+      // Distancia de scroll que dura el recorrido del carrusel (todas las imágenes/videos)
+      const heroImageScrollDistance = (heroPage.length - 1) * vh;
 
       let raw =
         heroImageScrollDistance > 0 ? -rect.top / heroImageScrollDistance : 1;
-
-      raw = Math.min(Math.max(raw, 0), 1);
-
+      raw = clamp(raw, 0, 1);
       setProgress(raw);
+
+      const scrolled = -rect.top;
+
+      const hideRaw = (scrolled - heroImageScrollDistance) / vh;
+      setTitleHideProgress(clamp(hideRaw, 0, 1));
     }
 
     function onScroll() {
@@ -77,6 +86,32 @@ export default function Hero({ heroPage }: HeroProps) {
     >
       <div className="sticky top-0 h-screen">
         <div className="relative h-full w-full overflow-hidden">
+          {/* Título ahora vive DENTRO del contenedor sticky,
+              así queda fijo el mismo tiempo que el carrusel */}
+          <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[40px]">
+            <motion.div
+              initial={false}
+              animate={{
+                y: introPlaying ? "-150%" : "0%",
+              }}
+              transition={
+                introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION
+              }
+              className={COLS.heroTitle}
+            >
+              <h1
+                className="hero-title"
+                style={{
+                  transform: `translateY(${-150 * titleHideProgress}%)`,
+                }}
+              >
+                The art of living
+                <br />
+                technology
+              </h1>
+            </motion.div>
+          </Grid>
+
           <div
             className="flex h-full"
             style={{
@@ -113,23 +148,6 @@ export default function Hero({ heroPage }: HeroProps) {
               </div>
             ))}
           </div>
-
-          <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[40px]">
-            <motion.h1
-              initial={false}
-              animate={{
-                y: introPlaying ? "-150%" : "0%",
-              }}
-              transition={
-                introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION
-              }
-              className={`${COLS.heroTitle} hero-title`}
-            >
-              The art of living
-              <br />
-              technology
-            </motion.h1>
-          </Grid>
         </div>
       </div>
     </section>

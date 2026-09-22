@@ -108,7 +108,7 @@ export default function FeaturedProjects({ projects }: Props) {
             paddingLeft: startOffset,
             gap: `${CARD_GAP_PX}px`,
           }}
-          className="flex flex-1"
+          className="flex flex-1 pb-[40px]"
         >
           {projects.map((project, i) => (
             <div
