@@ -42,6 +42,11 @@ const LOCALES = [
 type HeaderTheme = "dark" | "light";
 const DEFAULT_THEME: HeaderTheme = "dark";
 
+// Pequeño margen de tolerancia antes de cerrar el submenú al salir de
+// un item o del propio submenú, para poder cruzar el espacio vacío
+// entre columnas sin que se cierre de golpe.
+const SUBMENU_CLOSE_DELAY_MS = 200;
+
 function themeAtPoint(x: number, y: number): HeaderTheme {
   if (typeof document === "undefined") return DEFAULT_THEME;
   const el = document.elementFromPoint(x, y);
@@ -73,6 +78,29 @@ export default function Header() {
   const logoVariant = logoTheme === "light" ? "brown" : "white";
   const menuVariant = menuTheme === "light" ? "brown" : "white";
   const introPlaying = useIntroPlaying();
+  const closeSubmenuTimeoutRef = useRef<number | null>(null);
+
+  const cancelSubmenuClose = useCallback(() => {
+    if (closeSubmenuTimeoutRef.current !== null) {
+      window.clearTimeout(closeSubmenuTimeoutRef.current);
+      closeSubmenuTimeoutRef.current = null;
+    }
+  }, []);
+
+  const scheduleSubmenuClose = useCallback(() => {
+    cancelSubmenuClose();
+    closeSubmenuTimeoutRef.current = window.setTimeout(() => {
+      setActiveKey(null);
+      closeSubmenuTimeoutRef.current = null;
+    }, SUBMENU_CLOSE_DELAY_MS);
+  }, [cancelSubmenuClose]);
+
+  useEffect(() => {
+    return () => {
+      cancelSubmenuClose();
+    };
+  }, [cancelSubmenuClose]);
+
   const updateTheme = useCallback(() => {
     const headerEl = headerRef.current;
     if (!headerEl) return;
@@ -137,8 +165,11 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (!isOpen) setActiveKey(null);
-  }, [isOpen]);
+    if (!isOpen) {
+      setActiveKey(null);
+      cancelSubmenuClose();
+    }
+  }, [isOpen, cancelSubmenuClose]);
 
   useEffect(() => {
     return () => {
@@ -224,7 +255,7 @@ export default function Header() {
 
             <nav
               className={`${COLS.navMain} flex flex-col gap-1`}
-              onMouseLeave={() => setActiveKey(null)}
+              onMouseLeave={scheduleSubmenuClose}
             >
               {NAV_ITEMS.map((item) => {
                 const hasSub = !!item.subItems?.length;
@@ -237,7 +268,10 @@ export default function Header() {
                   return (
                     <span
                       key={item.href}
-                      onMouseEnter={() => setActiveKey(item.key)}
+                      onMouseEnter={() => {
+                        cancelSubmenuClose();
+                        setActiveKey(item.key);
+                      }}
                       className={`${classes} cursor-default`}
                     >
                       {t(item.key)}
@@ -250,7 +284,10 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={closeMenu}
-                    onMouseEnter={() => setActiveKey(null)}
+                    onMouseEnter={() => {
+                      cancelSubmenuClose();
+                      setActiveKey(null);
+                    }}
                     className={classes}
                   >
                     {t(item.key)}
@@ -263,7 +300,8 @@ export default function Header() {
               className={`${COLS.navSub} flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
-              onMouseLeave={() => setActiveKey(null)}
+              onMouseEnter={cancelSubmenuClose}
+              onMouseLeave={scheduleSubmenuClose}
             >
               {activeItem?.subItems?.map((sub) => (
                 <Link
