@@ -14,7 +14,7 @@ export default function ContactPage({ data }: Props) {
   const t = useTranslations("Contact");
 
   return (
-    <div className="relative isolate z-0 overflow-hidden text-white h-dvh px-[clamp(20px,4vw,40px)] py-[clamp(16px,4vh,45px)]">
+    <div className="relative font-sans isolate z-0 overflow-hidden text-white h-dvh px-[clamp(20px,4vw,40px)] py-[clamp(16px,4vh,45px)]">
       <Image
         src={data.background_image.url}
         alt={data.background_image.alt || ""}
@@ -27,7 +27,7 @@ export default function ContactPage({ data }: Props) {
           className={`${COLS.footerTagline} row-start-1 flex min-h-0 flex-col justify-end`}
         >
           <div className="flex items-baseline gap-4">
-            <span className="color-text-footer font-serif text-[clamp(28px,5vh,66px)] italic leading-none">
+            <span className="font-quadrant text-[80px] font-normal not-italic leading-[100%] tracking-[0%] color-text-footer">
               {t.rich("tagline", {
                 br: (chunks) => <br />,
               })}

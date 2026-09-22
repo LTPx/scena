@@ -197,7 +197,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 z-100 w-full bg-transparent"
+      className="fixed top-0 left-0 z-100 w-full bg-transparent font-sans"
     >
       <motion.div
         initial={false}

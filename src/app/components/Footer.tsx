@@ -30,7 +30,7 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative h-screen overflow-hidden py-10 text-white md:py-[45px]">
+    <footer className="relative h-screen overflow-hidden py-10 text-white md:py-[45px] font-sans">
       {" "}
       <Image
         src="/footer-bg.png"
@@ -82,7 +82,7 @@ export default function Footer() {
             </form>
           </div>
 
-          <span className="color-text-footer font-serif text-[40px] italic leading-none md:text-[66px]">
+          <span className="color-text-footer font-quadrant text-[66.13px] font-normal not-italic leading-[100%] tracking-[0%]">
             living
             <br />
             technology

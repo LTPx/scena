@@ -172,7 +172,7 @@ export const COLS = {
   outletDetailContent: "col-start-6 col-span-5",
   outletDetailNext: "col-start-12 col-span-1",
   // Hero: título, col 3 a 5
-  heroTitle: "col-start-3 col-end-8",
+  heroTitle: "col-start-3 col-end-9",
   galleryTitle: "col-start-3 col-end-7",
 } as const;
 

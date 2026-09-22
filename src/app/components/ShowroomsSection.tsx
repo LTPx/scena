@@ -52,7 +52,7 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
   const activeLocation = data.locations[selectedLocation];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden font-gellix">
       <motion.div
         ref={trackRef}
         style={{ x }}
@@ -80,9 +80,7 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
           </div>
         ))}
       </motion.div>
-
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
-
       <Grid className="pointer-events-none absolute inset-x-0 top-0 py-10">
         <div className={`${COLS.content} pointer-events-auto text-white`}>
           <h2 className="font-gellix font-normal text-[40px] leading-[100%] tracking-normal mb-4">
@@ -99,10 +97,10 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
                   type="button"
                   onClick={() => setSelectedLocation(index)}
                   className={`
-                    inline-flex items-center justify-center
+                    font-sans inline-flex items-center justify-center
                     rounded-full border-[0.1px]
                     pt-[5px] pr-4 pb-[5px] pl-4
-                    font-gellix font-normal text-[14px] leading-[100%] tracking-normal
+                    font-normal text-[14px] leading-[100%] tracking-normal
                     text-white
                     transition-colors duration-200
                     ${
@@ -119,16 +117,15 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
           </div>
 
           <p
-            className="font-gellix font-normal text-[20px] leading-[100%] tracking-normal text-[#F6F5F1]"
+            className="font-sans font-normal text-[20px] leading-[100%] tracking-normal text-[#F6F5F1]"
             dangerouslySetInnerHTML={{ __html: activeLocation.contact }}
           />
         </div>
       </Grid>
-
       <Grid className="pointer-events-none absolute inset-x-0 bottom-0 py-10">
         <div className={`${COLS.wideText} pointer-events-auto text-white`}>
           <p
-            className="font-gellix font-normal text-[40px] leading-[100%] tracking-normal text-[#F6F5F1]"
+            className="font-sans font-normal text-[40px] leading-[100%] tracking-normal text-[#F6F5F1]"
             dangerouslySetInnerHTML={{ __html: activeLocation.description }}
           />
         </div>

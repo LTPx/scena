@@ -23,7 +23,9 @@ function App({ children }: Props) {
 
   return (
     <div className="relative">
-      <div className="fixed inset-0 z-0 h-screen">
+      {/* <div className="fixed inset-0 z-0 h-screen">
+       */}
+       <div>
         {!hideFooter && <Footer />}
       </div>
 

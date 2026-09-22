@@ -46,25 +46,23 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 export default function PressDetailPage({ data }: Props) {
   return (
     <article data-header-theme="light" className="w-full">
-      <Grid className="items-baseline gap-y-8 pt-[40px] md:gap-y-16">
+      <Grid className="items-baseline gap-y-8 pt-[40px] pb-[40px] md:gap-y-16">
+        {" "}
         <span
           className={`${COLS.pressCategory} font-gellix text-[40px] font-normal leading-none tracking-normal text-[#A89572]`}
         >
           {data.category}
         </span>
-
         <span
           className={`${COLS.pressNumber} font-gellix text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]`}
         >
           {data.number}
         </span>
-
         <h1
           className={`${COLS.pressTitle} font-gellix text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]`}
         >
           {data.title}
         </h1>
-
         <div
           data-header-theme="dark"
           className={`${COLS.pressMedia} relative aspect-[16/9] w-full overflow-hidden`}
@@ -77,13 +75,11 @@ export default function PressDetailPage({ data }: Props) {
             className="object-cover"
           />
         </div>
-
         {data.content.map((block, index) => (
           <div key={index} className={COLS.pressContent}>
             <ContentBlock block={block} />
           </div>
         ))}
-
         {data.video && (
           <div data-header-theme="dark" className={COLS.pressMedia}>
             <video className="w-full" controls poster={data.video.poster?.url}>

@@ -21,7 +21,7 @@ function IntroDescription({
         <div
           className={`
             ${COLS.wideTextFull}
-            font-gellix font-normal
+            font-sans font-normal
             text-[40px] leading-[100%] tracking-normal
             text-[#B4A78C]
             [&>p]:inline

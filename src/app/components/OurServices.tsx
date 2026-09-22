@@ -164,7 +164,9 @@ export default function OurServices({ services }: OurServicesProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]"
+                className={`text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572] ${
+                  seeProjects ? "font-quadrant" : "font-sans"
+                }`}
               >
                 {seeProjects ? active.label : active.title}
               </motion.h3>

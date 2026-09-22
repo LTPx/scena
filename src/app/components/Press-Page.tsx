@@ -14,15 +14,15 @@ export default function PressPage({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="relative isolate z-0">
-      <Grid className="items-start py-10 md:py-[clamp(24px,6vh,60px)]">
+      <Grid className="items-start pt-10">
+        {" "}
         <div
-          className={`${COLS.content} sticky top-10 flex flex-col justify-start md:top-[clamp(24px,6vh,60px)]`}
+          className={`${COLS.content} sticky top-10 flex flex-col justify-start`}
         >
           <h1 className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
             {data.title}
           </h1>
         </div>
-
         <div
           className={`${COLS.newsList} flex flex-col gap-[clamp(24px,5vh,56px)]`}
         >
