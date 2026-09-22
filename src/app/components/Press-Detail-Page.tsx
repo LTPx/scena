@@ -14,7 +14,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
     case "paragraph":
       return (
         <div
-          className="font-gellix text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]"
+          className="font-sans text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]"
           dangerouslySetInnerHTML={{ __html: block.text }}
         />
       );
@@ -36,7 +36,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 
     case "quote":
       return (
-        <p className="whitespace-pre-line font-gellix text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]">
+        <p className="whitespace-pre-line font-sans text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]">
           {block.text}
         </p>
       );
@@ -46,20 +46,20 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 export default function PressDetailPage({ data }: Props) {
   return (
     <article data-header-theme="light" className="w-full">
-      <Grid className="items-baseline gap-y-8 pt-[40px] pb-[40px] md:gap-y-16">
+      <Grid className="items-baseline gap-y-8 pt-[27px] pb-[40px] md:gap-y-16">
         {" "}
         <span
-          className={`${COLS.pressCategory} font-gellix text-[40px] font-normal leading-none tracking-normal text-[#A89572]`}
+          className={`${COLS.pressCategory} font-sans text-[40px] font-normal leading-none tracking-normal text-[#A89572]`}
         >
           {data.category}
         </span>
         <span
-          className={`${COLS.pressNumber} font-gellix text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]`}
+          className={`${COLS.pressNumber} font-sans text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]`}
         >
           {data.number}
         </span>
         <h1
-          className={`${COLS.pressTitle} font-gellix text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]`}
+          className={`${COLS.pressTitle} font-sans text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]`}
         >
           {data.title}
         </h1>

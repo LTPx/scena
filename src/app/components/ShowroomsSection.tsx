@@ -81,9 +81,9 @@ export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
         ))}
       </motion.div>
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
-      <Grid className="pointer-events-none absolute inset-x-0 top-0 py-10">
+      <Grid className="pointer-events-none absolute inset-x-0 top-0 py-[27px]">
         <div className={`${COLS.content} pointer-events-auto text-white`}>
-          <h2 className="font-gellix font-normal text-[40px] leading-[100%] tracking-normal mb-4">
+          <h2 className="font-sans font-normal text-[40px] leading-[100%] tracking-normal mb-4">
             {data.title}
           </h2>
 

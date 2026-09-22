@@ -252,7 +252,7 @@ export default function Header() {
               <img
                 src="/logos/logo-header-white.svg"
                 alt="scena"
-                className="h-[20px] w-auto"
+                className="h-[20.5px] w-auto"
               />
             </Link>
 

@@ -4,7 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { OutletPageWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS, offsetForColumn, trackCardWidth } from "./layout/Grid";
+import Grid, {
+  COLS,
+  colSpanWidth,
+  offsetForColumn,
+  trackCardWidth,
+  GRID_MARGIN_PX,
+} from "./layout/Grid";
 import { Link } from "@/navigation";
 
 interface Props {
@@ -14,6 +20,7 @@ interface Props {
 const CARD_GAP_PX = 24;
 const TRACK_OFFSET = offsetForColumn(3);
 const CARD_WIDTH = trackCardWidth(10, 3, CARD_GAP_PX);
+const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 
 const VH_PER_100VW_TRAVEL = 90;
 const REVEAL_BUFFER_VH = 40;
@@ -76,6 +83,13 @@ export default function OutletPage({ data }: Props) {
     [0, -travelDistance],
   );
 
+  useEffect(() => {
+    document.documentElement.classList.add("hide-scrollbar");
+    return () => {
+      document.documentElement.classList.remove("hide-scrollbar");
+    };
+  }, []);
+
   return (
     <div
       ref={wrapperRef}
@@ -86,21 +100,27 @@ export default function OutletPage({ data }: Props) {
     >
       <div
         data-header-theme="light"
-        className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[40px]"
+        className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[27px]"
       >
         <Grid className="flex-shrink-0">
           <span
-            className={`${COLS.outletLabel} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]`}
+            className={`${COLS.outletLabel} font-sans text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]`}
           >
             {data.label}
           </span>
 
           <div className={`${COLS.outletContent} flex flex-col gap-10`}>
-            <h1 className="whitespace-pre-line font-gellix text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]">
+            <h1
+              style={{ width: colSpanWidth(6) }}
+              className="whitespace-pre-line font-sans text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]"
+            >
               {data.title}
             </h1>
 
-            <p className="whitespace-pre-line font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]">
+            <p
+              style={{ width: colSpanWidth(6) }}
+              className="whitespace-pre-line font-sans text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]"
+            >
               {data.description}
             </p>
 
@@ -153,10 +173,10 @@ export default function OutletPage({ data }: Props) {
               </div>
 
               <div className="mt-4 flex flex-shrink-0 flex-col gap-1">
-                <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                   {product.name}
                 </p>
-                <p className="font-[Gellix] text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                <p className="font-sans text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                   <span className="line-through opacity-50">
                     Precio original {product.original_price}
                   </span>{" "}
@@ -165,6 +185,12 @@ export default function OutletPage({ data }: Props) {
               </div>
             </Link>
           ))}
+
+          <div
+            aria-hidden
+            style={{ width: `${END_SPACER_WIDTH}px` }}
+            className="flex-shrink-0"
+          />
         </motion.div>
       </div>
     </div>
