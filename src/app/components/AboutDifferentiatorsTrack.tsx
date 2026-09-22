@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 
 import { AboutPageWp } from "../_interfaces/wordpress-components";
 import Grid, {
@@ -22,11 +28,17 @@ const TRACK_OFFSET = offsetForColumn(3);
 const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 const VH_PER_100VW_TRAVEL = 100;
 
+const TITLE_TOP_PX = 27;
+const TITLE_CARDS_GAP_PX = 50;
+
 export default function AboutDifferentiatorsTrack({ data, nav }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(titleRef, { once: true, amount: 0.9 });
   const [travelDistance, setTravelDistance] = useState(0);
   const [wrapperHeight, setWrapperHeight] = useState(0);
+  const [tracksTop, setTracksTop] = useState(TITLE_TOP_PX + TITLE_CARDS_GAP_PX);
 
   useEffect(() => {
     const measure = () => {
@@ -43,6 +55,11 @@ export default function AboutDifferentiatorsTrack({ data, nav }: Props) {
         (distance / viewportWidth) * (VH_PER_100VW_TRAVEL / 100) * vh;
 
       setWrapperHeight(vh + extraScroll);
+
+      if (titleRef.current) {
+        const titleHeight = titleRef.current.offsetHeight;
+        setTracksTop(TITLE_TOP_PX + titleHeight + TITLE_CARDS_GAP_PX);
+      }
     };
 
     measure();
@@ -50,7 +67,7 @@ export default function AboutDifferentiatorsTrack({ data, nav }: Props) {
     window.addEventListener("resize", measure);
 
     return () => window.removeEventListener("resize", measure);
-  }, [data.cards.length]);
+  }, [data.cards.length, data.title]);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -73,25 +90,32 @@ export default function AboutDifferentiatorsTrack({ data, nav }: Props) {
       }}
       className="relative"
     >
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
-        <Grid className="mb-12">
-          {nav}
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <div
+          ref={titleRef}
+          className="absolute left-0 right-0"
+          style={{ top: `${TITLE_TOP_PX}px` }}
+        >
+          <Grid>
+            {nav}
 
-          <h2
-            className={`${COLS.content} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-          >
-            {data.title}
-          </h2>
-        </Grid>
+            <h2
+              className={`${COLS.content} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
+            >
+              {data.title}
+            </h2>
+          </Grid>
+        </div>
 
         <motion.div
           ref={trackRef}
           style={{
             x: trackX,
+            top: `${tracksTop}px`,
             paddingLeft: TRACK_OFFSET,
             gap: `${CARD_GAP_PX}px`,
           }}
-          className="flex"
+          className="absolute left-0 flex"
         >
           {data.cards.map((card, i) => (
             <div

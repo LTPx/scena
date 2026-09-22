@@ -204,7 +204,7 @@ export default function Header() {
         animate={{ y: introPlaying ? "-100%" : "0%" }}
         transition={introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION}
       >
-        <Grid as="div" className="items-center py-10">
+        <Grid as="div" className="items-center py-[44px]">
           <Link
             ref={logoRef}
             href="/"
@@ -213,7 +213,7 @@ export default function Header() {
             <img
               src={`/logos/logo-header-${logoVariant}.svg`}
               alt="scena"
-              className="h-[20px] w-auto"
+              className="h-[20.5px] w-auto"
             />
           </Link>
 
@@ -244,8 +244,11 @@ export default function Header() {
           className="relative h-[400px] w-full bg-[#BCB6A8] transition-opacity duration-300 ease-out"
           style={{ opacity: animate ? 1 : 0 }}
         >
-          <Grid className="items-start py-10">
-            <Link href="/" className={`${COLS.logo} flex items-center`}>
+          <Grid className="items-start">
+            <Link
+              href="/"
+              className={`${COLS.logo} mt-[44px] flex items-center`}
+            >
               <img
                 src="/logos/logo-header-white.svg"
                 alt="scena"
@@ -254,7 +257,7 @@ export default function Header() {
             </Link>
 
             <nav
-              className={`${COLS.navMain} flex flex-col gap-1`}
+              className={`${COLS.navMain} mt-[27px] flex flex-col gap-1`}
               onMouseLeave={scheduleSubmenuClose}
             >
               {NAV_ITEMS.map((item) => {
@@ -297,7 +300,7 @@ export default function Header() {
             </nav>
 
             <nav
-              className={`${COLS.navSub} flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
+              className={`${COLS.navSub} mt-[27px] flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
               onMouseEnter={cancelSubmenuClose}
@@ -316,7 +319,7 @@ export default function Header() {
             </nav>
 
             <nav
-              className={`${COLS.locale} flex items-center gap-2 text-[16px] text-neutral-800`}
+              className={`${COLS.locale} mt-[40px] flex items-center gap-2 text-[16px] text-neutral-800`}
             >
               {LOCALES.map((l, i) => (
                 <span key={l.code} className="flex items-center gap-2">
@@ -341,7 +344,7 @@ export default function Header() {
               type="button"
               onClick={closeMenu}
               aria-label="Cerrar menu"
-              className={`${COLS.close} flex items-center justify-end`}
+              className={`${COLS.close} mt-[35px] flex items-center justify-end`}
             >
               <img
                 src="/logos/close-menu.svg"

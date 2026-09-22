@@ -29,7 +29,7 @@ const TRACK_OFFSET = offsetForColumn(3);
 const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 const VH_PER_100VW_TRAVEL = 100;
 
-const TITLE_TOP_PX = 40;
+const TITLE_TOP_PX = 27;
 const TITLE_CARDS_GAP_PX = 50;
 
 export default function WhereWeMakeDifference({ data }: Props) {

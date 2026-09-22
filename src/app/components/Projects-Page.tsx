@@ -64,10 +64,10 @@ export default function ProjectsPage({ data }: Props) {
         ref={stickyRef}
         className="sticky top-0 z-100 bg-[linear-gradient(0deg,rgba(246,245,241,0)_0%,#F6F5F1_49.65%)] pb-10"
       >
-        <Grid className="items-center pt-10">
+        <Grid className="items-start">
           <div className={COLS.projectsTitle}>
             <h1
-              className="font-[Gellix] text-[40px] font-normal not-italic text-[#A89572]"
+              className="mt-[27px] font-[Gellix] text-[40px] font-normal not-italic text-[#A89572]"
               style={{ lineHeight: "100%", letterSpacing: "0%" }}
             >
               {data.title}
@@ -75,7 +75,7 @@ export default function ProjectsPage({ data }: Props) {
           </div>
 
           <div
-            className={`${COLS.projectFilters} flex flex-wrap items-center gap-2`}
+            className={`${COLS.projectFilters} mt-[37px] flex flex-wrap items-center gap-2`}
           >
             {data.filters.map((filter) => {
               const isActive = activeFilter === filter.slug;

@@ -130,7 +130,7 @@ export default function AboutPage({ data }: Props) {
         transitionDuration: `${FADE_DURATION_MS}ms`,
       }}
     >
-      <Grid as="section" className="py-[40px]">
+      <Grid as="section" className="pt-[27px] pb-[40px]">
         <h1
           className={`${COLS.aboutTitle} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
         >
@@ -148,19 +148,10 @@ export default function AboutPage({ data }: Props) {
       <Grid as="section" ref={teamRef} data-section="team" className="py-24">
         {sectionNav}
 
-        <div className={`${COLS.content} relative h-full`}>
+        <div className={COLS.content}>
           <p className="whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
             {data.team.description}
           </p>
-
-          <div className="absolute bottom-0 left-0 w-full">
-            <p className="mb-4 font-[Gellix] text-[42px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
-              {data.team.cta_title}
-            </p>
-            <button type="button" className="btn-gellix">
-              {data.team.cta_label}
-            </button>
-          </div>
         </div>
 
         <ul className={`${COLS.teamList} flex flex-col gap-2`}>
@@ -173,11 +164,24 @@ export default function AboutPage({ data }: Props) {
             </li>
           ))}
         </ul>
+
+        <div className={`${COLS.teamList} row-start-2 mt-[100px]`}>
+          <p className="mb-4 font-[Gellix] text-[42px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
+            {data.team.cta_title}
+          </p>
+          <button type="button" className="btn-gellix">
+            {data.team.cta_label}
+          </button>
+        </div>
       </Grid>
 
       <Gallery gallery={data.team_gallery} />
 
-      <div ref={differentiatorsRef} data-section="differentiators">
+      <div
+        className="pt-[100px]"
+        ref={differentiatorsRef}
+        data-section="differentiators"
+      >
         <AboutDifferentiatorsTrack
           data={data.differentiators}
           nav={sectionNav}
@@ -188,7 +192,7 @@ export default function AboutPage({ data }: Props) {
         as="section"
         ref={partnersRef}
         data-section="partners"
-        className="py-24"
+        className="pt-[40px] pb-[135px]"
       >
         {sectionNav}
         <p

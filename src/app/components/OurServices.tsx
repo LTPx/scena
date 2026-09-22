@@ -95,7 +95,7 @@ export default function OurServices({ services }: OurServicesProps) {
         ref={sectionRef}
         fullHeight
         data-header-theme="light"
-        className="sticky top-0 grid-rows-[auto_1fr_auto] py-[40px] overflow-hidden"
+        className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[27px] pb-[40px] overflow-hidden"
       >
         {/* Header: "Nuestros servicios" <-> "Servicios" */}
         <div className={`${COLS.content} row-start-1 overflow-hidden`}>

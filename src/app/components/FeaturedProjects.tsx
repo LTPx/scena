@@ -101,7 +101,7 @@ export default function FeaturedProjects({
     >
       <div
         ref={stickyRef}
-        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[40px]"
+        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[27px]"
       >
         {showTopBorder && (
           <motion.div
