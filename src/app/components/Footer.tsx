@@ -30,7 +30,8 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative isolate z-0 overflow-hidden py-10 text-white h-[calc(100vh)] md:py-[45px]">
+    <footer className="relative h-screen overflow-hidden py-10 text-white md:py-[45px]">
+      {" "}
       <Image
         src="/footer-bg.png"
         alt=""
@@ -38,7 +39,6 @@ export default function Footer() {
         priority={false}
         className="-z-10 object-cover"
       />
-
       <Grid className="h-full gap-y-12">
         <div
           className={`${COLS.footerTagline} row-start-1 flex min-h-0 flex-col justify-end`}

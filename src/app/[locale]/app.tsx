@@ -9,16 +9,24 @@ interface Props {
 }
 
 async function App(props: Props) {
-  const { children, locale } = props;
+  const { children } = props;
 
   return (
-    <>
-      <Header />
-      <SmoothScrollProvider>
-        <div className="bg-body">{children}</div>
-      </SmoothScrollProvider>
-      <Footer />
-    </>
+    <div className="relative">
+      <div className="fixed inset-0 z-0 h-screen">
+        <Footer />
+      </div>
+
+      <div className="relative z-10">
+        <Header />
+
+        <SmoothScrollProvider>
+          <main className="pb-[100vh]">
+            <div className="bg-body">{children}</div>
+          </main>
+        </SmoothScrollProvider>
+      </div>
+    </div>
   );
 }
 
