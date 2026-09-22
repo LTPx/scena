@@ -11,6 +11,7 @@ import Grid, {
 } from "./layout/Grid";
 import ScrollZoomImage from "./ScrollZoomImage";
 import GlassButton from "./GlassButton";
+import FeaturedProjects from "./FeaturedProjects";
 
 interface Props {
   data: ProjectDetailWp;
@@ -106,6 +107,11 @@ export default function ProjectDetailPage({ data }: Props) {
           );
         })}
       </Grid>
+      <FeaturedProjects
+        projects={data.other_projects}
+        title="Otros Proyectos"
+        showTopBorder
+      />
     </article>
   );
 }

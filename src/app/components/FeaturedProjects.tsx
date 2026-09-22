@@ -8,9 +8,12 @@ import { ProjectHomeWp } from "../_interfaces/wordpress-components";
 import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
 import GlassButton from "./GlassButton";
 import TypewriterText from "./TypewriterText";
+import { Link } from "@/navigation";
 
 interface Props {
   projects: ProjectHomeWp[];
+  title?: string;
+  showTopBorder?: boolean;
 }
 
 const CARD_SPAN = 10;
@@ -24,7 +27,13 @@ const END_SPACER_PX = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 const VH_PER_100VW_TRAVEL = 90;
 const REVEAL_BUFFER_VH = 100;
 
-export default function FeaturedProjects({ projects }: Props) {
+const TOP_BORDER_COLOR = "#A89572";
+
+export default function FeaturedProjects({
+  projects,
+  title = "Proyectos destacados",
+  showTopBorder = false,
+}: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -94,12 +103,28 @@ export default function FeaturedProjects({ projects }: Props) {
         ref={stickyRef}
         className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[40px]"
       >
-        {" "}
+        {showTopBorder && (
+          <motion.div
+            aria-hidden
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: isInView ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            style={{
+              marginLeft: startOffset,
+              marginRight: `${GRID_MARGIN_PX}px`,
+              borderTop: `1px solid ${TOP_BORDER_COLOR}`,
+              transformOrigin: "left",
+            }}
+          />
+        )}
+
         <h2
-          className="mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572]"
+          className={`mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572] ${
+            showTopBorder ? "mt-[15px]" : ""
+          }`}
           style={{ paddingLeft: startOffset }}
         >
-          <TypewriterText text="Proyectos destacados" play={isInView} />
+          <TypewriterText text={title} play={isInView} />
         </h2>
         <motion.div
           ref={trackRef}
@@ -113,25 +138,30 @@ export default function FeaturedProjects({ projects }: Props) {
           {projects.map((project, i) => (
             <div
               key={`${project.project}-${i}`}
-              data-header-theme="dark"
               style={{ width: cardWidth }}
               className="relative h-full flex-shrink-0 overflow-hidden"
             >
-              <Image
-                src={project.feature_image.url}
-                alt={project.feature_image.alt || project.title}
-                fill
-                priority={i === 0}
-                className="object-cover"
-              />
+              <Link
+                href={`/projects/${project.slug}`}
+                data-header-theme="dark"
+                className="absolute inset-0 block"
+              >
+                <Image
+                  src={project.feature_image.url}
+                  alt={project.feature_image.alt || project.title}
+                  fill
+                  priority={i === 0}
+                  className="object-cover"
+                />
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
-              <span className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#F6F5F1]">
-                {project.title}
-              </span>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
+                <span className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#F6F5F1]">
+                  {project.title}
+                </span>
+              </Link>
 
               <div
-                className="absolute bottom-8 flex gap-2"
+                className="absolute bottom-8 z-10 flex gap-2"
                 style={{ left: tagsLeftOffset }}
               >
                 {project.categories.map((category) => (

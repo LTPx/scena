@@ -143,8 +143,7 @@ export const homeMock: HomePageWp = {
 
     {
       label: "Home Automation",
-      title:
-        "La automatización se vuelve invisible cuando está bien diseñada.",
+      title: "La automatización se vuelve invisible cuando está bien diseñada.",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       expanded_content: `
@@ -263,6 +262,7 @@ export const homeMock: HomePageWp = {
   projects: [
     {
       project: "villa-calatrava",
+      slug: "villa-calatrava",
       title: "Villa Calatrava",
       feature_image: {
         url: "/images/hero-1.png",
@@ -283,6 +283,7 @@ export const homeMock: HomePageWp = {
     },
     {
       project: "delphinus",
+      slug: "delphinus",
       title: "Delphinus",
       feature_image: {
         url: "/images/hero-1.png",
@@ -304,6 +305,7 @@ export const homeMock: HomePageWp = {
     {
       project: "cygnus",
       title: "Cygnus",
+      slug: "cygnus", // <- agregar
       feature_image: {
         url: "/images/hero-1.png",
         alt: "Cygnus",

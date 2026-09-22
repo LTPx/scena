@@ -42,6 +42,7 @@ export interface WhereWeMakeDifferenceWp {
 
 export interface ProjectHomeWp {
   project: string;
+  slug: string;
   title: string;
   feature_image: ImageAcf;
   categories: ProjectCategoryWp[];
@@ -157,6 +158,7 @@ export interface ProjectDetailWp {
   headline: string;
   description: string;
   content: ProjectContentBlockWp[];
+  other_projects: ProjectHomeWp[];
 }
 
 // --- AboutPage ---

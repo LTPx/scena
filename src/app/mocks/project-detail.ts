@@ -24,17 +24,8 @@ export const projectDetailMock: Record<string, ProjectDetailWp> = {
     content: [
       {
         type: "image",
-        orientation: "horizontal",
-        start_col: 1,
-        image: {
-          url: "/images/gallery-1.png",
-          alt: "Sala principal con vigas de madera",
-        } as any,
-      },
-      {
-        type: "image",
         orientation: "vertical",
-        start_col: 1,
+        start_col: 6,
         image: {
           url: "/images/gallery-2.png",
           alt: "Pasillo con ducha al fondo",
@@ -45,9 +36,65 @@ export const projectDetailMock: Record<string, ProjectDetailWp> = {
         orientation: "horizontal",
         start_col: 1,
         image: {
+          url: "/images/gallery-1.png",
+          alt: "Sala principal con vigas de madera",
+        } as any,
+      },
+      {
+        type: "image",
+        orientation: "vertical",
+        start_col: 3,
+        image: {
+          url: "/images/hero-3.png",
+          alt: "Terraza al atardecer",
+        } as any,
+      },
+      {
+        type: "image",
+        orientation: "horizontal",
+        start_col: 1,
+        image: {
           url: "/images/gallery-3.jpg",
           alt: "Comedor con vinoteca integrada",
         } as any,
+      },
+    ],
+    other_projects: [
+      {
+        project: "2",
+        title: "Casa Nocturna",
+        slug: "casa-nocturna",
+        feature_image: {
+          url: "/images/hero-2.png",
+          alt: "Fachada de Casa Nocturna iluminada",
+        } as any,
+        categories: [
+          { id: 3, name: "Lighting Design", slug: "lighting-design" },
+          { id: 4, name: "Home Automation", slug: "home-automation" },
+        ],
+      },
+      {
+        project: "3",
+        title: "Residencia MEP",
+        slug: "residencia-mep",
+        feature_image: {
+          url: "/images/hero-1.png",
+          alt: "Residencia MEP",
+        } as any,
+        categories: [{ id: 5, name: "MEP", slug: "mep" }],
+      },
+      {
+        project: "4",
+        title: "Estudio Audio",
+        slug: "estudio-audio",
+        feature_image: {
+          url: "/images/service-engineering.jpg",
+          alt: "Estudio Audio",
+        } as any,
+        categories: [
+          { id: 1, name: "Audio & Video", slug: "audio-video" },
+          { id: 3, name: "Lighting Design", slug: "lighting-design" },
+        ],
       },
     ],
   },
@@ -90,6 +137,44 @@ export const projectDetailMock: Record<string, ProjectDetailWp> = {
           url: "/images/service-audio.jpg",
           alt: "Detalle de iluminación exterior",
         } as any,
+      },
+    ],
+    other_projects: [
+      {
+        project: "1",
+        title: "Villa Calatrava",
+        slug: "villa-calatrava",
+        feature_image: {
+          url: "/images/gallery-3.jpg",
+          alt: "Sala de estar de Villa Calatrava",
+        } as any,
+        categories: [
+          { id: 1, name: "Audio & Video", slug: "audio-video" },
+          { id: 2, name: "Engineering", slug: "engineering" },
+        ],
+      },
+      {
+        project: "3",
+        slug: "villa-calatrava",
+        title: "Residencia MEP",
+        feature_image: {
+          url: "/images/hero-1.png",
+          alt: "Residencia MEP",
+        } as any,
+        categories: [{ id: 5, name: "MEP", slug: "mep" }],
+      },
+      {
+        project: "4",
+        slug: "villa-calatrava",
+        title: "Estudio Audio",
+        feature_image: {
+          url: "/images/gallery-1.png",
+          alt: "Estudio Audio",
+        } as any,
+        categories: [
+          { id: 1, name: "Audio & Video", slug: "audio-video" },
+          { id: 3, name: "Lighting Design", slug: "lighting-design" },
+        ],
       },
     ],
   },
