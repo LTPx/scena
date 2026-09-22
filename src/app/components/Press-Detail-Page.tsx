@@ -13,13 +13,13 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
   switch (block.type) {
     case "paragraph":
       return (
-        <p className="text-[15px] leading-relaxed text-neutral-600">
-          {block.text}
-        </p>
+        <div
+          className="font-gellix text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]"
+          dangerouslySetInnerHTML={{ __html: block.text }}
+        />
       );
 
     case "image":
-      if (!block.image) return null;
       return (
         <div
           data-header-theme="dark"
@@ -36,46 +36,31 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 
     case "quote":
       return (
-        <p className="whitespace-pre-line text-[clamp(20px,2.2vw,28px)] leading-snug text-[color:var(--color-press-title,#8a6a4e)]">
+        <p className="whitespace-pre-line font-gellix text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]">
           {block.text}
         </p>
       );
-
-    case "video":
-      if (!block.video) return null;
-      return (
-        <div
-          data-header-theme="dark"
-        >
-          <video className="w-full" controls poster={block.video.poster?.url}>
-            <source src={block.video.url} type="video/mp4" />
-          </video>
-        </div>
-      );
-
-    default:
-      return null;
   }
 }
 
 export default function PressDetailPage({ data }: Props) {
   return (
     <article data-header-theme="light" className="w-full">
-      <Grid className="gap-y-8 md:gap-y-16">
+      <Grid className="items-baseline gap-y-8 pt-[40px] md:gap-y-16">
         <span
-          className={`${COLS.pressCategory} font-sans text-base text-neutral-500`}
+          className={`${COLS.pressCategory} font-gellix text-[40px] font-normal leading-none tracking-normal text-[#A89572]`}
         >
           {data.category}
         </span>
 
         <span
-          className={`${COLS.pressNumber} self-start text-xs text-neutral-400`}
+          className={`${COLS.pressNumber} font-gellix text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]`}
         >
           {data.number}
         </span>
 
         <h1
-          className={`${COLS.pressTitle} font-sans text-[clamp(20px,2.4vw,32px)] leading-snug text-[color:var(--color-press-title,#8a6a4e)]`}
+          className={`${COLS.pressTitle} font-gellix text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]`}
         >
           {data.title}
         </h1>
@@ -94,15 +79,18 @@ export default function PressDetailPage({ data }: Props) {
         </div>
 
         {data.content.map((block, index) => (
-          <div
-            key={index}
-            className={
-              block.type === "video" ? COLS.pressMedia : COLS.pressContent
-            }
-          >
+          <div key={index} className={COLS.pressContent}>
             <ContentBlock block={block} />
           </div>
         ))}
+
+        {data.video && (
+          <div data-header-theme="dark" className={COLS.pressMedia}>
+            <video className="w-full" controls poster={data.video.poster?.url}>
+              <source src={data.video.url} type="video/mp4" />
+            </video>
+          </div>
+        )}
       </Grid>
     </article>
   );

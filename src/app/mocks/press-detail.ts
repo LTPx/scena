@@ -12,6 +12,13 @@ export const pressDetailMock: Record<string, NewsDetailWp> = {
       url: "/images/gallery-1.png",
       alt: "Reflejo de un móvil fotografiando un altavoz Beolab",
     },
+    video: {
+      url: "/videos/intro-scena.mp4",
+      poster: {
+        url: "/images/gallery-3.jpg",
+        alt: "Fachada de Gallery Red con el logotipo Scena en el escaparate",
+      },
+    },
     content: [
       {
         type: "paragraph",
@@ -43,16 +50,6 @@ export const pressDetailMock: Record<string, NewsDetailWp> = {
       {
         type: "quote",
         text: "The Art of Sound no fue un evento.\nFue una composición.\nY el sonido, su hilo invisible.",
-      },
-      {
-        type: "video",
-        video: {
-          url: "/videos/intro-scena.mp4",
-          poster: {
-            url: "/images/gallery-3.jpg",
-            alt: "Fachada de Gallery Red con el logotipo Scena en el escaparate",
-          },
-        },
       },
     ],
   },

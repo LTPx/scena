@@ -5,7 +5,8 @@ import Header from "../components/Header";
 import SmoothScrollProvider from "../components/SmoothScrollProvider";
 import { usePathname } from "@/navigation";
 
-const HIDDEN_FOOTER_ROUTES = ["/contact", "/press", "/outlet", "/showrooms"];
+const HIDDEN_FOOTER_EXACT_ROUTES = ["/press"];
+const HIDDEN_FOOTER_PREFIX_ROUTES = ["/contact", "/outlet", "/showrooms"];
 
 interface Props {
   children: React.ReactNode;
@@ -14,9 +15,11 @@ interface Props {
 function App({ children }: Props) {
   const pathname = usePathname();
 
-  const hideFooter = HIDDEN_FOOTER_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`),
-  );
+  const hideFooter =
+    HIDDEN_FOOTER_EXACT_ROUTES.includes(pathname) ||
+    HIDDEN_FOOTER_PREFIX_ROUTES.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`),
+    );
 
   return (
     <div className="relative">

@@ -100,14 +100,29 @@ export interface MediaImageWp {
   height?: number;
 }
 
-export interface NewsContentBlockWp {
-  type: "paragraph" | "image" | "quote" | "video";
-  text?: string;
-  image?: MediaImageWp;
-  video?: {
-    url: string;
-    poster?: MediaImageWp;
-  };
+export interface NewsParagraphBlockWp {
+  type: "paragraph";
+  text: string; // HTML enriquecido desde el WYSIWYG de ACF
+}
+
+export interface NewsImageBlockWp {
+  type: "image";
+  image: MediaImageWp;
+}
+
+export interface NewsQuoteBlockWp {
+  type: "quote";
+  text: string;
+}
+
+export type NewsContentBlockWp =
+  | NewsParagraphBlockWp
+  | NewsImageBlockWp
+  | NewsQuoteBlockWp;
+
+export interface NewsVideoWp {
+  url: string;
+  poster?: MediaImageWp;
 }
 
 export interface NewsDetailWp {
@@ -117,6 +132,7 @@ export interface NewsDetailWp {
   number: string;
   title: string;
   hero_image: MediaImageWp;
+  video?: NewsVideoWp;
   content: NewsContentBlockWp[];
 }
 
