@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { MediaFileWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS } from "./layout/Grid";
+import { MediaFileWp } from "../../_interfaces/wordpress-components";
+import Grid, { COLS } from "../layout/Grid";
 import {
   INTRO_REVEAL_TRANSITION,
   useIntroPlaying,
-} from "../context/introStore";
+} from "../../context/introStore";
 import { motion } from "framer-motion";
 
 interface HeroProps {
@@ -18,7 +18,7 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-export default function Hero({ heroPage }: HeroProps) {
+export default function HeroDesktop({ heroPage }: HeroProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [titleHideProgress, setTitleHideProgress] = useState(0);
