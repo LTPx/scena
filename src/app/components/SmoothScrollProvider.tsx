@@ -23,24 +23,44 @@ export default function SmoothScrollProvider({
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    const instance = new Lenis({
-      lerp: 0.06,
-      wheelMultiplier: 0.75,
-      touchMultiplier: 1.2,
-      smoothWheel: true,
-    });
-    setLenis(instance);
+    const mq = window.matchMedia("(min-width: 1024px)");
+    let instance: Lenis | null = null;
+    let rafId = 0;
 
-    let rafId: number;
-    const raf = (time: number) => {
-      instance.raf(time);
+    const start = () => {
+      if (instance) return;
+      const created = new Lenis({
+        lerp: 0.06,
+        wheelMultiplier: 0.75,
+        touchMultiplier: 1.2,
+        smoothWheel: true,
+      });
+      instance = created;
+      setLenis(created);
+
+      const raf = (time: number) => {
+        created.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
       rafId = requestAnimationFrame(raf);
     };
-    rafId = requestAnimationFrame(raf);
 
-    return () => {
+    const stop = () => {
+      if (!instance) return;
       cancelAnimationFrame(rafId);
       instance.destroy();
+      instance = null;
+      setLenis(null);
+    };
+
+    const sync = () => (mq.matches ? start() : stop());
+
+    sync();
+    mq.addEventListener("change", sync);
+
+    return () => {
+      mq.removeEventListener("change", sync);
+      stop();
     };
   }, []);
 

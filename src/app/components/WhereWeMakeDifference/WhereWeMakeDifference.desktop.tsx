@@ -10,14 +10,14 @@ import {
   useInView,
 } from "framer-motion";
 
-import { WhereWeMakeDifferenceWp } from "../_interfaces/wordpress-components";
+import { WhereWeMakeDifferenceWp } from "../../_interfaces/wordpress-components";
 import Grid, {
   COLS,
   trackCardWidth,
   offsetForColumn,
   GRID_MARGIN_PX,
-} from "./layout/Grid";
-import TypewriterText from "./TypewriterText";
+} from "../layout/Grid";
+import TypewriterText from "../TypewriterText";
 
 interface Props {
   data: WhereWeMakeDifferenceWp;
@@ -32,7 +32,7 @@ const VH_PER_100VW_TRAVEL = 100;
 const TITLE_TOP_PX = 27;
 const TITLE_CARDS_GAP_PX = 50;
 
-export default function WhereWeMakeDifference({ data }: Props) {
+export default function WhereWeMakeDifferenceDesktop({ data }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);

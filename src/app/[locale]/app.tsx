@@ -23,20 +23,21 @@ function App({ children }: Props) {
 
   return (
     <div className="relative">
-      <div className="fixed inset-0 z-0 flex h-screen items-end">
-        {!hideFooter && <Footer />}
-      </div>
-
       <div className="relative z-10">
         <Header />
 
         <SmoothScrollProvider>
-          <main className={hideFooter ? "" : "pb-[calc(100vh-80px)]"}>
-            {" "}
+          <main className={hideFooter ? "" : "lg:pb-[calc(100vh-80px)]"}>
             <div className="bg-body">{children}</div>
           </main>
         </SmoothScrollProvider>
       </div>
+
+      {!hideFooter && (
+        <div className="relative z-10 lg:fixed lg:inset-0 lg:z-0 lg:flex lg:h-screen lg:items-end">
+          <Footer />
+        </div>
+      )}
     </div>
   );
 }

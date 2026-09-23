@@ -1,24 +1,22 @@
-"use client";
-
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-  useInView,
-} from "framer-motion";
+import { ServiceWp } from "../../_interfaces/wordpress-components";
+import Grid, { COLS } from "../layout/Grid";
+import TypewriterText from "../TypewriterText";
+import { useLenis } from "../SmoothScrollProvider";
 import Image from "next/image";
-import { ServiceWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS } from "./layout/Grid";
-import TypewriterText from "./TypewriterText";
-import { useLenis } from "./SmoothScrollProvider";
 import {
   SERVICE_ORDER,
   subscribePendingService,
   getPendingServiceSnapshot,
   getPendingServiceServerSnapshot,
-} from "../context/pendingServiceStore";
+} from "../../context/pendingServiceStore";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 
 interface OurServicesProps {
   services: ServiceWp[];
@@ -41,7 +39,7 @@ const CTA_TRANSITION = {
   ease: [0.76, 0, 0.24, 1] as const,
 };
 
-export default function OurServices({ services }: OurServicesProps) {
+export default function OurServicesDesktop({ services }: OurServicesProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 

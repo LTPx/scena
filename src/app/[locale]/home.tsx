@@ -18,7 +18,7 @@ function HomePage({ home_information }: Props) {
     <div>
       <IntroLoader />
       <Hero heroPage={home_information.hero_page} />
-      <main className="relative z-10 -mt-[100vh] bg-[#f6f5f1]">
+      <main className="relative z-10 bg-[#f6f5f1] lg:-mt-[100vh]">
         <IntroDescription
           description={home_information.intro_description.description}
           buttonHref="/proyectos"
