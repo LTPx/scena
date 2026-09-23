@@ -1,12 +1,12 @@
 "use client";
 
+import { AboutPageWp } from "@/app/_interfaces/wordpress-components";
 import { useEffect, useRef, useState } from "react";
-import { AboutPageWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS } from "./layout/Grid";
-import Gallery from "./Gallery";
-import PartnersMarquee from "./PartnersMarquee";
-import AboutDifferentiatorsTrack from "./AboutDifferentiatorsTrack";
-import { useLenis } from "./SmoothScrollProvider";
+import Grid, { COLS } from "../layout/Grid";
+import { useLenis } from "../SmoothScrollProvider";
+import Gallery from "../Gallery";
+import AboutDifferentiatorsTrack from "../AboutDifferentiatorsTrack";
+import PartnersMarquee from "../PartnersMarquee";
 
 interface Props {
   data: AboutPageWp;
@@ -26,7 +26,7 @@ const easeInOutCubic = (t: number) =>
 const FADE_JUMP_THRESHOLD_PX = 900;
 const FADE_DURATION_MS = 280;
 
-export default function AboutPage({ data }: Props) {
+export default function AboutPageDesktop({ data }: Props) {
   const [activeSection, setActiveSection] = useState<SectionKey>("team");
   const [isTransitioning, setIsTransitioning] = useState(false);
   const lenis = useLenis();

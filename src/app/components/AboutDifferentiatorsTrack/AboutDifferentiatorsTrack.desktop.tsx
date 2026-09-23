@@ -8,14 +8,13 @@ import {
   useSpring,
   useInView,
 } from "framer-motion";
-
-import { AboutPageWp } from "../_interfaces/wordpress-components";
+import { AboutPageWp } from "@/app/_interfaces/wordpress-components";
 import Grid, {
   COLS,
-  trackCardWidth,
-  offsetForColumn,
   GRID_MARGIN_PX,
-} from "./layout/Grid";
+  offsetForColumn,
+  trackCardWidth,
+} from "../layout/Grid";
 
 interface Props {
   data: AboutPageWp["differentiators"];
@@ -31,7 +30,7 @@ const VH_PER_100VW_TRAVEL = 100;
 const TITLE_TOP_PX = 27;
 const TITLE_CARDS_GAP_PX = 50;
 
-export default function AboutDifferentiatorsTrack({ data, nav }: Props) {
+export default function AboutDifferentiatorsTrackDesktop({ data, nav }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
