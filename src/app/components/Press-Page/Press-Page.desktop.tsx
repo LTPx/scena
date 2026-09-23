@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { NewsPageWp } from "@/app/_interfaces/wordpress-components";
 import { Link } from "@/navigation";
-import Grid, { COLS } from "./layout/Grid";
-
+import Grid, { COLS } from "../layout/Grid";
 interface Props {
   data: NewsPageWp;
 }
 
-export default function PressPage({ data }: Props) {
+export default function PressPageDesktop({ data }: Props) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
