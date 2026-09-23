@@ -110,6 +110,7 @@ export default function ProjectDetailPage({ data }: Props) {
       <FeaturedProjects
         projects={data.other_projects}
         title="Otros Proyectos"
+        animateEntrance={false}
         showTopBorder
       />
     </article>

@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { OutletProductWp } from "../_interfaces/wordpress-components";
 import Grid, {
   COLS,
   offsetForColumn,
   colSpanWidth,
   GRID_GUTTER_PX,
+  GRID_MARGIN_PX,
+  GRID_COLS_COUNT,
 } from "./layout/Grid";
 
 interface Props {
@@ -16,20 +18,15 @@ interface Props {
   initialSlug: string;
 }
 
-const PEEK_PX = 64;
 const IMAGE_OFFSET = offsetForColumn(1);
 const IMAGE_WIDTH = colSpanWidth(5);
 const CONTENT_WIDTH = colSpanWidth(5);
 const NEXT_ARROW_LEFT = offsetForColumn(12);
-const PREV_ARROW_LEFT = `calc(${offsetForColumn(11)} + 40px)`;
 
-// Actualiza SOLO la barra de direcciones (para que el link sea
-// compartible), sin pasar por el router de Next. router.replace()
-// dispara un fetch del Server Component por el nuevo slug, y mientras
-// esa respuesta llega, React puede suspender el árbol y cortar la
-// animación en curso -> eso era el parpadeo. history.replaceState
-// no toca React ni el servidor en absoluto: es invisible para
-// framer-motion.
+const WHEEL_THRESHOLD = 8;
+const WHEEL_IDLE_RESET_MS = 180;
+const GALLERY_FADE_DURATION = 0.35;
+
 function updateUrlSilently(slug: string) {
   if (typeof window === "undefined") return;
   const segments = window.location.pathname.split("/");
@@ -39,6 +36,8 @@ function updateUrlSilently(slug: string) {
 
 export default function OutletDetailPage({ products, initialSlug }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const galleryLockRef = useRef(false);
+  const wheelIdleTimeoutRef = useRef<number | null>(null);
 
   const [currentIndex, setCurrentIndex] = useState(() =>
     Math.max(
@@ -55,11 +54,54 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
   const activeImage = gallery[galleryIndex];
 
   useEffect(() => {
-    const measure = () => setSlideWidth(window.innerWidth - PEEK_PX);
+    const measure = () => {
+      const viewportWidth = window.innerWidth;
+
+      const colWidth =
+        (viewportWidth -
+          2 * GRID_MARGIN_PX -
+          (GRID_COLS_COUNT - 1) * GRID_GUTTER_PX) /
+        GRID_COLS_COUNT;
+      const peek = GRID_MARGIN_PX + colWidth / 2;
+
+      setSlideWidth(viewportWidth - peek);
+    };
+
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, []);
+
+  useEffect(() => {
+    function handleWheel(e: WheelEvent) {
+      e.preventDefault();
+      if (gallery.length <= 1) return;
+      if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) return;
+      if (wheelIdleTimeoutRef.current !== null) {
+        window.clearTimeout(wheelIdleTimeoutRef.current);
+      }
+      wheelIdleTimeoutRef.current = window.setTimeout(() => {
+        galleryLockRef.current = false;
+      }, WHEEL_IDLE_RESET_MS);
+
+      if (galleryLockRef.current) return;
+
+      galleryLockRef.current = true;
+
+      setGalleryIndex((prev) => {
+        const direction = e.deltaY > 0 ? 1 : -1;
+        return (prev + direction + gallery.length) % gallery.length;
+      });
+    }
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (wheelIdleTimeoutRef.current !== null) {
+        window.clearTimeout(wheelIdleTimeoutRef.current);
+      }
+    };
+  }, [gallery.length]);
 
   function goTo(nextIndex: number) {
     if (isTransitioning) return;
@@ -75,20 +117,14 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
     goTo((currentIndex + 1) % products.length);
   }
 
-  function goPrev() {
-    goTo(currentIndex - 1);
-  }
-
-  const hasPrev = currentIndex > 0;
-
   return (
     <div
       data-header-theme="light"
-      className="relative isolate z-0 flex h-dvh flex-col overflow-hidden py-10 md:py-[clamp(24px,6vh,60px)]"
+      className="relative isolate z-0 flex h-dvh flex-col overflow-hidden pb-[40px]"
     >
-      <Grid className="flex-shrink-0">
+      <Grid className="mt-[27px] flex-shrink-0">
         <span
-          className={`${COLS.outletLabel} font-[Gellix] text-[24px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
+          className={`${COLS.outletLabel} font-sans text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
         >
           Outlet
         </span>
@@ -100,33 +136,23 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
         </h1>
       </Grid>
 
-      {hasPrev && (
-        <button
-          type="button"
-          onClick={goPrev}
-          disabled={isTransitioning}
-          aria-label="Producto anterior"
-          style={{ left: PREV_ARROW_LEFT }}
-          className="absolute top-[clamp(24px,6vh,60px)] z-10 mt-16 font-[Gellix] text-[28px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] disabled:opacity-40"
-        >
-          ←
-        </button>
-      )}
+      <div
+        ref={wrapperRef}
+        className="relative mt-[150px] min-h-0 flex-1 overflow-hidden"
+      >
+        {products.length > 1 && (
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={isTransitioning}
+            aria-label="Siguiente producto"
+            style={{ left: NEXT_ARROW_LEFT }}
+            className="absolute top-0 z-10 font-[Gellix] text-[28px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] disabled:opacity-40"
+          >
+            →
+          </button>
+        )}
 
-      {products.length > 1 && (
-        <button
-          type="button"
-          onClick={goNext}
-          disabled={isTransitioning}
-          aria-label="Siguiente producto"
-          style={{ left: NEXT_ARROW_LEFT }}
-          className="absolute top-[clamp(24px,6vh,60px)] z-10 mt-16 font-[Gellix] text-[28px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] disabled:opacity-40"
-        >
-          →
-        </button>
-      )}
-
-      <div ref={wrapperRef} className="mt-16 min-h-0 flex-1 overflow-hidden">
         <motion.div
           animate={{ x: -currentIndex * slideWidth }}
           transition={{
@@ -156,18 +182,34 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
                 >
                   <div
                     style={{ width: IMAGE_WIDTH }}
-                    className="relative h-full flex-shrink-0"
+                    className="relative flex h-full flex-shrink-0 items-center justify-center bg-white"
                   >
-                    <Image
-                      src={slideImage.url}
-                      alt={slideImage.alt || p.name}
-                      fill
-                      sizes="40vw"
-                      className="object-contain"
-                    />
+                    <div className="relative h-[50%] w-[50%]">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={slideImage.url}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{
+                            duration: GALLERY_FADE_DURATION,
+                            ease: "easeInOut",
+                          }}
+                          className="absolute inset-0"
+                        >
+                          <Image
+                            src={slideImage.url}
+                            alt={slideImage.alt || p.name}
+                            fill
+                            sizes="40vw"
+                            className="object-contain"
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
 
                     {isActive && gallery.length > 1 && (
-                      <div className="absolute bottom-6 left-0 flex gap-2">
+                      <div className="absolute bottom-[25px] left-1/2 flex -translate-x-1/2 gap-2">
                         {gallery.map((_, dotIndex) => {
                           const isDotActive = dotIndex === galleryIndex;
                           return (
@@ -206,28 +248,29 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
 
                     <div className="flex flex-col gap-4">
                       {p.note && (
-                        <p className="font-[Gellix] text-[13px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                        <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                           {p.note}
                         </p>
                       )}
 
-                      <p className="font-[Gellix] text-[24px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-                        <span className="line-through opacity-50">
+                      <p className="font-sans text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
+                        <span className="line-through">
                           RRP: {p.original_price}
                         </span>{" "}
                         | Outlet: {p.outlet_price}
                       </p>
 
-                      <div className="flex flex-wrap gap-3">
+                      <div className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
                         <button
                           type="button"
-                          className="rounded-full bg-[#A89572] px-6 py-3 font-[Gellix] text-[13px] text-white"
+                          className="btn-gellix btn-gellix-active"
                         >
                           Comprar ahora
                         </button>
+
                         <button
                           type="button"
-                          className="rounded-full border border-[#A89572]/50 px-6 py-3 font-[Gellix] text-[13px] text-[#A89572]"
+                          className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"
                         >
                           Solicitar información
                         </button>

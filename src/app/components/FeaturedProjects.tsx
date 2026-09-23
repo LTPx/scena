@@ -14,6 +14,7 @@ interface Props {
   projects: ProjectHomeWp[];
   title?: string;
   showTopBorder?: boolean;
+  animateEntrance?: boolean;
 }
 
 const CARD_SPAN = 10;
@@ -33,6 +34,7 @@ export default function FeaturedProjects({
   projects,
   title = "Proyectos destacados",
   showTopBorder = false,
+  animateEntrance = true,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -106,9 +108,13 @@ export default function FeaturedProjects({
         {showTopBorder && (
           <motion.div
             aria-hidden
-            initial={{ scaleX: 0 }}
+            initial={animateEntrance ? { scaleX: 0 } : false}
             animate={{ scaleX: isInView ? 1 : 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={
+              animateEntrance
+                ? { duration: 0.6, ease: "easeOut" }
+                : { duration: 0 }
+            }
             style={{
               marginLeft: startOffset,
               marginRight: `${GRID_MARGIN_PX}px`,
@@ -117,14 +123,17 @@ export default function FeaturedProjects({
             }}
           />
         )}
-
         <h2
           className={`mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572] ${
             showTopBorder ? "mt-[15px]" : ""
           }`}
           style={{ paddingLeft: startOffset }}
         >
-          <TypewriterText text={title} play={isInView} />
+          {animateEntrance ? (
+            <TypewriterText text={title} play={isInView} />
+          ) : (
+            title
+          )}
         </h2>
         <motion.div
           ref={trackRef}
