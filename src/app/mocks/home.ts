@@ -1,4 +1,5 @@
 import { HomePageWp } from "../_interfaces/wordpress-components";
+import { mockImage } from "./utils";
 
 export const homeMock: HomePageWp = {
   hero_page: [
@@ -34,50 +35,35 @@ export const homeMock: HomePageWp = {
         title: "Ingeniería propia",
         description:
           "Diseñamos e integramos cada sistema a medida del espacio.",
-        icon: {
-          url: "/images/w-1.png",
-          alt: "Ingeniería propia",
-        },
+        icon: mockImage("/images/w-1.png", "Ingeniería propia"),
       },
       {
         number: "02",
         title: "Instalación certificada",
         description:
           "Equipo técnico especializado en marcas premium de audio y video.",
-        icon: {
-          url: "/images/w-2.png",
-          alt: "Instalación certificada",
-        },
+        icon: mockImage("/images/w-2.png", "Instalación certificada"),
       },
       {
         number: "03",
         title: "Soporte continuo",
         description:
           "Mantenimiento y actualización de los sistemas post-entrega.",
-        icon: {
-          url: "/images/w-3.png",
-          alt: "Soporte continuo",
-        },
+        icon: mockImage("/images/w-3.png", "Soporte continuo"),
       },
       {
         number: "04",
         title: "Diseño a medida",
         description:
           "Cada proyecto responde a la arquitectura y estilo de vida del cliente.",
-        icon: {
-          url: "/images/w-1.png",
-          alt: "Diseño a medida",
-        },
+        icon: mockImage("/images/w-1.png", "Diseño a medida"),
       },
       {
         number: "05",
         title: "Diseño a medida Nueva",
         description:
           "Cada proyecto responde a la arquitectura y estilo de vida del cliente.",
-        icon: {
-          url: "/images/w-2.png",
-          alt: "Diseño a medida",
-        },
+        icon: mockImage("/images/w-2.png", "Diseño a medida"),
       },
     ],
   },
@@ -108,10 +94,7 @@ export const homeMock: HomePageWp = {
           <li>Arquitectura e interiorismo traducidos a lenguaje técnico.</li>
         </ul>
       `,
-      image: {
-        url: "/images/service-engineering.jpg",
-        alt: "Engineering",
-      },
+      image: mockImage("/images/service-engineering.jpg", "Engineering"),
     },
 
     {
@@ -135,10 +118,7 @@ export const homeMock: HomePageWp = {
           <li>Soporte técnico continuo y actualización de firmware/equipos.</li>
         </ul>
       `,
-      image: {
-        url: "/images/service-audio.jpg",
-        alt: "Audio & Video",
-      },
+      image: mockImage("/images/service-audio.jpg", "Audio & Video"),
     },
 
     {
@@ -161,10 +141,7 @@ export const homeMock: HomePageWp = {
           <li>Compatibilidad y escalabilidad con nuevos dispositivos a futuro.</li>
         </ul>
       `,
-      image: {
-        url: "/images/service-engineering.jpg",
-        alt: "Home Automation",
-      },
+      image: mockImage("/images/service-engineering.jpg", "Home Automation"),
     },
 
     {
@@ -187,10 +164,7 @@ export const homeMock: HomePageWp = {
           <li>Eficiencia energética sin renunciar a la estética.</li>
         </ul>
       `,
-      image: {
-        url: "/images/service-engineering.jpg",
-        alt: "Lighting Design",
-      },
+      image: mockImage("/images/service-engineering.jpg", "Lighting Design"),
     },
 
     {
@@ -214,47 +188,29 @@ export const homeMock: HomePageWp = {
           <li>Documentación técnica clara para instaladores y mantenimiento futuro.</li>
         </ul>
       `,
-      image: {
-        url: "/images/service-engineering.jpg",
-        alt: "MEP",
-      },
+      image: mockImage("/images/service-engineering.jpg", "MEP"),
     },
   ],
 
   gallery: [
     {
-      image: {
-        url: "/images/gallery-1.png",
-        alt: "Gallery image 1",
-      },
+      image: mockImage("/images/gallery-1.png", "Gallery image 1"),
       aspect: "portrait",
     },
     {
-      image: {
-        url: "/images/gallery-2.png",
-        alt: "Gallery image 2",
-      },
+      image: mockImage("/images/gallery-2.png", "Gallery image 2"),
       aspect: "landscape",
     },
     {
-      image: {
-        url: "/images/gallery-3.jpg",
-        alt: "Gallery image 3",
-      },
+      image: mockImage("/images/gallery-3.jpg", "Gallery image 3"),
       aspect: "square",
     },
     {
-      image: {
-        url: "/images/gallery-1.png",
-        alt: "Gallery image 4",
-      },
+      image: mockImage("/images/gallery-1.png", "Gallery image 4"),
       aspect: "landscape",
     },
     {
-      image: {
-        url: "/images/gallery-2.png",
-        alt: "Gallery image 5",
-      },
+      image: mockImage("/images/gallery-2.png", "Gallery image 5"),
       aspect: "portrait",
     },
   ],
@@ -264,10 +220,7 @@ export const homeMock: HomePageWp = {
       project: "villa-calatrava",
       slug: "villa-calatrava",
       title: "Villa Calatrava",
-      feature_image: {
-        url: "/images/hero-1.png",
-        alt: "Villa Calatrava",
-      },
+      feature_image: mockImage("/images/hero-1.png", "Villa Calatrava"),
       categories: [
         {
           id: 1,
@@ -285,10 +238,7 @@ export const homeMock: HomePageWp = {
       project: "delphinus",
       slug: "villa-calatrava",
       title: "Delphinus",
-      feature_image: {
-        url: "/images/hero-1.png",
-        alt: "Delphinus",
-      },
+      feature_image: mockImage("/images/hero-1.png", "Delphinus"),
       categories: [
         {
           id: 1,
@@ -306,10 +256,7 @@ export const homeMock: HomePageWp = {
       project: "cygnus",
       title: "Cygnus",
       slug: "villa-calatrava", // <- agregar
-      feature_image: {
-        url: "/images/hero-1.png",
-        alt: "Cygnus",
-      },
+      feature_image: mockImage("/images/hero-1.png", "Cygnus"),
       categories: [
         {
           id: 1,

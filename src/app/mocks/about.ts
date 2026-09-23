@@ -1,4 +1,5 @@
 import { AboutPageWp } from "../_interfaces/wordpress-components";
+import { mockImage } from "./utils";
 
 export const aboutMock: AboutPageWp = {
   title:
@@ -7,35 +8,29 @@ export const aboutMock: AboutPageWp = {
     "Hemos pasado de ser un equipo pequeño a ser un conjunto multidisciplinar, cohesionado y altamente cualificado, con una gran vocación por la tecnología y la innovación. Estamos comprometidos con la pasión por lo que hacemos, la inquietud para innovar y el ánimo para seguir mejorando día a día. Hemos crecido junto a nuestros clientes, y hoy en día somos el referente nacional e internacional en el sector de la domótica en Palma.",
   gallery: [
     {
-      image: { url: "/images/gallery-1.png", alt: "Oficina Scena" },
+      image: mockImage("/images/gallery-1.png", "Oficina Scena"),
       aspect: "landscape",
     },
     {
-      image: { url: "/images/gallery-2.png", alt: "Equipo Scena" },
+      image: mockImage("/images/gallery-2.png", "Equipo Scena"),
       aspect: "portrait",
     },
     {
-      image: { url: "/images/gallery-3.jpg", alt: "Proyecto Scena" },
+      image: mockImage("/images/gallery-3.jpg", "Proyecto Scena"),
       aspect: "square",
     },
   ],
   team_gallery: [
     {
-      image: { url: "/images/gallery-1.png", alt: "Oficina Scena" },
+      image: mockImage("/images/gallery-1.png", "Oficina Scena"),
       aspect: "landscape",
     },
     {
-      image: {
-        url: "/images/gallery-2.png",
-        alt: "Equipo trabajando",
-      },
+      image: mockImage("/images/gallery-2.png", "Equipo trabajando"),
       aspect: "landscape",
     },
     {
-      image: {
-        url: "/images/gallery-3.jpg",
-        alt: "Espacio de trabajo",
-      },
+      image: mockImage("/images/gallery-3.jpg", "Espacio de trabajo"),
       aspect: "landscape",
     },
   ],
@@ -77,34 +72,31 @@ export const aboutMock: AboutPageWp = {
         title: "Líneas\nde negocio",
         description:
           "Ingeniería, Iluminación, Domótica, Audio & Video y MEP son nuestras cinco áreas, integradas en un servicio All-In-One con un único punto de contacto para diseñar, gestionar y ejecutar cada proyecto.",
-        icon: {
-          url: "/images/icons/lineas-negocio.svg",
-          alt: "Líneas de negocio",
-        },
+        icon: mockImage(
+          "/images/icons/lineas-negocio.svg",
+          "Líneas de negocio",
+        ),
       },
       {
         title: "Equipo y\nespecialización",
         description:
           "Creemos que los equipos más eficientes son aquellos donde cada miembro tiene una función específica. Un especialista por área forma un grupo cohesionado capaz de responder a cualquier proyecto.",
-        icon: {
-          url: "/images/icons/equipo.svg",
-          alt: "Equipo y especialización",
-        },
+        icon: mockImage("/images/icons/equipo.svg", "Equipo y especialización"),
       },
       {
         title: "Última\ntecnología",
         description:
           "Guiados por la tecnología y sus aplicaciones. Nuestros proyectos se basan en seleccionar e implementar soluciones tecnológicas para responder creativamente a las necesidades de nuestros clientes.",
-        icon: { url: "/images/icons/tecnologia.svg", alt: "Última tecnología" },
+        icon: mockImage("/images/icons/tecnologia.svg", "Última tecnología"),
       },
       {
         title: "Orientación\nal proyecto",
         description:
           "Uniendo máxima funcionalidad y lujo en cada experiencia que creamos para nuestros clientes.",
-        icon: {
-          url: "/images/icons/proyecto.svg",
-          alt: "Orientación al proyecto",
-        },
+        icon: mockImage(
+          "/images/icons/proyecto.svg",
+          "Orientación al proyecto",
+        ),
       },
     ],
   },
@@ -115,37 +107,37 @@ export const aboutMock: AboutPageWp = {
       {
         id: 1,
         name: "Partner 1",
-        logo: { url: "/images/partners/partner-1.svg", alt: "Partner 1" },
+        logo: mockImage("/images/partners/partner-1.svg", "Partner 1"),
       },
       {
         id: 2,
         name: "Partner 2",
-        logo: { url: "/images/partners/partner-2.svg", alt: "Partner 2" },
+        logo: mockImage("/images/partners/partner-2.svg", "Partner 2"),
       },
       {
         id: 3,
         name: "Partner 3",
-        logo: { url: "/images/partners/partner-3.svg", alt: "Partner 3" },
+        logo: mockImage("/images/partners/partner-3.svg", "Partner 3"),
       },
       {
         id: 4,
         name: "Partner 4",
-        logo: { url: "/images/partners/partner-4.svg", alt: "Partner 4" },
+        logo: mockImage("/images/partners/partner-4.svg", "Partner 4"),
       },
       {
         id: 5,
         name: "Partner 5",
-        logo: { url: "/images/partners/partner-5.svg", alt: "Partner 5" },
+        logo: mockImage("/images/partners/partner-5.svg", "Partner 5"),
       },
       {
         id: 6,
         name: "Partner 6",
-        logo: { url: "/images/partners/partner-6.svg", alt: "Partner 6" },
+        logo: mockImage("/images/partners/partner-6.svg", "Partner 6"),
       },
       {
         id: 7,
         name: "Partner 7",
-        logo: { url: "/images/partners/partner-7.svg", alt: "Partner 7" },
+        logo: mockImage("/images/partners/partner-7.svg", "Partner 7"),
       },
     ],
   },
