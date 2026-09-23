@@ -2,31 +2,11 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import Grid, { COLS } from "./layout/Grid";
-import GlassButton from "./GlassButton";
+import Grid, { COLS } from "../layout/Grid";
+import GlassButton from "../GlassButton";
+import { OFFICES } from "./offices";
 
-const OFFICES = [
-  {
-    label: "Experience Center",
-    address: "Fray Luis de León, 9 - 07011 Palma",
-    phone: "+34 871 571 460",
-    email: "scena@e-scena.com",
-  },
-  {
-    label: "Technical Office",
-    address: "Gran Via Asima, 31 - 07009 Palma",
-    phone: "+34 971 29 04 87",
-    email: "scena@e-scena.com",
-  },
-  {
-    label: "B&O Mallorca",
-    address: "Calle Catalunya, 3 - 07011 Palma",
-    phone: "+34 971 666 833",
-    email: "bangolufsen@e-scena.com",
-  },
-];
-
-export default function Footer() {
+export default function FooterDesktop() {
   const t = useTranslations("Footer");
 
   return (
