@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ProjectsPageWp } from "@/app/_interfaces/wordpress-components";
 import { Link } from "@/navigation";
-import Grid, { COLS, offsetForColumn } from "./layout/Grid";
-import GlassButton from "./GlassButton";
-
-interface Props {
-  data: ProjectsPageWp;
-}
+import Grid, { COLS, offsetForColumn } from "../layout/Grid";
+import GlassButton from "../GlassButton";
+import { ProjectsPageProps, useProjectsFilter } from "./useProjectsFilter";
 
 const NEXT_PROJECT_PEEK_PX = 85;
 
@@ -22,17 +18,12 @@ const CATEGORIES_LEFT_OFFSET = `calc(${offsetForColumn(
 const IMAGE_OVERLAY_GRADIENT =
   "linear-gradient(180deg, rgba(255, 255, 255, 0) 67.85%, rgba(0, 0, 0, 0.4) 100%)";
 
-export default function ProjectsPage({ data }: Props) {
-  const [activeFilter, setActiveFilter] = useState("all");
+export default function ProjectsPageDesktop({ data }: ProjectsPageProps) {
+  const { activeFilter, setActiveFilter, filteredProjects } =
+    useProjectsFilter(data);
+
   const stickyRef = useRef<HTMLDivElement>(null);
   const [projectHeight, setProjectHeight] = useState<number | null>(null);
-
-  const filteredProjects = useMemo(() => {
-    if (activeFilter === "all") return data.projects;
-    return data.projects.filter((p) =>
-      p.categories.some((c) => c.slug === activeFilter),
-    );
-  }, [activeFilter, data.projects]);
 
   useEffect(() => {
     const stickyEl = stickyRef.current;
@@ -41,7 +32,6 @@ export default function ProjectsPage({ data }: Props) {
     const measure = () => {
       const headerHeight = stickyEl.offsetHeight;
       const vh = window.innerHeight;
-
       setProjectHeight(Math.max(vh - headerHeight - NEXT_PROJECT_PEEK_PX, 0));
     };
 
@@ -49,7 +39,6 @@ export default function ProjectsPage({ data }: Props) {
 
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(stickyEl);
-
     window.addEventListener("resize", measure);
 
     return () => {
@@ -79,7 +68,6 @@ export default function ProjectsPage({ data }: Props) {
           >
             {data.filters.map((filter) => {
               const isActive = activeFilter === filter.slug;
-
               return (
                 <button
                   key={filter.slug}
@@ -102,9 +90,7 @@ export default function ProjectsPage({ data }: Props) {
           <Grid key={item.project}>
             <Link
               href={`/projects/${item.slug}`}
-              style={{
-                height: projectHeight ? `${projectHeight}px` : "70vh",
-              }}
+              style={{ height: projectHeight ? `${projectHeight}px` : "70vh" }}
               className={`${COLS.pressMedia} group relative block w-full overflow-hidden`}
             >
               <Image
@@ -112,7 +98,7 @@ export default function ProjectsPage({ data }: Props) {
                 alt={item.feature_image.alt || item.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(min-width: 768px) 83vw, 100vw"
+                sizes="83vw"
               />
               <div
                 aria-hidden
@@ -120,7 +106,7 @@ export default function ProjectsPage({ data }: Props) {
                 style={{ background: IMAGE_OVERLAY_GRADIENT }}
               />
 
-              <h2 className="absolute bottom-8 left-8 font-[Gellix] text-[32px] font-normal not-italic leading-[100%] tracking-[0%] text-white md:text-[40px]">
+              <h2 className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-white">
                 {item.title}
               </h2>
 
