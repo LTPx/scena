@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ProjectContentBlockWp,
   ProjectDetailWp,
@@ -12,6 +14,8 @@ import Grid, {
 import ScrollZoomImage from "./ScrollZoomImage";
 import GlassButton from "./GlassButton";
 import FeaturedProjects from "./FeaturedProjects";
+import { useEffect } from "react";
+import { useLenis } from "./SmoothScrollProvider";
 
 interface Props {
   data: ProjectDetailWp;
@@ -50,6 +54,12 @@ function ContentBlock({
 }
 
 export default function ProjectDetailPage({ data }: Props) {
+  const lenis = useLenis();
+
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [lenis, data.title]);
+
   let imageCount = 0;
 
   return (

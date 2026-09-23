@@ -247,6 +247,7 @@ export default function Header() {
           <Grid className="items-start">
             <Link
               href="/"
+              onClick={closeMenu}
               className={`${COLS.logo} mt-[44px] flex items-center`}
             >
               <img

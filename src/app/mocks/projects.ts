@@ -39,7 +39,7 @@ export const projectsMock: ProjectsPageWp = {
     },
     {
       project: "3",
-      slug: "residencia-mep",
+      slug: "villa-calatrava",
       title: "Residencia MEP",
       feature_image: {
         url: "/images/hero-3.png",
@@ -49,7 +49,7 @@ export const projectsMock: ProjectsPageWp = {
     },
     {
       project: "4",
-      slug: "estudio-audio",
+      slug: "villa-calatrava",
       title: "Estudio Audio",
       feature_image: {
         url: "/images/gallery-1.png",

@@ -97,7 +97,7 @@ export default function ProjectsPage({ data }: Props) {
         </Grid>
       </div>
 
-      <div className="flex flex-col gap-[6px] pb-24">
+      <div className="flex flex-col gap-[6px] pb-[40px]">
         {filteredProjects.map((item) => (
           <Grid key={item.project}>
             <Link

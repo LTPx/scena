@@ -30,7 +30,7 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative h-screen overflow-hidden py-10 text-white md:py-[45px] font-sans">
+    <footer className="relative h-[calc(100vh-80px)] overflow-hidden py-10 text-white md:py-[45px] font-sans">
       {" "}
       <Image
         src="/footer-bg.png"

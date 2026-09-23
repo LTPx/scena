@@ -23,7 +23,7 @@ function App({ children }: Props) {
 
   return (
     <div className="relative">
-      <div className="fixed inset-0 z-0 h-screen">
+      <div className="fixed inset-0 z-0 flex h-screen items-end">
         {!hideFooter && <Footer />}
       </div>
 
@@ -31,7 +31,8 @@ function App({ children }: Props) {
         <Header />
 
         <SmoothScrollProvider>
-          <main className={hideFooter ? "" : "pb-[100vh]"}>
+          <main className={hideFooter ? "" : "pb-[calc(100vh-80px)]"}>
+            {" "}
             <div className="bg-body">{children}</div>
           </main>
         </SmoothScrollProvider>

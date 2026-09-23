@@ -35,7 +35,7 @@ export const homeMock: HomePageWp = {
         description:
           "Diseñamos e integramos cada sistema a medida del espacio.",
         icon: {
-          url: "/icons/globe-network.svg",
+          url: "/images/w-1.png",
           alt: "Ingeniería propia",
         },
       },
@@ -45,7 +45,7 @@ export const homeMock: HomePageWp = {
         description:
           "Equipo técnico especializado en marcas premium de audio y video.",
         icon: {
-          url: "/icons/signal-waves.svg",
+          url: "/images/w-2.png",
           alt: "Instalación certificada",
         },
       },
@@ -55,7 +55,7 @@ export const homeMock: HomePageWp = {
         description:
           "Mantenimiento y actualización de los sistemas post-entrega.",
         icon: {
-          url: "/icons/team-circle.svg",
+          url: "/images/w-3.png",
           alt: "Soporte continuo",
         },
       },
@@ -65,7 +65,7 @@ export const homeMock: HomePageWp = {
         description:
           "Cada proyecto responde a la arquitectura y estilo de vida del cliente.",
         icon: {
-          url: "/icons/orbit.svg",
+          url: "/images/w-1.png",
           alt: "Diseño a medida",
         },
       },
@@ -75,7 +75,7 @@ export const homeMock: HomePageWp = {
         description:
           "Cada proyecto responde a la arquitectura y estilo de vida del cliente.",
         icon: {
-          url: "/icons/orbit.svg",
+          url: "/images/w-2.png",
           alt: "Diseño a medida",
         },
       },
@@ -245,14 +245,14 @@ export const homeMock: HomePageWp = {
     },
     {
       image: {
-        url: "/images/gallery-4.jpg",
+        url: "/images/gallery-1.png",
         alt: "Gallery image 4",
       },
       aspect: "landscape",
     },
     {
       image: {
-        url: "/images/gallery-5.jpg",
+        url: "/images/gallery-2.png",
         alt: "Gallery image 5",
       },
       aspect: "portrait",
@@ -283,7 +283,7 @@ export const homeMock: HomePageWp = {
     },
     {
       project: "delphinus",
-      slug: "delphinus",
+      slug: "villa-calatrava",
       title: "Delphinus",
       feature_image: {
         url: "/images/hero-1.png",
@@ -305,7 +305,7 @@ export const homeMock: HomePageWp = {
     {
       project: "cygnus",
       title: "Cygnus",
-      slug: "cygnus", // <- agregar
+      slug: "villa-calatrava", // <- agregar
       feature_image: {
         url: "/images/hero-1.png",
         alt: "Cygnus",

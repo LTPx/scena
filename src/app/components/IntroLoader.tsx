@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { setIntroPlaying } from "../context/introStore";
 
 const EXIT_DURATION = 1;
 const EXIT_EASE = [0.76, 0, 0.24, 1] as const;
 const REVEAL_AT_PROGRESS = 0.1;
+const INTRO_SESSION_KEY = "scena-intro-played";
 
 function bezier(p1: number, p2: number, s: number) {
   return 3 * (1 - s) ** 2 * s * p1 + 3 * (1 - s) * s ** 2 * p2 + s ** 3;
@@ -31,33 +32,54 @@ export default function IntroLoader() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isDone, setIsDone] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
+  const [shouldSkip, setShouldSkip] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useLayoutEffect(() => {
+    const alreadyPlayed =
+      typeof window !== "undefined" &&
+      sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+
+    if (alreadyPlayed) {
+      setShouldSkip(true);
+      setIsDone(true);
+      setIsMounted(false);
+      setIntroPlaying(false);
+    }
+  }, []);
 
   useEffect(() => {
+    if (shouldSkip) return;
     document.body.style.overflow = isDone ? "auto" : "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isDone]);
+  }, [isDone, shouldSkip]);
 
   useEffect(() => {
+    if (shouldSkip) return;
     const fallback = setTimeout(() => setIsDone(true), 6000);
     return () => clearTimeout(fallback);
-  }, []);
+  }, [shouldSkip]);
 
   useEffect(() => {
+    if (shouldSkip) return;
     setIntroPlaying(true);
     return () => setIntroPlaying(false);
-  }, []);
+  }, [shouldSkip]);
 
   useEffect(() => {
-    if (!isDone) return;
-    const t = setTimeout(() => setIntroPlaying(false), REVEAL_DELAY_MS);
+    if (!isDone || shouldSkip) return;
+    const t = setTimeout(() => {
+      setIntroPlaying(false);
+      sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    }, REVEAL_DELAY_MS);
     return () => clearTimeout(t);
-  }, [isDone]);
+  }, [isDone, shouldSkip]);
 
   const handleEnded = () => setIsDone(true);
 
-  if (!isMounted) return null;
+  if (!isMounted || shouldSkip) return null;
 
   return (
     <AnimatePresence onExitComplete={() => setIsMounted(false)}>
@@ -68,7 +90,7 @@ export default function IntroLoader() {
           exit={{ y: "100%" }}
           transition={{ duration: EXIT_DURATION, ease: EXIT_EASE }}
           onClick={() => setIsDone(true)}
-          className="fixed inset-0 z-[100] flex items-center justify-center"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
         >
           <video
             ref={videoRef}
@@ -78,7 +100,10 @@ export default function IntroLoader() {
             playsInline
             onEnded={handleEnded}
             onError={() => setIsDone(true)}
-            className="h-full w-full object-cover"
+            onLoadedData={() => setVideoReady(true)}
+            className={`h-full w-full object-cover transition-opacity duration-300 ${
+              videoReady ? "opacity-100" : "opacity-0"
+            }`}
           />
         </motion.div>
       )}

@@ -35,6 +35,10 @@ export default function AboutPage({ data }: Props) {
   const differentiatorsRef = useRef<HTMLDivElement>(null);
   const partnersRef = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [lenis]);
+
   const sectionRefs: Record<SectionKey, React.RefObject<HTMLElement | null>> = {
     team: teamRef,
     differentiators: differentiatorsRef,
