@@ -15,17 +15,17 @@ export default function WhereWeMakeDifferenceMobile({ data }: Props) {
   const isInView = useInView(titleRef, { once: true, amount: 0.9 });
 
   return (
-    <section data-header-theme="light" className="py-10">
+    <section data-header-theme="light" className="py-[55px]">
       <h2
         ref={titleRef}
-        className="whitespace-pre-line px-4 font-[Gellix] text-[32px] font-normal not-italic leading-[100%] text-[#A89572]"
+        className="whitespace-pre-line px-[15px] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
       >
         <TypewriterText text={data.title} play={isInView} />
       </h2>
 
       <div
         className="
-          mt-10 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4
+          mt-10 flex snap-x snap-mandatory gap-2 overflow-x-auto px-[15px]
           scroll-pl-4 [-ms-overflow-style:none] [scrollbar-width:none]
           [&::-webkit-scrollbar]:hidden
         "
@@ -35,7 +35,7 @@ export default function WhereWeMakeDifferenceMobile({ data }: Props) {
             key={`${card.number}-${i}`}
             className="flex min-h-[450px] w-[78%] max-w-[420px] flex-shrink-0 snap-start flex-col justify-between rounded-[20px] bg-white p-5"
           >
-            <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[28px] font-normal not-italic leading-[115%] text-[#A89572]">
+            <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
               {card.title}
             </h3>
 
@@ -49,7 +49,7 @@ export default function WhereWeMakeDifferenceMobile({ data }: Props) {
               />
             </div>
 
-            <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] text-[#A89572]">
+            <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
               {card.description}
             </p>
           </article>

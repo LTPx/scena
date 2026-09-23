@@ -11,10 +11,13 @@ export default function IntroDescriptionMobile({
   buttonLabel = "Ver Proyectos",
   buttonHref = "/proyectos",
 }: Props) {
-  const html = description.replace(/\n/g, "<br />");
+  const html = description
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/\s*\n\s*/g, " ")
+    .trim();
 
   return (
-    <div data-header-theme="light" className="px-[15px] py-[100px]">
+    <div data-header-theme="light" className="px-[15px] pt-[30px] pb-[10px]">
       <div
         className="
           font-sans font-normal not-italic

@@ -26,7 +26,7 @@ export default function FeaturedProjectsMobile({
   const isInView = useInView(titleRef, { once: true, amount: 0.9 });
 
   return (
-    <section data-header-theme="light" className="pb-10 pt-[27px]">
+    <section data-header-theme="light" className="pb-[30px] pt-[27px]">
       {showTopBorder && (
         <div aria-hidden className="mx-4 border-t border-[#A89572]" />
       )}

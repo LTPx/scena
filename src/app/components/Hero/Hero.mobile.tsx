@@ -93,7 +93,6 @@ export default function HeroMobile({ heroPage }: HeroProps) {
         ))}
       </Swiper>
 
-      {/* Título fijo encima; pointer-events-none para no bloquear el swipe */}
       <div className="pointer-events-none absolute inset-x-0 top-[44%] z-10 px-5">
         <motion.div
           initial={false}
@@ -103,7 +102,7 @@ export default function HeroMobile({ heroPage }: HeroProps) {
           }}
           transition={introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION}
         >
-          <h1 className="hero-title">
+          <h1 className="hero-title-mobile">
             The art of living
             <br />
             technology
@@ -111,7 +110,6 @@ export default function HeroMobile({ heroPage }: HeroProps) {
         </motion.div>
       </div>
 
-      {/* Indicadores */}
       {heroPage.length > 1 && (
         <div className="pointer-events-none absolute inset-x-0 bottom-8 z-10 flex justify-center gap-2">
           {heroPage.map((_, i) => (

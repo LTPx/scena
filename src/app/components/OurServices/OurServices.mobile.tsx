@@ -58,13 +58,12 @@ export default function OurServicesMobile({ services }: Props) {
       id="our-services"
       ref={wrapperRef}
       data-header-theme="light"
-      className="px-5 pb-10 pt-[27px] text-[#A89572]"
+      className="px-[15px] pb-10 pt-[60px] text-[#A89572]"
     >
-      <h2 className="font-[Gellix] text-[32px] font-normal leading-[100%]">
+      <h2 className="font-[Gellix] text-[30px] font-normal leading-[100%] tracking-[0%]">
         Our Services
       </h2>
 
-      {/* Tabs */}
       <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
         {services.map((service, index) => (
           <li key={service.label}>
@@ -74,7 +73,7 @@ export default function OurServicesMobile({ services }: Props) {
                 setActiveIndex(index);
                 setShowProjects(false);
               }}
-              className="font-[Gellix] text-[16px] font-normal leading-[135%] transition-opacity duration-300"
+              className="font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] transition-opacity duration-300"
               style={{ opacity: index === activeIndex ? 1 : 0.4 }}
             >
               {service.label}
@@ -83,7 +82,6 @@ export default function OurServicesMobile({ services }: Props) {
         ))}
       </ul>
 
-      {/* Título + descripción / contenido expandido */}
       <AnimatePresence mode="wait">
         <motion.div
           key={`${active.label}-${showProjects ? "projects" : "info"}`}
@@ -93,24 +91,23 @@ export default function OurServicesMobile({ services }: Props) {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="mt-10"
         >
-          <h3 className="font-sans text-[32px] font-normal leading-[120%]">
+          <h3 className="font-[Gellix] text-[30px] font-normal leading-[100%] tracking-[0%]">
             {active.title}
           </h3>
 
           {showProjects ? (
             <div
-              className="service-expanded-content mt-6"
+              className="service-expanded-content mt-10"
               dangerouslySetInnerHTML={{ __html: active.expanded_content }}
             />
           ) : (
-            <p className="mt-6 font-[Gellix] text-[16px] font-normal leading-[135%] text-[#A89572]/80">
+            <p className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80">
               {active.description}
             </p>
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Imagen */}
       <div className="relative mt-8 aspect-[3/4] w-full overflow-hidden">
         <AnimatePresence mode="popLayout">
           <motion.div
@@ -133,7 +130,6 @@ export default function OurServicesMobile({ services }: Props) {
         </AnimatePresence>
       </div>
 
-      {/* Selector know more / See Projects */}
       <div className="mt-6 inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
         <button
           type="button"

@@ -28,8 +28,8 @@ export default function GalleryMobile({ gallery, title }: GalleryProps) {
   if (!gallery?.length) return null;
 
   return (
-    <section data-header-theme="light" className="relative py-16">
-      {title && (
+    <section data-header-theme="light" className="relative py-[25px]">
+      {/* {title && (
         <h2
           ref={titleRef}
           style={{ paddingInline: GRID_MARGIN_PX / 2 }}
@@ -37,7 +37,7 @@ export default function GalleryMobile({ gallery, title }: GalleryProps) {
         >
           <TypewriterText text={title} play={isInView} />
         </h2>
-      )}
+      )} */}
 
       <div
         className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
