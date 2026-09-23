@@ -1,3 +1,5 @@
+"use client";
+
 export const SERVICE_ORDER = [
   "engineering",
   "audioVideo",
@@ -8,23 +10,38 @@ export const SERVICE_ORDER = [
 
 export type ServiceKey = (typeof SERVICE_ORDER)[number];
 
-let pendingServiceKey: ServiceKey | null = null;
+type PendingRequest = { key: ServiceKey; token: number } | null;
+
+let pending: PendingRequest = null;
+let tokenCounter = 0;
+const listeners = new Set<() => void>();
 
 /**
- * Guarda qué servicio se quiere destacar la próxima vez que se monte
- * <OurServices />. Se llama desde el Header al clickear un item del
- * submenú "Servicios", justo antes de navegar al home.
+ * Guarda qué servicio se quiere destacar y notifica a los
+ * suscriptores. Cada llamada genera un "token" nuevo, así que aunque
+ * el valor de `key` sea el mismo que antes (ej. clickeás dos veces
+ * "Engineering" seguidas), el efecto que escucha esto igual se
+ * vuelve a disparar.
  */
 export function setPendingService(key: ServiceKey) {
-  pendingServiceKey = key;
+  tokenCounter += 1;
+  pending = { key, token: tokenCounter };
+  listeners.forEach((listener) => listener());
 }
 
-/**
- * Lee y limpia (una sola vez) el servicio pendiente. OurServices lo
- * llama cuando ya está listo para calcular y ejecutar el scroll.
- */
-export function takePendingService(): ServiceKey | null {
-  const key = pendingServiceKey;
-  pendingServiceKey = null;
-  return key;
+export function subscribePendingService(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
+
+export function getPendingServiceSnapshot(): PendingRequest {
+  return pending;
+}
+
+function getServerSnapshot(): PendingRequest {
+  return null;
+}
+
+export { getServerSnapshot as getPendingServiceServerSnapshot };

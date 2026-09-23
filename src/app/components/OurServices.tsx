@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   motion,
   AnimatePresence,
@@ -15,7 +15,9 @@ import TypewriterText from "./TypewriterText";
 import { useLenis } from "./SmoothScrollProvider";
 import {
   SERVICE_ORDER,
-  takePendingService,
+  subscribePendingService,
+  getPendingServiceSnapshot,
+  getPendingServiceServerSnapshot,
 } from "../context/pendingServiceStore";
 
 interface OurServicesProps {
@@ -53,7 +55,13 @@ export default function OurServices({ services }: OurServicesProps) {
 
   const layerIdRef = useRef(0);
   const prevIndexRef = useRef(0);
-  const handledPendingServiceRef = useRef(false);
+  const lastHandledTokenRef = useRef<number | null>(null);
+
+  const pendingRequest = useSyncExternalStore(
+    subscribePendingService,
+    getPendingServiceSnapshot,
+    getPendingServiceServerSnapshot,
+  );
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -86,19 +94,17 @@ export default function OurServices({ services }: OurServicesProps) {
     ]);
   }, [activeIndex]);
 
-  // Si venimos de un click en el submenú "Servicios" del Header,
-  // saltamos directo al tramo de scroll correspondiente a ese
-  // servicio, sin animación de "deslizamiento" entre pasos.
+  // Se dispara cada vez que llega un pedido nuevo desde el submenú
+  // "Servicios" del Header (identificado por su token), sin importar
+  // si OurServices ya estaba montado o se acaba de montar ahora.
   useEffect(() => {
-    if (handledPendingServiceRef.current) return;
+    if (!pendingRequest) return;
+    if (lastHandledTokenRef.current === pendingRequest.token) return;
     if (!lenis || !wrapperRef.current || !services.length) return;
 
-    const pendingKey = takePendingService();
-    if (!pendingKey) return;
+    lastHandledTokenRef.current = pendingRequest.token;
 
-    handledPendingServiceRef.current = true;
-
-    const orderIndex = SERVICE_ORDER.indexOf(pendingKey);
+    const orderIndex = SERVICE_ORDER.indexOf(pendingRequest.key);
     const targetIndex = Math.min(Math.max(orderIndex, 0), services.length - 1);
 
     const jump = () => {
@@ -127,7 +133,7 @@ export default function OurServices({ services }: OurServicesProps) {
     // Doble rAF: dejamos que el layout (header, hero, imágenes)
     // termine de asentarse antes de medir posiciones.
     requestAnimationFrame(() => requestAnimationFrame(jump));
-  }, [lenis, services.length]);
+  }, [pendingRequest, lenis, services.length]);
 
   if (!services.length) {
     return null;
