@@ -1,6 +1,6 @@
 "use client";
 
-import Grid, { COLS } from "./layout/Grid";
+import Grid, { COLS } from "../layout/Grid";
 
 interface Props {
   description: string;
@@ -8,7 +8,7 @@ interface Props {
   buttonHref?: string;
 }
 
-function IntroDescription({
+export default function IntroDescriptionDesktop({
   description,
   buttonLabel = "Ver Proyectos",
   buttonHref = "/proyectos",
@@ -37,5 +37,3 @@ function IntroDescription({
     </div>
   );
 }
-
-export default IntroDescription;
