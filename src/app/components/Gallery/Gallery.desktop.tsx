@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { GalleryHomeWp } from "../_interfaces/wordpress-components";
-import { offsetForColumn, GRID_MARGIN_PX, COLS } from "./layout/Grid";
-import SectionTitle from "./SectionTitle";
+import { GalleryHomeWp } from "../../_interfaces/wordpress-components";
+import { offsetForColumn, GRID_MARGIN_PX, COLS } from "../layout/Grid";
+import SectionTitle from "../SectionTitle";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
@@ -25,7 +25,7 @@ const GALLERY_TRACK_OFFSET = offsetForColumn(1);
 const GALLERY_GAP_PX = 10;
 const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - GALLERY_GAP_PX, 0);
 
-export default function Gallery({ gallery, title }: GalleryProps) {
+export default function GalleryDesktop({ gallery, title }: GalleryProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
