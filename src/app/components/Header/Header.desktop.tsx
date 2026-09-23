@@ -6,50 +6,17 @@ import { useLocale, useTranslations } from "next-intl";
 import {
   setPendingService,
   type ServiceKey,
-} from "../context/pendingServiceStore";
-import Grid, { COLS } from "./layout/Grid";
-import {
-  INTRO_REVEAL_TRANSITION,
-  useIntroPlaying,
-} from "../context/introStore";
+} from "../../context/pendingServiceStore";
+import Grid, { COLS } from "../layout/Grid";
+import { INTRO_REVEAL_TRANSITION } from "../../context/introStore";
 import { motion } from "framer-motion";
+import { NAV_ITEMS, LOCALES } from "./navItems";
+import { useHeaderCore } from "./useHeaderCore";
 
-type SubItem = { key: string; href: string };
-type NavItem = { key: string; href: string; subItems?: SubItem[] };
-
-const NAV_ITEMS: NavItem[] = [
-  {
-    key: "services",
-    href: "/servicios",
-    subItems: [
-      { key: "engineering", href: "/servicios/engineering" },
-      { key: "audioVideo", href: "/servicios/audio-video" },
-      { key: "lightingDesign", href: "/servicios/lighting-design" },
-      { key: "homeAutomation", href: "/servicios/home-automation" },
-      { key: "mep", href: "/servicios/mep" },
-    ],
-  },
-  { key: "projects", href: "/projects" },
-  { key: "about", href: "/about-us" },
-  { key: "showrooms", href: "/showrooms" },
-  { key: "news", href: "/press" },
-  { key: "outlet", href: "/outlet" },
-  { key: "contact", href: "/contact" },
-];
-
-const LOCALES = [
-  { code: "en", label: "En" },
-  { code: "es", label: "Es" },
-  { code: "de", label: "De" },
-];
-
-type HeaderTheme = "dark" | "light";
-const DEFAULT_THEME: HeaderTheme = "dark";
-
-// Pequeño margen de tolerancia antes de cerrar el submenú al salir de
-// un item o del propio submenú, para poder cruzar el espacio vacío
-// entre columnas sin que se cierre de golpe.
 const SUBMENU_CLOSE_DELAY_MS = 200;
+type HeaderTheme = "dark" | "light";
+
+const DEFAULT_THEME: HeaderTheme = "dark";
 
 function themeAtPoint(x: number, y: number): HeaderTheme {
   if (typeof document === "undefined") return DEFAULT_THEME;
@@ -64,26 +31,32 @@ function themeAtElement(el: HTMLElement | null): HeaderTheme {
   return themeAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
 }
 
-export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [animate, setAnimate] = useState(false);
-  const [activeKey, setActiveKey] = useState<string | null>(null);
+export default function HeaderDesktop() {
+  const {
+    isOpen,
+    animate,
+    warmed,
+    introPlaying,
+    headerRef,
+    logoRef,
+    menuButtonRef,
+    logoVariant,
+    menuVariant,
+    openMenu,
+    closeMenu,
+  } = useHeaderCore();
+
   const locale = useLocale();
+  const pathname = usePathname();
+  const rafIds = useRef<number[]>([]);
   const t = useTranslations("Header");
   const tSub = useTranslations("HeaderSub");
-  const rafIds = useRef<number[]>([]);
-  const pathname = usePathname();
-  const headerRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [logoTheme, setLogoTheme] = useState<HeaderTheme>(DEFAULT_THEME);
   const [menuTheme, setMenuTheme] = useState<HeaderTheme>(DEFAULT_THEME);
   const tickingRef = useRef(false);
-  const logoVariant = logoTheme === "light" ? "brown" : "white";
-  const menuVariant = menuTheme === "light" ? "brown" : "white";
-  const introPlaying = useIntroPlaying();
-  const closeSubmenuTimeoutRef = useRef<number | null>(null);
 
+  const [activeKey, setActiveKey] = useState<string | null>(null);
+  const closeSubmenuTimeoutRef = useRef<number | null>(null);
   const cancelSubmenuClose = useCallback(() => {
     if (closeSubmenuTimeoutRef.current !== null) {
       window.clearTimeout(closeSubmenuTimeoutRef.current);
@@ -147,12 +120,6 @@ export default function Header() {
     return () => cancelAnimationFrame(id);
   }, [pathname, updateTheme]);
 
-  const [warmed, setWarmed] = useState(false);
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setWarmed(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
-
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -180,21 +147,6 @@ export default function Header() {
       rafIds.current.forEach((id) => cancelAnimationFrame(id));
     };
   }, []);
-
-  function openMenu() {
-    setIsOpen(true);
-
-    const id1 = requestAnimationFrame(() => {
-      const id2 = requestAnimationFrame(() => setAnimate(true));
-      rafIds.current.push(id2);
-    });
-    rafIds.current.push(id1);
-  }
-
-  function closeMenu() {
-    setAnimate(false);
-    setIsOpen(false);
-  }
 
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
