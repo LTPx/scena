@@ -8,10 +8,6 @@ export const homeMock: HomePageWp = {
       type: "image",
     },
     {
-      url: "/videos/intro-scena.mp4",
-      type: "video",
-    },
-    {
       url: "/images/hero-3.png",
       type: "image",
     },
