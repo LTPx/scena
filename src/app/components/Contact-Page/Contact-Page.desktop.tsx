@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ContactPageWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS } from "./layout/Grid";
-import GlassButton from "./GlassButton";
+import { ContactPageWp } from "../../_interfaces/wordpress-components";
+import Grid, { COLS } from "../layout/Grid";
+import GlassButton from "../GlassButton";
 
 interface Props {
   data: ContactPageWp;
 }
 
-export default function ContactPage({ data }: Props) {
+export default function ContactPageDesktop({ data }: Props) {
   const t = useTranslations("Contact");
 
   return (
@@ -29,7 +29,7 @@ export default function ContactPage({ data }: Props) {
           <div className="flex items-baseline gap-4">
             <span className="font-quadrant text-[80px] font-normal not-italic leading-[100%] tracking-[0%] color-text-footer">
               {t.rich("tagline", {
-                br: (chunks) => <br />,
+                br: () => <br />,
               })}
             </span>
           </div>
@@ -62,6 +62,7 @@ export default function ContactPage({ data }: Props) {
               </button>
             </form>
           </div>
+
           <div className="paragraph-final-footer">
             <p>{t("followUs")}</p>
             <p>
