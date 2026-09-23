@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
-import { ProjectHomeWp } from "../_interfaces/wordpress-components";
-import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "./layout/Grid";
-import GlassButton from "./GlassButton";
-import TypewriterText from "./TypewriterText";
+import { ProjectHomeWp } from "../../_interfaces/wordpress-components";
+import { colSpanWidth, offsetForColumn, GRID_MARGIN_PX } from "../layout/Grid";
+import GlassButton from "../GlassButton";
+import TypewriterText from "../TypewriterText";
 import { Link } from "@/navigation";
 
 interface Props {
@@ -30,7 +30,7 @@ const REVEAL_BUFFER_VH = 100;
 
 const TOP_BORDER_COLOR = "#A89572";
 
-export default function FeaturedProjects({
+export default function FeaturedProjectsDesktop({
   projects,
   title = "Proyectos destacados",
   showTopBorder = false,
