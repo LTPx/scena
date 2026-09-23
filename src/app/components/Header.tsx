@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import {
+  setPendingService,
+  type ServiceKey,
+} from "../context/pendingServiceStore";
 import Grid, { COLS } from "./layout/Grid";
 import {
   INTRO_REVEAL_TRANSITION,
@@ -307,16 +311,25 @@ export default function Header() {
               onMouseEnter={cancelSubmenuClose}
               onMouseLeave={scheduleSubmenuClose}
             >
-              {activeItem?.subItems?.map((sub) => (
-                <Link
-                  key={sub.href}
-                  href={sub.href}
-                  onClick={closeMenu}
-                  className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
-                >
-                  {tSub(`${activeItem.key}.${sub.key}`)}
-                </Link>
-              ))}
+              {activeItem?.subItems?.map((sub) => {
+                const isServiceLink = activeItem.key === "services";
+
+                return (
+                  <Link
+                    key={sub.href}
+                    href={isServiceLink ? "/#our-services" : sub.href}
+                    onClick={() => {
+                      if (isServiceLink) {
+                        setPendingService(sub.key as ServiceKey);
+                      }
+                      closeMenu();
+                    }}
+                    className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
+                  >
+                    {tSub(`${activeItem.key}.${sub.key}`)}
+                  </Link>
+                );
+              })}
             </nav>
 
             <nav

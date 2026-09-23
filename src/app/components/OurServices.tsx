@@ -12,6 +12,11 @@ import Image from "next/image";
 import { ServiceWp } from "../_interfaces/wordpress-components";
 import Grid, { COLS } from "./layout/Grid";
 import TypewriterText from "./TypewriterText";
+import { useLenis } from "./SmoothScrollProvider";
+import {
+  SERVICE_ORDER,
+  takePendingService,
+} from "../context/pendingServiceStore";
 
 interface OurServicesProps {
   services: ServiceWp[];
@@ -36,6 +41,7 @@ const CTA_TRANSITION = {
 
 export default function OurServices({ services }: OurServicesProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [seeProjects, setSeeProjects] = useState(false);
@@ -47,6 +53,7 @@ export default function OurServices({ services }: OurServicesProps) {
 
   const layerIdRef = useRef(0);
   const prevIndexRef = useRef(0);
+  const handledPendingServiceRef = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -79,6 +86,49 @@ export default function OurServices({ services }: OurServicesProps) {
     ]);
   }, [activeIndex]);
 
+  // Si venimos de un click en el submenú "Servicios" del Header,
+  // saltamos directo al tramo de scroll correspondiente a ese
+  // servicio, sin animación de "deslizamiento" entre pasos.
+  useEffect(() => {
+    if (handledPendingServiceRef.current) return;
+    if (!lenis || !wrapperRef.current || !services.length) return;
+
+    const pendingKey = takePendingService();
+    if (!pendingKey) return;
+
+    handledPendingServiceRef.current = true;
+
+    const orderIndex = SERVICE_ORDER.indexOf(pendingKey);
+    const targetIndex = Math.min(Math.max(orderIndex, 0), services.length - 1);
+
+    const jump = () => {
+      const el = wrapperRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const currentScroll = lenis.scroll;
+      const elementTop = rect.top + currentScroll;
+      const elementHeight = el.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      // Punto medio del tramo correspondiente a ese servicio, para
+      // caer con margen dentro del floor() que calcula activeIndex.
+      const progress = (targetIndex + 0.5) / services.length;
+      const targetScroll =
+        elementTop + progress * Math.max(elementHeight - viewportHeight, 0);
+
+      prevIndexRef.current = targetIndex;
+      setActiveIndex(targetIndex);
+      setLayers([{ index: targetIndex, id: "initial", direction: "down" }]);
+
+      lenis.scrollTo(targetScroll, { immediate: true });
+    };
+
+    // Doble rAF: dejamos que el layout (header, hero, imágenes)
+    // termine de asentarse antes de medir posiciones.
+    requestAnimationFrame(() => requestAnimationFrame(jump));
+  }, [lenis, services.length]);
+
   if (!services.length) {
     return null;
   }
@@ -87,6 +137,7 @@ export default function OurServices({ services }: OurServicesProps) {
 
   return (
     <div
+      id="our-services"
       ref={wrapperRef}
       style={{ height: `${VH_PER_STEP * services.length}vh` }}
       className="relative"
