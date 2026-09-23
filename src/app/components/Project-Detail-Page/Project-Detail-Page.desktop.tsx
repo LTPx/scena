@@ -1,25 +1,17 @@
 "use client";
 
-import {
-  ProjectContentBlockWp,
-  ProjectDetailWp,
-} from "@/app/_interfaces/wordpress-components";
-import { Cover } from "./Cover";
+import { ProjectContentBlockWp } from "@/app/_interfaces/wordpress-components";
+import { Cover } from "../Cover";
 import Grid, {
   clampStartCol,
   COLS,
   PROJECT_IMAGE_HEIGHT,
   PROJECT_IMAGE_SPAN,
-} from "./layout/Grid";
-import ScrollZoomImage from "./ScrollZoomImage";
-import GlassButton from "./GlassButton";
-import FeaturedProjects from "./FeaturedProjects";
-import { useEffect } from "react";
-import { useLenis } from "./SmoothScrollProvider";
-
-interface Props {
-  data: ProjectDetailWp;
-}
+} from "../layout/Grid";
+import ScrollZoomImage from "../ScrollZoomImage";
+import GlassButton from "../GlassButton";
+import FeaturedProjects from "../FeaturedProjects";
+import { ProjectDetailProps, useProjectDetail } from "./useProjectDetail";
 
 function ContentBlock({
   block,
@@ -33,7 +25,6 @@ function ContentBlock({
       const span = PROJECT_IMAGE_SPAN[block.orientation];
       const height = PROJECT_IMAGE_HEIGHT[block.orientation];
       const startCol = clampStartCol(block.start_col, block.orientation);
-
       const spacing = imageIndex === 0 ? "mt-[150px]" : "mt-[200px]";
 
       return (
@@ -53,12 +44,8 @@ function ContentBlock({
   }
 }
 
-export default function ProjectDetailPage({ data }: Props) {
-  const lenis = useLenis();
-
-  useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true });
-  }, [lenis, data.title]);
+export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
+  useProjectDetail(data);
 
   let imageCount = 0;
 
@@ -89,7 +76,7 @@ export default function ProjectDetailPage({ data }: Props) {
         </Cover>
       </div>
 
-      <Grid className="gap-y-0 py-16 md:py-24">
+      <Grid className="gap-y-0 py-24">
         <div className={`${COLS.projectMeta} flex flex-col gap-1`}>
           {data.meta.map((item) => (
             <p
@@ -117,6 +104,7 @@ export default function ProjectDetailPage({ data }: Props) {
           );
         })}
       </Grid>
+
       <FeaturedProjects
         projects={data.other_projects}
         title="Otros Proyectos"
