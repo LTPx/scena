@@ -9,7 +9,7 @@ export default function FooterMobile() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative isolate flex min-h-[850px] flex-col overflow-hidden px-5 pb-8 pt-10 font-sans text-white">
+    <footer className="relative isolate flex min-h-[850px] flex-col overflow-hidden px-[15px] pb-[20px] pt-[30px] font-sans text-white">
       <Image
         src="/footer-bg.png"
         alt=""
@@ -19,7 +19,7 @@ export default function FooterMobile() {
       />
 
       {/* CTA */}
-      <h2 className="color-text-footer text-[32px] font-normal leading-[110%]">
+      <h2 className="color-text-footer font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
         {t("ctaTitle")}
       </h2>
       <a href="/contacto" className="btn-gellix mt-6 w-fit">
@@ -27,16 +27,19 @@ export default function FooterMobile() {
       </a>
 
       {/* Newsletter */}
-      <form className="mt-16" onSubmit={(e) => e.preventDefault()}>
-        <p className="color-text-footer mb-3 text-[20px] leading-[120%]">
+      <form className="mt-[50px]" onSubmit={(e) => e.preventDefault()}>
+        <p className="color-text-footer mb-3 font-[Gellix] text-[20px] font-normal not-italic leading-[100%] tracking-[0%]">
           {t("newsletterLabel")}
         </p>
         <input
           type="email"
           placeholder={t("emailPlaceholder")}
-          className="w-full border-b border-white/60 bg-transparent pb-2 text-[12px] placeholder-white/70 outline-none focus:border-white"
+          className="w-full border-b border-white/60 bg-transparent pb-2 font-[Gellix] text-[12px] font-normal not-italic leading-[100%] tracking-[0%] placeholder-white/70 outline-none focus:border-white"
         />
-        <button type="submit" className="btn-gellix mt-4 cursor-pointer">
+        <button
+          type="submit"
+          className="btn-gellix mt-[20px] cursor-pointer text-btn-footer-mobile"
+        >
           {t("send")}
         </button>
       </form>
@@ -44,7 +47,7 @@ export default function FooterMobile() {
       {/* Oficinas: scroll horizontal nativo */}
       <div
         className="
-          -mx-5 mt-10 flex snap-x snap-mandatory gap-8 overflow-x-auto px-5
+          -mx-5 mt-[50px] flex snap-x snap-mandatory gap-8 overflow-x-auto px-5
           scroll-pl-5 [-ms-overflow-style:none] [scrollbar-width:none]
           [&::-webkit-scrollbar]:hidden
         "
@@ -54,7 +57,7 @@ export default function FooterMobile() {
             <GlassButton as="span" variant="light">
               {office.label}
             </GlassButton>
-            <p className="paragraph-footer mt-[14px]">
+            <p className="paragraph-footer-mobile mt-[15px]">
               {office.address}
               <br />
               {office.phone}
@@ -69,8 +72,8 @@ export default function FooterMobile() {
       </div>
 
       {/* Redes + legales */}
-      <div className="mt-10 grid grid-cols-[1fr_35%] gap-4">
-        <div className="paragraph-final-footer">
+      <div className="mt-[50px] grid grid-cols-[1fr_35%] gap-4">
+        <div className="paragraph-final-footer-mobile">
           <p>{t("followUs")}</p>
           <p>
             <a href="#">Instagram</a> | <a href="#">Linkedin</a>
@@ -91,9 +94,9 @@ export default function FooterMobile() {
           alt="Scena"
           width={220}
           height={122}
-          className="h-[56px] w-auto"
+          className="h-[40px] w-auto"
         />
-        <span className="color-text-footer font-quadrant text-[26px] font-normal not-italic leading-[100%]">
+        <span className="color-text-footer font-quadrant text-[21.58px] font-normal not-italic leading-[100%] tracking-[0%]">
           living
           <br />
           technology

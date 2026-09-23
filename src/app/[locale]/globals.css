@@ -172,6 +172,36 @@ body {
   color: #f6f5f1;
 }
 
+.text-btn-footer-mobile {
+  font-family: Gellix, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #a89572;
+}
+
+.paragraph-footer-mobile {
+  font-family: Gellix, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 135%;
+  letter-spacing: 0%;
+  color: #f6f5f1;
+}
+
+.paragraph-final-footer-mobile {
+  font-family: Gellix, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #f6f5f1;
+}
+
 @layer components {
   .btn-gellix {
     @apply cursor-pointer inline-flex h-[35px] w-fit items-center justify-center rounded-full bg-white px-4 py-[5px] text-[14px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572] transition-colors duration-200;
