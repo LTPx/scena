@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { OutletProductWp } from "../_interfaces/wordpress-components";
 import Grid, {
   COLS,
   offsetForColumn,
@@ -11,12 +10,8 @@ import Grid, {
   GRID_GUTTER_PX,
   GRID_MARGIN_PX,
   GRID_COLS_COUNT,
-} from "./layout/Grid";
-
-interface Props {
-  products: OutletProductWp[];
-  initialSlug: string;
-}
+} from "../layout/Grid";
+import { OutletDetailProps, useOutletDetail } from "./useOutletDetail";
 
 const IMAGE_OFFSET = offsetForColumn(1);
 const IMAGE_WIDTH = colSpanWidth(5);
@@ -27,43 +22,34 @@ const WHEEL_THRESHOLD = 8;
 const WHEEL_IDLE_RESET_MS = 180;
 const GALLERY_FADE_DURATION = 0.35;
 
-function updateUrlSilently(slug: string) {
-  if (typeof window === "undefined") return;
-  const segments = window.location.pathname.split("/");
-  segments[segments.length - 1] = slug;
-  window.history.replaceState(window.history.state, "", segments.join("/"));
-}
+export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
+  const { products } = props;
+  const {
+    product,
+    gallery,
+    activeImage,
+    currentIndex,
+    galleryIndex,
+    setGalleryIndex,
+    goToGallery,
+    goNext,
+  } = useOutletDetail(props);
 
-export default function OutletDetailPage({ products, initialSlug }: Props) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const galleryLockRef = useRef(false);
   const wheelIdleTimeoutRef = useRef<number | null>(null);
 
-  const [currentIndex, setCurrentIndex] = useState(() =>
-    Math.max(
-      products.findIndex((p) => p.slug === initialSlug),
-      0,
-    ),
-  );
-  const [galleryIndex, setGalleryIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const product = products[currentIndex];
-  const gallery = product.gallery?.length ? product.gallery : [product.image];
-  const activeImage = gallery[galleryIndex];
 
   useEffect(() => {
     const measure = () => {
       const viewportWidth = window.innerWidth;
-
       const colWidth =
         (viewportWidth -
           2 * GRID_MARGIN_PX -
           (GRID_COLS_COUNT - 1) * GRID_GUTTER_PX) /
         GRID_COLS_COUNT;
       const peek = GRID_MARGIN_PX + colWidth / 2;
-
       setSlideWidth(viewportWidth - peek);
     };
 
@@ -85,13 +71,9 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
       }, WHEEL_IDLE_RESET_MS);
 
       if (galleryLockRef.current) return;
-
       galleryLockRef.current = true;
 
-      setGalleryIndex((prev) => {
-        const direction = e.deltaY > 0 ? 1 : -1;
-        return (prev + direction + gallery.length) % gallery.length;
-      });
+      goToGallery(e.deltaY > 0 ? 1 : -1);
     }
 
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -101,20 +83,13 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
         window.clearTimeout(wheelIdleTimeoutRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gallery.length]);
 
-  function goTo(nextIndex: number) {
-    if (isTransitioning) return;
-    if (nextIndex < 0 || nextIndex >= products.length) return;
-
+  function handleNext() {
+    if (isTransitioning || products.length <= 1) return;
     setIsTransitioning(true);
-    setCurrentIndex(nextIndex);
-    setGalleryIndex(0);
-    updateUrlSilently(products[nextIndex].slug);
-  }
-
-  function goNext() {
-    goTo((currentIndex + 1) % products.length);
+    goNext();
   }
 
   return (
@@ -136,14 +111,11 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
         </h1>
       </Grid>
 
-      <div
-        ref={wrapperRef}
-        className="relative mt-[150px] min-h-0 flex-1 overflow-hidden"
-      >
+      <div className="relative mt-[150px] min-h-0 flex-1 overflow-hidden">
         {products.length > 1 && (
           <button
             type="button"
-            onClick={goNext}
+            onClick={handleNext}
             disabled={isTransitioning}
             aria-label="Siguiente producto"
             style={{ left: NEXT_ARROW_LEFT }}
@@ -210,20 +182,19 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
 
                     {isActive && gallery.length > 1 && (
                       <div className="absolute bottom-[25px] left-1/2 flex -translate-x-1/2 gap-2">
-                        {gallery.map((_, dotIndex) => {
-                          const isDotActive = dotIndex === galleryIndex;
-                          return (
-                            <button
-                              key={dotIndex}
-                              type="button"
-                              onClick={() => setGalleryIndex(dotIndex)}
-                              aria-label={`Ver foto ${dotIndex + 1}`}
-                              className={`h-2 w-2 rounded-full border border-[#A89572] transition-colors duration-300 ${
-                                isDotActive ? "bg-[#A89572]" : "bg-transparent"
-                              }`}
-                            />
-                          );
-                        })}
+                        {gallery.map((_, dotIndex) => (
+                          <button
+                            key={dotIndex}
+                            type="button"
+                            onClick={() => setGalleryIndex(dotIndex)}
+                            aria-label={`Ver foto ${dotIndex + 1}`}
+                            className={`h-2 w-2 rounded-full border border-[#A89572] transition-colors duration-300 ${
+                              dotIndex === galleryIndex
+                                ? "bg-[#A89572]"
+                                : "bg-transparent"
+                            }`}
+                          />
+                        ))}
                       </div>
                     )}
                   </div>
@@ -234,13 +205,12 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
                   >
                     <div className="flex flex-col gap-6">
                       {p.color_name && (
-                        <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                        <p className="font-[Gellix] text-[16px] leading-[135%] text-[#A89572]">
                           {p.color_name}
                         </p>
                       )}
-
                       {p.description && (
-                        <p className="max-w-[440px] font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                        <p className="max-w-[440px] font-[Gellix] text-[16px] leading-[135%] text-[#A89572]">
                           {p.description}
                         </p>
                       )}
@@ -248,12 +218,12 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
 
                     <div className="flex flex-col gap-4">
                       {p.note && (
-                        <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                        <p className="font-sans text-[16px] leading-[135%] text-[#A89572]">
                           {p.note}
                         </p>
                       )}
 
-                      <p className="font-sans text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
+                      <p className="font-sans text-[40px] leading-[100%] text-[#A89572]">
                         <span className="line-through">
                           RRP: {p.original_price}
                         </span>{" "}
@@ -267,7 +237,6 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
                         >
                           Comprar ahora
                         </button>
-
                         <button
                           type="button"
                           className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"
@@ -286,3 +255,5 @@ export default function OutletDetailPage({ products, initialSlug }: Props) {
     </div>
   );
 }
+
+type OutletDetailPageProps = OutletDetailProps;
