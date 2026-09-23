@@ -3,15 +3,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { OutletPageWp } from "../_interfaces/wordpress-components";
 import Grid, {
   COLS,
   colSpanWidth,
   offsetForColumn,
   trackCardWidth,
   GRID_MARGIN_PX,
-} from "./layout/Grid";
+} from "../layout/Grid";
 import { Link } from "@/navigation";
+import { OutletPageWp } from "@/app/_interfaces/wordpress-components";
 
 interface Props {
   data: OutletPageWp;
@@ -25,7 +25,7 @@ const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 const VH_PER_100VW_TRAVEL = 90;
 const REVEAL_BUFFER_VH = 40;
 
-export default function OutletPage({ data }: Props) {
+export default function OutletPageDesktop({ data }: Props) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const filteredProducts = useMemo(() => {

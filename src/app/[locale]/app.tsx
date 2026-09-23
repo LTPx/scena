@@ -6,9 +6,9 @@ import SmoothScrollProvider from "../components/SmoothScrollProvider";
 import { usePathname } from "@/navigation";
 import { useIsDesktop } from "../hooks/useIsDesktop";
 
-const HIDDEN_FOOTER_PREFIX_ROUTES = ["/contact", "/outlet", "/showrooms"];
+const HIDDEN_FOOTER_PREFIX_ROUTES = ["/contact", "/showrooms"];
 
-const HIDDEN_FOOTER_DESKTOP_ONLY_EXACT_ROUTES = ["/press"];
+const HIDDEN_FOOTER_DESKTOP_ROUTES = ["/outlet", "/press"];
 
 interface Props {
   children: React.ReactNode;
@@ -22,11 +22,12 @@ function App({ children }: Props) {
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
-  const hiddenOnDesktopOnly =
-    HIDDEN_FOOTER_DESKTOP_ONLY_EXACT_ROUTES.includes(pathname) &&
-    isDesktop === true;
+  const hiddenOnDesktop =
+    HIDDEN_FOOTER_DESKTOP_ROUTES.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`),
+    ) && isDesktop === true;
 
-  const hideFooter = hiddenEverywhere || hiddenOnDesktopOnly;
+  const hideFooter = hiddenEverywhere || hiddenOnDesktop;
 
   return (
     <div className="relative">
