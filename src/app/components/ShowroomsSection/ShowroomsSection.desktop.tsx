@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, wrap } from "framer-motion";
 import Image from "next/image";
-import { ShowroomPageWp } from "../_interfaces/wordpress-components";
-import Grid, { COLS } from "./layout/Grid";
+import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
+import Grid, { COLS } from "../layout/Grid";
 
 interface Props {
   data: ShowroomPageWp;
@@ -13,7 +13,7 @@ interface Props {
 
 const ITEM_WIDTH_CLASS = "min-w-[220px] max-w-[85vw] md:max-w-[45vw]";
 
-export default function ShowroomsSection({ data, speed = 0.6 }: Props) {
+export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [setWidth, setSetWidth] = useState(0);
   const [selectedLocation, setSelectedLocation] = useState(0);
