@@ -5,10 +5,14 @@ import { ProjectsPageWp } from "@/app/_interfaces/wordpress-components";
 
 export interface ProjectsPageProps {
   data: ProjectsPageWp;
+  initialFilter?: string;
 }
 
-export function useProjectsFilter(data: ProjectsPageWp) {
-  const [activeFilter, setActiveFilter] = useState("all");
+export function useProjectsFilter(data: ProjectsPageWp, initialFilter = "all") {
+  const valid = data.filters.some((f) => f.slug === initialFilter);
+  const [activeFilter, setActiveFilter] = useState(
+    valid ? initialFilter : "all",
+  );
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") return data.projects;

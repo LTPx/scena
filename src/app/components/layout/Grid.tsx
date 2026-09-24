@@ -111,7 +111,7 @@ export const COLS = {
   // del grid (col 12). Úsalo cuando el texto trae sus propios saltos de
   // línea (del editor de WP) y no quieres que el grid le imponga un
   // ancho que reflowee el texto de forma distinta a como lo escribieron.
-  wideTextFull: "col-start-3 col-end-13",
+  wideTextFull: "col-start-3 col-end-11",
   // Lista/columna derecha, arranca donde termina "content" (col 6, línea 7)
   // y llega hasta el borde derecho del grid (col 12). Usado en PressPage.
   newsList: "col-start-7 col-end-13",

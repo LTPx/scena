@@ -1,18 +1,17 @@
-import { notFound } from "next/navigation";
 import ProjectDetailPage from "@/app/components/Project-Detail-Page";
-import { getProjectDetailBySlug } from "@/app/mocks/project-detail";
+import { getProjectDetail } from "@/app/_services/api";
+import { notFound } from "next/navigation";
 
-interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export default async function Project({ params }: Props) {
-  const { slug } = await params;
-  const data = getProjectDetailBySlug(slug);
-
-  if (!data) {
+export default async function ProjectDetail({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "es" | "de"; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  try {
+    const data = await getProjectDetail(locale, slug);
+    return <ProjectDetailPage data={data} />;
+  } catch {
     notFound();
   }
-
-  return <ProjectDetailPage data={data} />;
 }

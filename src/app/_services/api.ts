@@ -1,6 +1,11 @@
+import {
+  ProjectDetailWp,
+  ProjectsPageWp,
+} from "../_interfaces/wordpress-components";
 import { WordPressFrontendPage } from "../_interfaces/wordpress-page";
 
 export const WORDPRESS_API_URL = "https://staging.e-scena.com/wp-json";
+type Locale = "en" | "es" | "de";
 
 export async function getWordPressPage(
   page: string,
@@ -41,4 +46,27 @@ export async function getWordPressCustomPage(
   const page = await response.json();
   if (!response.ok) throw new Error(page.message);
   return page;
+}
+
+export async function getProjectsPage(locale: Locale): Promise<ProjectsPageWp> {
+  const res = await fetch(
+    `${WORDPRESS_API_URL}/custom/v1/projects?lang=${locale}`,
+    { next: { revalidate: 60 } },
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getProjectDetail(
+  locale: Locale,
+  slug: string,
+): Promise<ProjectDetailWp> {
+  const res = await fetch(
+    `${WORDPRESS_API_URL}/custom/v1/project?slug=${slug}&lang=${locale}`,
+    { next: { revalidate: 60 } },
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
 }
