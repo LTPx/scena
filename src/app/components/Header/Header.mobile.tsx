@@ -45,7 +45,7 @@ export default function HeaderMobile() {
         initial={false}
         animate={{ y: introPlaying ? "-100%" : "0%" }}
         transition={introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION}
-        className="flex items-center justify-between px-5 py-6"
+        className="flex items-center justify-between px-[15px] py-6"
       >
         <Link ref={logoRef} href="/" className="flex items-center">
           <img
@@ -79,7 +79,7 @@ export default function HeaderMobile() {
         aria-hidden={!isOpen}
       >
         <div
-          className="relative w-full overflow-y-auto bg-[#BCB6A8] px-5 pb-8 transition-opacity duration-300 ease-out"
+          className="relative w-full overflow-y-auto bg-[#BCB6A8] px-[15px] pb-8 transition-opacity duration-300 ease-out"
           style={{
             height: PANEL_HEIGHT,
             maxHeight: "100dvh",
@@ -87,8 +87,12 @@ export default function HeaderMobile() {
           }}
         >
           {/* Fila superior: logo + idiomas + cerrar */}
-          <div className="flex items-center justify-between pt-6">
-            <Link href="/" onClick={closeMenu} className="flex items-center">
+          <div className="flex items-start justify-between">
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className="mt-[24px] flex items-center"
+            >
               <img
                 src="/logos/logo-header-white.svg"
                 alt="scena"
@@ -96,8 +100,8 @@ export default function HeaderMobile() {
               />
             </Link>
 
-            <div className="flex items-center gap-5">
-              <nav className="flex items-center gap-2 text-[16px]">
+            <div className="flex items-start gap-5">
+              <nav className="mt-[20px] flex items-center gap-2 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%]">
                 {LOCALES.map((l, i) => (
                   <span key={l.code} className="flex items-center gap-2">
                     <Link
@@ -110,6 +114,7 @@ export default function HeaderMobile() {
                     >
                       {l.label}
                     </Link>
+
                     {i < LOCALES.length - 1 && (
                       <span className="text-[#F6F5F1]">|</span>
                     )}
@@ -121,28 +126,28 @@ export default function HeaderMobile() {
                 type="button"
                 onClick={closeMenu}
                 aria-label="Cerrar menu"
-                className="flex items-center"
+                className="mt-[15px] flex items-center"
               >
                 <img
                   src="/logos/close-menu.svg"
                   alt=""
-                  className="h-[34px] w-auto"
+                  className="h-[38px] w-auto"
                 />
               </button>
             </div>
           </div>
 
           {/* Navegación: submenú siempre visible, sin hover */}
-          <nav className="mt-8 flex flex-col">
+          <nav className="mt-[50px] flex flex-col">
             {NAV_ITEMS.map((item) => {
               if (item.subItems?.length) {
                 return (
                   <div key={item.href}>
-                    <span className="block text-[40px] leading-[110%] text-[#F6F5F1]">
+                    <span className="block font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#F6F5F1]">
                       {t(item.key)}
                     </span>
 
-                    <div className="flex flex-col pb-1 pl-14">
+                    <div className="flex flex-col pt-2 pb-1 pl-14">
                       {item.subItems.map((sub) => {
                         const isServiceLink = item.key === "services";
                         return (
@@ -155,7 +160,7 @@ export default function HeaderMobile() {
                               }
                               closeMenu();
                             }}
-                            className="w-fit text-[28px] leading-[125%] text-[#F6F5F1]"
+                            className="w-fit font-sans text-[30px] font-normal not-italic leading-[120%] tracking-[0%] text-[#F6F5F1]"
                           >
                             {tSub(`${item.key}.${sub.key}`)}
                           </Link>
@@ -171,7 +176,7 @@ export default function HeaderMobile() {
                   key={item.href}
                   href={item.href}
                   onClick={closeMenu}
-                  className="w-fit text-[40px] leading-[110%] text-[#F6F5F1]"
+                  className="w-fit font-sans text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#F6F5F1]"
                 >
                   {t(item.key)}
                 </Link>
@@ -181,8 +186,10 @@ export default function HeaderMobile() {
 
           {/* Redes */}
           <div className="mt-10 text-[#F6F5F1]">
-            <p className="text-[12px] leading-[135%]">{tFooter("followUs")}</p>
-            <p className="text-[20px] leading-[120%] underline">
+            <p className="font-[Gellix] text-[14px] font-normal not-italic leading-[100%] tracking-[0%]">
+              {tFooter("followUs")}
+            </p>
+            <p className="font-[Gellix] text-[20px] font-normal not-italic leading-[100%] tracking-[0%] underline">
               <a href="#">Instagram</a> | <a href="#">Linkedin</a>
             </p>
           </div>
