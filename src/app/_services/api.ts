@@ -49,12 +49,18 @@ export async function getWordPressCustomPage(
 }
 
 export async function getProjectsPage(locale: Locale): Promise<ProjectsPageWp> {
-  const res = await fetch(
-    `${WORDPRESS_API_URL}/custom/v1/projects?lang=${locale}`,
-    { next: { revalidate: 60 } },
-  );
+  const url = `${WORDPRESS_API_URL}/custom/v1/projects?lang=${locale}`;
+
+  console.log("🌐 GET PROJECTS PAGE:", url);
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
   const json = await res.json();
+
   if (!res.ok) throw new Error(json.message);
+
   return json;
 }
 
@@ -62,11 +68,16 @@ export async function getProjectDetail(
   locale: Locale,
   slug: string,
 ): Promise<ProjectDetailWp> {
-  const res = await fetch(
-    `${WORDPRESS_API_URL}/custom/v1/project?slug=${slug}&lang=${locale}`,
-    { next: { revalidate: 60 } },
-  );
+  const url = `${WORDPRESS_API_URL}/custom/v1/project?slug=${slug}&lang=${locale}`;
+
+  console.log("🌐 GET PROJECT DETAIL:", url);
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
+
   return json;
 }

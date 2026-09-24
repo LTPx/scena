@@ -176,7 +176,7 @@ export interface ProjectDetailWp {
   title: string;
   categories: ProjectCategoryWp[];
   hero_image: ImageAcf;
-  meta: ProjectMetaItemWp[];
+  information: ProjectMetaItemWp[];
   headline: string;
   description: string;
   content: ProjectContentBlockWp[];

@@ -78,14 +78,18 @@ export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
 
       <Grid className="gap-y-0 py-24">
         <div className={`${COLS.projectMeta} flex flex-col gap-1`}>
-          {data.meta.map((item) => (
-            <p
-              key={item.label}
-              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
-            >
-              {item.label}: {item.value}
-            </p>
-          ))}
+          <div className={`${COLS.projectMeta} flex flex-col gap-1`}>
+            {(Array.isArray(data.information) ? data.information : []).map(
+              (item) => (
+                <p
+                  key={item.label}
+                  className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+                >
+                  {item.label}: {item.value}
+                </p>
+              ),
+            )}
+          </div>
         </div>
 
         <div className={`${COLS.projectContent} flex flex-col gap-[70px]`}>

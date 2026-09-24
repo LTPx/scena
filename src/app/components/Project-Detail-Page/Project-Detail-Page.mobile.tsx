@@ -56,14 +56,16 @@ export default function ProjectDetailPageMobile({ data }: ProjectDetailProps) {
       {/* Info */}
       <div className="px-[16px] pb-[60px] pt-[40px]">
         <div className="flex flex-col gap-1">
-          {data.meta.map((item) => (
-            <p
-              key={item.label}
-              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
-            >
-              {item.label}: {item.value}
-            </p>
-          ))}
+          {(Array.isArray(data.information) ? data.information : []).map(
+            (item) => (
+              <p
+                key={item.label}
+                className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+              >
+                {item.label}: {item.value}
+              </p>
+            ),
+          )}
         </div>
 
         <div className="mt-[40px] flex flex-col gap-[40px]">
