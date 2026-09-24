@@ -10,10 +10,10 @@ interface Props {
 export default function PressPageMobile({ data }: Props) {
   return (
     <div data-header-theme="light" className="px-[15px] pb-20 pt-[220px]">
-      <h1 className="font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
-        {data.title}
-      </h1>
-
+      <h1
+        className="font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+        dangerouslySetInnerHTML={{ __html: data.title }}
+      />
       <ul className="mt-[100px] flex flex-col gap-8">
         {data.news.map((item, index) => (
           <li key={item.id}>

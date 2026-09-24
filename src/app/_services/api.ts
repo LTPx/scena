@@ -1,4 +1,6 @@
 import {
+  NewsDetailWp,
+  NewsPageWp,
   ProjectDetailWp,
   ProjectsPageWp,
 } from "../_interfaces/wordpress-components";
@@ -79,5 +81,30 @@ export async function getProjectDetail(
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
 
+  return json;
+}
+
+export async function getPressPage(locale: Locale): Promise<NewsPageWp> {
+  const res = await fetch(
+    `${WORDPRESS_API_URL}/custom/v1/press?lang=${locale}`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getPressDetail(
+  locale: Locale,
+  slug: string,
+): Promise<NewsDetailWp> {
+  const res = await fetch(
+    `${WORDPRESS_API_URL}/custom/v1/press-item?slug=${slug}&lang=${locale}`,
+    { next: { revalidate: 60 } },
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
   return json;
 }

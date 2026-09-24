@@ -1,18 +1,12 @@
-import { notFound } from "next/navigation";
 import PressDetailPage from "@/app/components/Press-Detail-Page";
-import { getPressDetailBySlug } from "@/app/mocks/press-detail";
+import { getPressDetail } from "../../../_services/api";
 
-interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export default async function Press({ params }: Props) {
-  const { slug } = await params;
-  const data = getPressDetailBySlug(slug);
-
-  if (!data) {
-    notFound();
-  }
-
+export default async function PressDetail({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "es" | "de"; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const data = await getPressDetail(locale, slug);
   return <PressDetailPage data={data} />;
 }
