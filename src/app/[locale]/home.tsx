@@ -6,18 +6,29 @@ import OurServices from "../components/OurServices";
 import Gallery from "../components/Gallery";
 import WhereWeMakeDifference from "../components/WhereWeMakeDifference";
 import FeaturedProjects from "../components/FeaturedProjects";
-import { HomePageWp } from "../_interfaces/wordpress-components";
+import { HomePageWp, MediaFileWp } from "../_interfaces/wordpress-components";
 import IntroDescription from "../components/IntroDescription";
 
 interface Props {
   home_information: HomePageWp;
 }
 
+function toMediaFiles(hero: HomePageWp["hero_page"] = []): MediaFileWp[] {
+  return hero
+    .filter((item) => item?.files?.url)
+    .map(({ files }) => ({
+      url: files.url,
+      type: files.mime_type?.startsWith("video") ? "video" : "image",
+    }));
+}
+
 function HomePage({ home_information }: Props) {
+  const heroPage = toMediaFiles(home_information.hero_page);
+
   return (
     <div>
       <IntroLoader />
-      <Hero heroPage={home_information.hero_page} />
+      <Hero heroPage={heroPage} />
       <main className="relative z-10 bg-[#f6f5f1] lg:-mt-[100vh]">
         <IntroDescription
           description={home_information.intro_description.description}
@@ -36,7 +47,7 @@ function HomePage({ home_information }: Props) {
         <WhereWeMakeDifference
           data={home_information.where_we_make_difference}
         />
-        <FeaturedProjects projects={home_information.projects} />
+        {/* <FeaturedProjects projects={home_information.projects} /> */}
       </main>
     </div>
   );

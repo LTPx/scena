@@ -6,6 +6,7 @@ import Image from "next/image";
 import { GalleryHomeWp } from "../../_interfaces/wordpress-components";
 import { GRID_MARGIN_PX } from "../layout/Grid";
 import TypewriterText from "../TypewriterText";
+import { resolveAspect, ResolvedAspect } from "./aspect";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
@@ -15,10 +16,16 @@ interface GalleryProps {
 const IMAGE_HEIGHT_PX = 475;
 const GAP_PX = 10;
 
-const ASPECT_WIDTH_CLASS: Record<GalleryHomeWp["aspect"], string> = {
+const ASPECT_WIDTH_CLASS: Record<ResolvedAspect, string> = {
   landscape: "w-[85vw]",
   portrait: "w-[62vw]",
   square: "w-[75vw]",
+};
+
+const ASPECT_SIZES: Record<ResolvedAspect, string> = {
+  landscape: "85vw",
+  portrait: "62vw",
+  square: "75vw",
 };
 
 export default function GalleryMobile({ gallery, title }: GalleryProps) {
@@ -47,24 +54,28 @@ export default function GalleryMobile({ gallery, title }: GalleryProps) {
           scrollPaddingInline: GRID_MARGIN_PX / 2,
         }}
       >
-        {gallery.map((item, index) => (
-          <div
-            key={`${item.image.url}-${index}`}
-            style={{ height: IMAGE_HEIGHT_PX }}
-            className={`relative flex-shrink-0 snap-start ${
-              ASPECT_WIDTH_CLASS[item.aspect]
-            }`}
-          >
-            <Image
-              src={item.image.url}
-              alt={item.image.alt ?? ""}
-              fill
-              priority={index === 0}
-              sizes="85vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
+        {gallery.map((item, index) => {
+          if (!item.image?.url) return null;
+
+          const aspect = resolveAspect(item.image, item.aspect);
+
+          return (
+            <div
+              key={`${item.image.url}-${index}`}
+              style={{ height: IMAGE_HEIGHT_PX }}
+              className={`relative flex-shrink-0 snap-start ${ASPECT_WIDTH_CLASS[aspect]}`}
+            >
+              <Image
+                src={item.image.url}
+                alt={item.image.alt ?? ""}
+                fill
+                priority={index === 0}
+                sizes={ASPECT_SIZES[aspect]}
+                className="object-cover"
+              />
+            </div>
+          );
+        })}
       </div>
     </section>
   );

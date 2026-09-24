@@ -1,37 +1,44 @@
-const WP_URL = process.env.WORDPRESS_API_URL; // ej: https://cms.scena.com
+import { WordPressFrontendPage } from "../_interfaces/wordpress-page";
 
-if (!WP_URL) {
-  throw new Error("Falta WORDPRESS_API_URL en tus variables de entorno");
+export const WORDPRESS_API_URL = "https://staging.e-scena.com/wp-json";
+
+export async function getWordPressPage(
+  page: string,
+): Promise<WordPressFrontendPage> {
+  const url = `${WORDPRESS_API_URL}/wp/v2/pages?slug=${page}`;
+  console.log("url: ", url);
+  const response = await fetch(url, {
+    next: {
+      revalidate: 60,
+    },
+  });
+  const dataJson = await response.json();
+  if (!response.ok) throw new Error(dataJson.message);
+  return dataJson;
 }
 
-/**
- * Trae una pagina de WordPress por slug, en el idioma indicado.
- * Ajusta el query param `lang` segun el plugin multi-idioma que uses
- * (Polylang usa `lang`, WPML puede variar segun tu config).
- */
-export async function getPage(slug: string, locale: string) {
-  const res = await fetch(
-    `${WP_URL}/wp-json/wp/v2/pages?slug=${slug}&lang=${locale}`,
-    { next: { revalidate: 60 } } // ISR: revalida cada 60s
-  );
+export async function getWordPressCustomPage(
+  locale: "en" | "es" | "de",
+  slug: string,
+): Promise<WordPressFrontendPage> {
+  const parentPages = {
+    es: "spanish-pages",
+    de: "german-pages",
+    en: "english-pages",
+  } as const;
 
-  if (!res.ok) {
-    throw new Error(`Error al obtener la pagina "${slug}": ${res.status}`);
+  const parentPage = parentPages[locale];
+  if (!parentPage) {
+    throw new Error(`Locale inválido: "${locale}"`);
   }
 
-  const data = await res.json();
-  return data[0] ?? null;
-}
+  const url = `${WORDPRESS_API_URL}/custom/v1/page_by_slug?slug=${slug}&parent_slug=${parentPage}&lang=${locale}`;
+  console.log("url custom page:", url);
 
-export async function getProjects(locale: string) {
-  const res = await fetch(
-    `${WP_URL}/wp-json/wp/v2/proyectos?lang=${locale}&_embed`,
-    { next: { revalidate: 60 } }
-  );
+  const response = await fetch(url, { next: { revalidate: 60 } });
+  console.log("status custom page:", response.status);
 
-  if (!res.ok) {
-    throw new Error(`Error al obtener proyectos: ${res.status}`);
-  }
-
-  return res.json();
+  const page = await response.json();
+  if (!response.ok) throw new Error(page.message);
+  return page;
 }

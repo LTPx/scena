@@ -130,7 +130,7 @@ export default function WhereWeMakeDifferenceDesktop({ data }: Props) {
 
                 <div className="flex flex-1 items-center justify-center">
                   <Image
-                    src={card.icon.url}
+                    src={card.icon.url || ""}
                     alt={card.icon.alt || card.title}
                     width={144}
                     height={144}

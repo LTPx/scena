@@ -8,8 +8,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        // reemplaza por el dominio real de tu WordPress
-        hostname: "tu-wordpress.com",
+        hostname: "staging.e-scena.com",
       },
     ],
   },

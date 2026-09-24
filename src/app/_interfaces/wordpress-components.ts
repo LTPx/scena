@@ -1,7 +1,11 @@
 import { ImageAcf } from "./wordpress-page";
 
+export interface HeroItemWp {
+  files: ImageAcf;
+}
+
 export interface HomePageWp {
-  hero_page: MediaFileWp[];
+  hero_page: HeroItemWp[];
   intro_description: DescriptionWp;
   our_services: ServiceWp[];
   gallery: GalleryHomeWp[];
@@ -23,9 +27,11 @@ export interface ServiceWp {
   image: ImageAcf;
 }
 
+export type GalleryAspectWp = "auto" | "landscape" | "portrait" | "square";
+
 export interface GalleryHomeWp {
   image: ImageAcf;
-  aspect: "landscape" | "portrait" | "square";
+  aspect?: GalleryAspectWp;
 }
 
 export interface DifferenceCardWp {
