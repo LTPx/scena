@@ -1,4 +1,5 @@
 import {
+  AboutPageWp,
   NewsDetailWp,
   NewsPageWp,
   ProjectDetailWp,
@@ -107,4 +108,46 @@ export async function getPressDetail(
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
   return json;
+}
+
+export async function getAboutPage(locale: Locale): Promise<AboutPageWp> {
+  const page = await getWordPressCustomPage(locale, "about-us");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const a = (page as any).acf?.about_information;
+  if (!a) throw new Error("about_information no encontrado");
+
+  return {
+    title: a.title ?? "",
+    description: a.description ?? "",
+    gallery: a.gallery ?? [],
+    team_gallery: a.team_gallery ?? [],
+    team: {
+      description: a.team?.description ?? "",
+      positions: (a.team?.positions ?? []).map(
+        (p: { title: string }, i: number) => ({ id: i + 1, title: p.title }),
+      ),
+      cta_title: a.team?.cta_title ?? "",
+      cta_label: a.team?.cta_label ?? "",
+    },
+    differentiators: {
+      title: a.differentiators?.title ?? "",
+      cards: a.differentiators?.cards ?? [],
+    },
+    partners: {
+      description: a.partners?.description ?? "",
+      partners: (a.partners?.partners ?? []).map(
+        (
+          p: {
+            name: string;
+            logo: AboutPageWp["partners"]["partners"][0]["logo"];
+          },
+          i: number,
+        ) => ({
+          id: i + 1,
+          name: p.name,
+          logo: p.logo,
+        }),
+      ),
+    },
+  };
 }
