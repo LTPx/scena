@@ -5,13 +5,14 @@ import { motion, useMotionValue, useTransform, wrap } from "framer-motion";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
+import { getAspectRatio } from "../Gallery/aspect";
 
 interface Props {
   data: ShowroomPageWp;
   speed?: number;
 }
 
-const ITEM_WIDTH_CLASS = "min-w-[220px] max-w-[85vw] md:max-w-[45vw]";
+const ITEM_WIDTH_CLASS = "min-w-[220px] max-w-[95vw] md:max-w-[80vw]";
 
 export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -58,27 +59,29 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
         style={{ x }}
         className="flex h-full items-center gap-[8px] will-change-transform"
       >
-        {track.map((image, index) => (
-          <div
-            key={`${image.url}-${index}`}
-            className={`relative h-full flex-shrink-0 ${ITEM_WIDTH_CLASS}`}
-            style={{
-              aspectRatio:
-                image.width && image.height
-                  ? `${image.width} / ${image.height}`
-                  : "4 / 5",
-            }}
-          >
-            <Image
-              src={image.url}
-              alt={image.alt ?? ""}
-              fill
-              priority={index === 0}
-              sizes="(max-width: 768px) 85vw, 45vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
+        {track.map((item, index) => {
+          const image = item.image;
+          if (!image?.url) return null;
+
+          const aspectRatio = getAspectRatio(image, item.aspect); // 👈 ya no uses resolveAspect + ASPECT_RATIO[]
+
+          return (
+            <div
+              key={`${image.url}-${index}`}
+              className={`relative h-full flex-shrink-0 ${ITEM_WIDTH_CLASS}`}
+              style={{ aspectRatio }}
+            >
+              <Image
+                src={image.url}
+                alt={image.alt ?? ""}
+                fill
+                priority={index === 0}
+                sizes="(max-width: 768px) 85vw, 45vw"
+                className="object-cover"
+              />
+            </div>
+          );
+        })}
       </motion.div>
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
       <Grid className="pointer-events-none absolute inset-x-0 top-0 py-[27px]">

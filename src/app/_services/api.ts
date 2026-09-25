@@ -4,6 +4,7 @@ import {
   NewsPageWp,
   ProjectDetailWp,
   ProjectsPageWp,
+  ShowroomPageWp,
 } from "../_interfaces/wordpress-components";
 import { WordPressFrontendPage } from "../_interfaces/wordpress-page";
 
@@ -149,5 +150,26 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageWp> {
         }),
       ),
     },
+  };
+}
+
+export async function getShowroomsPage(
+  locale: Locale,
+): Promise<ShowroomPageWp> {
+  const page = await getWordPressCustomPage(locale, "showrooms");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const s = (page as any).acf?.showroom_information;
+  if (!s) throw new Error("showroom_information no encontrado");
+
+  return {
+    title: s.title ?? "",
+    locations: (s.locations ?? []).map(
+      (l: { label: string; contact: string; description: string }) => ({
+        label: l.label ?? "",
+        contact: l.contact ?? "",
+        description: l.description ?? "",
+      }),
+    ),
+    gallery: s.gallery ?? [],
   };
 }

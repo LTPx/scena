@@ -1,5 +1,7 @@
+export const dynamic = "force-dynamic";
+
+import { getShowroomsPage } from "@/app/_services/api";
 import ShowroomsSection from "@/app/components/ShowroomsSection";
-import { mockShowroomsPage } from "@/app/mocks/showroons";
 
 async function Showrooms({
   params,
@@ -8,7 +10,7 @@ async function Showrooms({
 }) {
   const { locale } = await params;
 
-  const data = mockShowroomsPage;
+  const data = await getShowroomsPage(locale);
 
   return (
     <div>

@@ -73,7 +73,7 @@ export interface ShowroomLocationWp {
 export interface ShowroomPageWp {
   title: string;
   locations: ShowroomLocationWp[];
-  gallery: ImageAcf[];
+  gallery: GalleryHomeWp[]; // antes: ImageAcf[]
 }
 
 export interface ContactOfficeWp {

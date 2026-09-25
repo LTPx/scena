@@ -67,11 +67,39 @@ export const mockShowroomsPage: ShowroomPageWp = {
     },
   ],
   gallery: [
-    mockImage("/images/hero-1.png", "Showroom", 2400, 1350),
-    mockImage("/images/hero-1.png", "Showroom detalle 1", 1200, 1600),
-    mockImage("/images/hero-2.png", "Showroom detalle 2", 1400, 1300),
-    mockImage("/images/hero-3.png", "Showroom detalle 3", 2800, 1200),
-    mockImage("/images/gallery-1.png", "Showroom detalle 4", 1000, 1600),
-    mockImage("/images/gallery-2.png", "Showroom detalle 5", 1920, 1280),
+    {
+      image: mockImage("/images/hero-1.png", "Showroom", 2400, 1350),
+      aspect: "auto",
+    },
+    {
+      image: mockImage("/images/hero-1.png", "Showroom detalle 1", 1200, 1600),
+      aspect: "auto",
+    },
+    {
+      image: mockImage("/images/hero-2.png", "Showroom detalle 2", 1400, 1300),
+      aspect: "landscape",
+    },
+    {
+      image: mockImage("/images/hero-3.png", "Showroom detalle 3", 2800, 1200),
+      aspect: "auto",
+    },
+    {
+      image: mockImage(
+        "/images/gallery-1.png",
+        "Showroom detalle 4",
+        1000,
+        1600,
+      ),
+      aspect: "portrait",
+    },
+    {
+      image: mockImage(
+        "/images/gallery-2.png",
+        "Showroom detalle 5",
+        1920,
+        1280,
+      ),
+      aspect: "auto",
+    },
   ],
 };

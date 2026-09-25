@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
+import { getAspectRatio } from "../Gallery/aspect";
 
 interface Props {
   data: ShowroomPageWp;
@@ -60,27 +61,29 @@ export default function ShowroomsSectionMobile({ data }: Props) {
           className="flex h-full items-center"
           style={{ gap: GAP_PX, width: "max-content" }}
         >
-          {track.map((image, index) => (
-            <div
-              key={`${image.url}-${index}`}
-              className="relative h-full flex-shrink-0 max-w-[85vw]"
-              style={{
-                aspectRatio:
-                  image.width && image.height
-                    ? `${image.width} / ${image.height}`
-                    : "4 / 5",
-              }}
-            >
-              <Image
-                src={image.url}
-                alt={image.alt ?? ""}
-                fill
-                priority={index < 2}
-                sizes="85vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
+          {track.map((item, index) => {
+            const image = item.image;
+            if (!image?.url) return null;
+
+            const aspectRatio = getAspectRatio(image, item.aspect);
+
+            return (
+              <div
+                key={`${image.url}-${index}`}
+                className="relative h-full flex-shrink-0 max-w-[95vw]"
+                style={{ aspectRatio }}
+              >
+                <Image
+                  src={image.url}
+                  alt={image.alt ?? ""}
+                  fill
+                  priority={index < 2}
+                  sizes="85vw"
+                  className="object-cover"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
