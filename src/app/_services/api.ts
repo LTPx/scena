@@ -1,5 +1,6 @@
 import {
   AboutPageWp,
+  ContactPageWp,
   NewsDetailWp,
   NewsPageWp,
   ProjectDetailWp,
@@ -171,5 +172,29 @@ export async function getShowroomsPage(
       }),
     ),
     gallery: s.gallery ?? [],
+  };
+}
+
+export async function getContactPage(locale: Locale): Promise<ContactPageWp> {
+  const page = await getWordPressCustomPage(locale, "contact");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const c = (page as any).acf?.contact_information;
+  if (!c) throw new Error("contact_information no encontrado");
+
+  return {
+    background_image: c.background_image ?? null,
+    offices: (c.offices ?? []).map(
+      (o: {
+        label: string;
+        address: string;
+        phone: string;
+        email: string;
+      }) => ({
+        label: o.label ?? "",
+        address: o.address ?? "",
+        phone: o.phone ?? "",
+        email: o.email ?? "",
+      }),
+    ),
   };
 }

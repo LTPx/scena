@@ -1,5 +1,5 @@
+import { getContactPage } from "@/app/_services/api";
 import ContactPage from "@/app/components/Contact-Page";
-import { contactMock } from "@/app/mocks/contact";
 
 async function Contact({
   params,
@@ -8,11 +8,11 @@ async function Contact({
 }) {
   const { locale } = await params;
 
-  const data = contactMock;
+  const data = await getContactPage(locale);
 
   return (
     <div>
-      <ContactPage data={contactMock} />
+      <ContactPage data={data} />
     </div>
   );
 }
