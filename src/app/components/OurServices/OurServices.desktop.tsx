@@ -92,9 +92,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
     ]);
   }, [activeIndex]);
 
-  // Se dispara cada vez que llega un pedido nuevo desde el submenú
-  // "Servicios" del Header (identificado por su token), sin importar
-  // si OurServices ya estaba montado o se acaba de montar ahora.
   useEffect(() => {
     if (!pendingRequest) return;
     if (lastHandledTokenRef.current === pendingRequest.token) return;
@@ -115,8 +112,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
       const elementHeight = el.offsetHeight;
       const viewportHeight = window.innerHeight;
 
-      // Punto medio del tramo correspondiente a ese servicio, para
-      // caer con margen dentro del floor() que calcula activeIndex.
       const progress = (targetIndex + 0.5) / services.length;
       const targetScroll =
         elementTop + progress * Math.max(elementHeight - viewportHeight, 0);
@@ -128,8 +123,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
       lenis.scrollTo(targetScroll, { immediate: true });
     };
 
-    // Doble rAF: dejamos que el layout (header, hero, imágenes)
-    // termine de asentarse antes de medir posiciones.
     requestAnimationFrame(() => requestAnimationFrame(jump));
   }, [pendingRequest, lenis, services.length]);
 
@@ -152,7 +145,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
         data-header-theme="light"
         className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[27px] pb-[40px] overflow-hidden"
       >
-        {/* Header: "Nuestros servicios" <-> "Servicios" */}
         <div className={`${COLS.content} row-start-1 overflow-hidden`}>
           <AnimatePresence mode="wait">
             <motion.h2
@@ -170,7 +162,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           </AnimatePresence>
         </div>
 
-        {/* Lista + título: se centra (colapsado) o sube arriba (expandido) */}
         <motion.div
           layout
           transition={GROUP_TRANSITION}
@@ -229,7 +220,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           </div>
         </motion.div>
 
-        {/* Descripción / contenido expandido: fila propia, pegada abajo */}
         <div className={`${COLS.content} row-start-3 flex flex-col`}>
           <AnimatePresence mode="wait">
             {!seeProjects ? (
@@ -240,12 +230,11 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
-              >
-                {active.description}
-              </motion.p>
+                dangerouslySetInnerHTML={{
+                  __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
+                }}
+              />
             ) : (
-              // key incluye active.label: así se re-dispara el exit/enter
-              // cada vez que cambia el servicio activo, no solo al abrir/cerrar
               <motion.div
                 key={`expanded-${active.label}`}
                 initial={{ opacity: 0, y: 16 }}
@@ -267,8 +256,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
             )}
           </AnimatePresence>
 
-          {/* Par "know more" / "See Projects": solo en modo colapsado,
-              vive dentro de la columna de contenido, debajo del párrafo */}
           <AnimatePresence>
             {!seeProjects && (
               <motion.div
@@ -292,9 +279,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           </AnimatePresence>
         </div>
 
-        {/* Botón "Cerrar": solo en modo expandido, columna 1 (bajo la lista),
-            MISMO layoutId que el bloque de arriba -> Framer anima el salto
-            de posición automáticamente (magic move) */}
         <AnimatePresence>
           {seeProjects && (
             <motion.div

@@ -18,9 +18,14 @@ const CATEGORIES_LEFT_OFFSET = `calc(${offsetForColumn(
 const IMAGE_OVERLAY_GRADIENT =
   "linear-gradient(180deg, rgba(255, 255, 255, 0) 67.85%, rgba(0, 0, 0, 0.4) 100%)";
 
-export default function ProjectsPageDesktop({ data }: ProjectsPageProps) {
-  const { activeFilter, setActiveFilter, filteredProjects } =
-    useProjectsFilter(data);
+export default function ProjectsPageDesktop({
+  data,
+  initialFilter,
+}: ProjectsPageProps) {
+  const { activeFilter, setActiveFilter, filteredProjects } = useProjectsFilter(
+    data,
+    initialFilter,
+  );
 
   const stickyRef = useRef<HTMLDivElement>(null);
   const [projectHeight, setProjectHeight] = useState<number | null>(null);

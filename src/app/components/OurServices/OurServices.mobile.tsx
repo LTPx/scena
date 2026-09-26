@@ -101,9 +101,12 @@ export default function OurServicesMobile({ services }: Props) {
               dangerouslySetInnerHTML={{ __html: active.expanded_content }}
             />
           ) : (
-            <p className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80">
-              {active.description}
-            </p>
+            <p
+              className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80"
+              dangerouslySetInnerHTML={{
+                __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
+              }}
+            />
           )}
         </motion.div>
       </AnimatePresence>

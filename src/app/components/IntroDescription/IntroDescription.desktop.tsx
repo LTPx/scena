@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/navigation";
 import Grid, { COLS } from "../layout/Grid";
 
 interface Props {
@@ -29,9 +30,9 @@ export default function IntroDescriptionDesktop({
         >
           <span dangerouslySetInnerHTML={{ __html: html }} />
 
-          <a href={buttonHref} className="btn-gellix ml-2 align-middle">
+          <Link href={buttonHref} className="btn-gellix ml-2 align-middle">
             {buttonLabel}
-          </a>
+          </Link>
         </div>
       </Grid>
     </div>

@@ -6,11 +6,16 @@ import OurServices from "../components/OurServices";
 import Gallery from "../components/Gallery";
 import WhereWeMakeDifference from "../components/WhereWeMakeDifference";
 import FeaturedProjects from "../components/FeaturedProjects";
-import { HomePageWp, MediaFileWp } from "../_interfaces/wordpress-components";
+import {
+  HomePageWp,
+  MediaFileWp,
+  ProjectListItemWp,
+} from "../_interfaces/wordpress-components";
 import IntroDescription from "../components/IntroDescription";
 
 interface Props {
   home_information: HomePageWp;
+  projects: ProjectListItemWp[];
 }
 
 function toMediaFiles(hero: HomePageWp["hero_page"] = []): MediaFileWp[] {
@@ -22,7 +27,7 @@ function toMediaFiles(hero: HomePageWp["hero_page"] = []): MediaFileWp[] {
     }));
 }
 
-function HomePage({ home_information }: Props) {
+function HomePage({ home_information, projects }: Props) {
   const heroPage = toMediaFiles(home_information.hero_page);
 
   return (
@@ -47,7 +52,7 @@ function HomePage({ home_information }: Props) {
         <WhereWeMakeDifference
           data={home_information.where_we_make_difference}
         />
-        {/* <FeaturedProjects projects={home_information.projects} /> */}
+        <FeaturedProjects projects={projects} />
       </main>
     </div>
   );

@@ -10,9 +10,14 @@ const IMAGE_OVERLAY_GRADIENT =
 const HIDE_SCROLLBAR =
   "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
-export default function ProjectsPageMobile({ data }: ProjectsPageProps) {
-  const { activeFilter, setActiveFilter, filteredProjects } =
-    useProjectsFilter(data);
+export default function ProjectsPageMobile({
+  data,
+  initialFilter,
+}: ProjectsPageProps) {
+  const { activeFilter, setActiveFilter, filteredProjects } = useProjectsFilter(
+    data,
+    initialFilter,
+  );
 
   return (
     <div

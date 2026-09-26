@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -21,6 +22,7 @@ export default function SmoothScrollProvider({
   children: ReactNode;
 }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -63,6 +65,14 @@ export default function SmoothScrollProvider({
       stop();
     };
   }, []);
+
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
 
   return (
     <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
