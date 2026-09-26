@@ -231,12 +231,23 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                       </p>
 
                       <div className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
-                        <button
-                          type="button"
-                          className="btn-gellix btn-gellix-active"
+                        <a
+                          target="_blank"
+                          href={p.payment_link}
+                          rel="noopener noreferrer"
+                          aria-disabled={!p.is_available || !p.payment_link}
+                          onClick={(e) => {
+                            if (!p.is_available || !p.payment_link)
+                              e.preventDefault();
+                          }}
+                          className={`btn-gellix btn-gellix-active ${
+                            !p.is_available || !p.payment_link
+                              ? "pointer-events-none opacity-40"
+                              : ""
+                          }`}
                         >
-                          Comprar ahora
-                        </button>
+                          {p.is_available ? "Comprar ahora" : "Agotado"}
+                        </a>
                         <button
                           type="button"
                           className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"

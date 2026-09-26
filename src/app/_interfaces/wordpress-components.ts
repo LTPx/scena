@@ -244,6 +244,8 @@ export interface OutletProductWp {
   original_price: string;
   outlet_price: string;
   image: ImageAcf; // thumbnail usado en el listado
+  payment_link: string; // URL del Stripe Payment Link
+  is_available: boolean; // false = "Agotado", oculta o deshabilita el botón de compra
   // --- Campos solo usados en el detalle ---
   color_name?: string;
   description?: string;

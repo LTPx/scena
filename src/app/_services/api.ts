@@ -3,6 +3,8 @@ import {
   ContactPageWp,
   NewsDetailWp,
   NewsPageWp,
+  OutletPageWp,
+  OutletProductWp,
   ProjectDetailWp,
   ProjectsPageWp,
   ShowroomPageWp,
@@ -197,4 +199,39 @@ export async function getContactPage(locale: Locale): Promise<ContactPageWp> {
       }),
     ),
   };
+}
+
+export async function getOutletPage(locale: Locale): Promise<OutletPageWp> {
+  const url = `${WORDPRESS_API_URL}/custom/v1/outlet?lang=${locale}`;
+  console.log("🌐 GET OUTLET PAGE:", url);
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getOutletDetail(
+  locale: Locale,
+  slug: string,
+): Promise<OutletProductWp> {
+  const url = `${WORDPRESS_API_URL}/custom/v1/outlet-product?slug=${slug}&lang=${locale}`;
+  console.log("🌐 GET OUTLET DETAIL:", url);
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getOutletProductsFull(
+  locale: Locale,
+): Promise<OutletProductWp[]> {
+  const url = `${WORDPRESS_API_URL}/custom/v1/outlet-products-full?lang=${locale}`;
+  console.log("🌐 GET OUTLET PRODUCTS FULL:", url);
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
 }

@@ -1,6 +1,13 @@
 import OutletPage from "@/app/components/Outlet-Page";
-import { outletMock } from "../../mocks/outlet";
+import { getOutletPage } from "@/app/_services/api";
 
-export default function Outlet() {
-  return <OutletPage data={outletMock} />;
+export default async function Outlet({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "es" | "de" }>;
+}) {
+  const { locale } = await params;
+  const data = await getOutletPage(locale);
+
+  return <OutletPage data={data} />;
 }
