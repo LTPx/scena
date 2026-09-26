@@ -49,6 +49,7 @@ function HomePage({ home_information, projects }: Props) {
           gallery={home_information.gallery}
           title="Nuestros showrooms"
         />
+        <div aria-hidden className="h-[0px] lg:h-[100px]" />
         <WhereWeMakeDifference
           data={home_information.where_we_make_difference}
         />

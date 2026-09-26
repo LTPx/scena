@@ -121,10 +121,13 @@ body {
   color: #f6f5f1;
 }
 
-.service-expanded-content h4 {
+.service-expanded-content p {
   font-family: Gellix, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 135%;
+  letter-spacing: 0%;
   color: #a89572;
   margin-top: 24px;
   margin-bottom: 8px;
