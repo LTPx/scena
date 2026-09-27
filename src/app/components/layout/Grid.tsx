@@ -152,7 +152,7 @@ export const COLS = {
   footerCta: "col-start-6 col-span-3",
   // Lista de oficinas — col 10 a 11
   footerOffices: "col-start-10 col-span-2",
-  projectMeta: "col-start-3 col-span-2",
+  projectMeta: "col-start-3 col-span-3",
   // Headline + descripción del proyecto — col 6 a 11
   projectContent: "col-start-6 col-span-6",
   teamList: "col-start-8 col-end-13",

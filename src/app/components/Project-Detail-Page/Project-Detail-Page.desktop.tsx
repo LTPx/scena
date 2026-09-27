@@ -96,9 +96,10 @@ export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
           <p className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
             {data.headline}
           </p>
-          <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-            {data.description}
-          </p>
+          <p
+            className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
         </div>
 
         {data.content.map((block, index) => {

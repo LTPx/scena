@@ -72,9 +72,10 @@ export default function ProjectDetailPageMobile({ data }: ProjectDetailProps) {
           <p className="font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
             {data.headline}
           </p>
-          <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-            {data.description}
-          </p>
+          <p
+            className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
         </div>
 
         <div className="mt-[60px] flex flex-col gap-[80px]">
