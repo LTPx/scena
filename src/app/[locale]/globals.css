@@ -225,13 +225,6 @@ body {
   }
 }
 
-.site-content {
-  position: relative;
-  z-index: 10;
-  background: var(--background);
-  margin-bottom: -100vh;
-}
-
 .bg-body {
   background: var(--background);
 }

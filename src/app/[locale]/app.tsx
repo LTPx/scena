@@ -31,12 +31,12 @@ function App({ children }: Props) {
 
   return (
     <div className="relative">
-      <div className="relative z-10">
+      <div className="relative z-10 lg:pointer-events-none">
         <Header />
 
         <SmoothScrollProvider>
           <main className={hideFooter ? "" : "lg:pb-[calc(100vh-80px)]"}>
-            <div className="bg-body">{children}</div>
+            <div className="bg-body lg:pointer-events-auto">{children}</div>
           </main>
         </SmoothScrollProvider>
       </div>
