@@ -153,7 +153,7 @@ export default function HeaderDesktop() {
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 z-100 w-full bg-transparent font-sans"
+      className="pointer-events-none fixed top-0 left-0 z-100 w-full bg-transparent font-sans"
     >
       <motion.div
         initial={false}
@@ -164,7 +164,7 @@ export default function HeaderDesktop() {
           <Link
             ref={logoRef}
             href="/"
-            className={`${COLS.logo} flex items-center`}
+            className={`${COLS.logo} pointer-events-auto flex items-center`}
           >
             <img
               src={`/logos/logo-header-${logoVariant}.svg`}
@@ -179,7 +179,7 @@ export default function HeaderDesktop() {
             onClick={openMenu}
             aria-expanded={isOpen}
             aria-label="Abrir menu"
-            className={`${COLS.close} flex items-center justify-end`}
+            className={`${COLS.close} pointer-events-auto flex items-center justify-end`}
           >
             <img
               src={`/logos/logo-menu-${menuVariant}.svg`}

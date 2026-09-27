@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "@/navigation";
-import { useIntroPlaying } from "../../context/introStore";
+import { useIntroPlaying, setIntroPlaying } from "../../context/introStore";
 
 type HeaderTheme = "dark" | "light";
 const DEFAULT_THEME: HeaderTheme = "dark";
@@ -36,15 +36,33 @@ export function useHeaderCore() {
   const pathname = usePathname();
   const introPlaying = useIntroPlaying();
 
+  useEffect(() => {
+    const isHome = pathname === "/";
+    if (!isHome && introPlaying) {
+      setIntroPlaying(false);
+    }
+  }, [pathname, introPlaying]);
+
   const updateTheme = useCallback(() => {
     const headerEl = headerRef.current;
     if (!headerEl) return;
 
-    const prev = headerEl.style.pointerEvents;
+    const prevHeader = headerEl.style.pointerEvents;
+    const prevLogo = logoRef.current?.style.pointerEvents ?? "";
+    const prevMenu = menuButtonRef.current?.style.pointerEvents ?? "";
+
     headerEl.style.pointerEvents = "none";
+    if (logoRef.current) logoRef.current.style.pointerEvents = "none";
+    if (menuButtonRef.current)
+      menuButtonRef.current.style.pointerEvents = "none";
+
     const nextLogo = themeAtElement(logoRef.current);
     const nextMenu = themeAtElement(menuButtonRef.current);
-    headerEl.style.pointerEvents = prev;
+
+    headerEl.style.pointerEvents = prevHeader;
+    if (logoRef.current) logoRef.current.style.pointerEvents = prevLogo;
+    if (menuButtonRef.current)
+      menuButtonRef.current.style.pointerEvents = prevMenu;
 
     setLogoTheme((p) => (p === nextLogo ? p : nextLogo));
     setMenuTheme((p) => (p === nextMenu ? p : nextMenu));
@@ -64,7 +82,6 @@ export function useHeaderCore() {
     setIsOpen(false);
   }, []);
 
-  // Tema del logo / botón según la sección que tienen debajo
   useEffect(() => {
     if (isOpen) return;
     updateTheme();
