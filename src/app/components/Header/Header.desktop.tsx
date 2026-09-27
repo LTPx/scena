@@ -184,7 +184,7 @@ export default function HeaderDesktop() {
             <img
               src={`/logos/logo-menu-${menuVariant}.svg`}
               alt=""
-              className="h-[20px] w-auto"
+              className="cursor-pointer h-[20px] w-auto"
             />
           </button>
         </Grid>
@@ -310,7 +310,7 @@ export default function HeaderDesktop() {
               type="button"
               onClick={closeMenu}
               aria-label="Cerrar menu"
-              className={`${COLS.close} mt-[35px] flex items-center justify-end`}
+              className={`${COLS.close} cursor-pointer mt-[35px] flex items-center justify-end`}
             >
               <img
                 src="/logos/close-menu.svg"
