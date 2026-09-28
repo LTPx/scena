@@ -22,10 +22,8 @@ export default function IntroDescriptionDesktop({
         <div
           className={`
             ${COLS.wideTextFull}
-            font-sans font-normal
-            text-[40px] leading-[100%] tracking-normal
-            text-[#B4A78C]
-            [&>p]:inline
+            headline-1
+            text-[#A89572]
           `}
         >
           <span dangerouslySetInnerHTML={{ __html: html }} />

@@ -28,9 +28,7 @@ export default function WhereWeMakeDifferenceDesktop({ data }: Props) {
       style={{ paddingTop: `${TITLE_TOP_PX}px` }}
       className="min-h-screen grid-rows-[auto_auto] content-start overflow-hidden pb-[40px]"
     >
-      <h2
-        className={`${COLS.content} row-start-1 whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-      >
+      <h2 className={`${COLS.content} row-start-1 headline-1 text-[#A89572]`}>
         <TypewriterText text={data.title} play={isInView} />
       </h2>
 
@@ -51,7 +49,7 @@ export default function WhereWeMakeDifferenceDesktop({ data }: Props) {
           }}
           className="row-start-2 flex flex-col justify-between rounded-[20px] bg-white p-[20px]"
         >
-          <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[35px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
+          <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[34px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
             {card.title}
           </h3>
 

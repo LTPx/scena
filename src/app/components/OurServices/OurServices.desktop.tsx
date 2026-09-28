@@ -162,7 +162,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+              className="headline-1 text-[#A89572]"
             >
               <TypewriterText
                 text={seeProjects ? "Servicios" : "Nuestros servicios"}
@@ -220,7 +220,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className={`text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572] ${
+                className={`headline-1 text-[#A89572] ${
                   seeProjects ? "font-quadrant" : "font-sans"
                 }`}
               >

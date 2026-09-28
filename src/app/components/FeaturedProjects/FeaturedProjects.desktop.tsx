@@ -124,7 +124,7 @@ export default function FeaturedProjectsDesktop({
           />
         )}
         <h2
-          className={`mb-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#A89572] ${
+          className={`mb-8 headline-1 text-[#A89572] ${
             showTopBorder ? "mt-[15px]" : ""
           }`}
           style={{ paddingLeft: startOffset }}
@@ -164,7 +164,7 @@ export default function FeaturedProjectsDesktop({
                 />
 
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal leading-[100%] tracking-[0%] text-[#F6F5F1]">
+                <span className="absolute bottom-8 left-8 headline-1 text-[#F6F5F1]">
                   {project.title}
                 </span>
               </Link>

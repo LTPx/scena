@@ -12,7 +12,7 @@ export default function FooterDesktop() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="relative h-[calc(100vh)] overflow-hidden py-10 text-white md:py-[40px] font-sans">
+    <footer className="relative h-[100dvh] overflow-hidden py-10 text-white md:py-[40px] font-sans">
       <Image
         src="/footer-bg.png"
         alt=""
@@ -26,12 +26,9 @@ export default function FooterDesktop() {
         >
           <div>
             <h2
-              className="color-text-footer font-normal mt-[-10px]"
+              className="headline-1 text-[#F6F5F1] mt-[-8px]"
               style={{
                 width: colSpanWidth(4),
-
-                fontSize: `calc(${colSpanWidth(4)} / 12.6)`,
-                lineHeight: 1.2,
               }}
             >
               {t("ctaTitle")}
