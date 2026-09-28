@@ -109,7 +109,7 @@ export default function OutletPageDesktop({ data }: Props) {
             {data.label}
           </span>
 
-          <div className={`${COLS.outletContent} flex flex-col gap-10`}>
+          <div className={`${COLS.outletContent} flex flex-col`}>
             <h1
               style={{ width: colSpanWidth(6) }}
               className="whitespace-pre-line font-sans text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]"
@@ -119,11 +119,11 @@ export default function OutletPageDesktop({ data }: Props) {
 
             <p
               style={{ width: colSpanWidth(6) }}
-              className="whitespace-pre-line font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+              className="whitespace-pre-line font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] mt-[30px]"
               dangerouslySetInnerHTML={{ __html: data.description }}
             />
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mt-[20px]">
               {data.categories.map((category) => {
                 const isActive = activeCategory === category.slug;
                 return (
@@ -159,9 +159,9 @@ export default function OutletPageDesktop({ data }: Props) {
               key={product.id}
               href={`/outlet/${product.slug}`}
               style={{ width: CARD_WIDTH }}
-              className="flex h-full flex-shrink-0 flex-col"
+              className="flex h-full flex-shrink-0 flex-col bg-white"
             >
-              <div className="relative w-full flex-1 overflow-hidden bg-white">
+              <div className="relative w-full flex-1 overflow-hidden">
                 <Image
                   src={product.image.url}
                   alt={product.image.alt || product.name}
@@ -171,11 +171,11 @@ export default function OutletPageDesktop({ data }: Props) {
                 />
               </div>
 
-              <div className="mt-4 flex flex-shrink-0 flex-col gap-1">
+              <div className="flex flex-shrink-0 flex-col gap-1 px-[20px] pb-[20px]">
                 <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                   {product.name}
                 </p>
-                <p className="font-sans text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+                <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                   <span className="line-through opacity-50">
                     Precio original {product.original_price}
                   </span>{" "}
