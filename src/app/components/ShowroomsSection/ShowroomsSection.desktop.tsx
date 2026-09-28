@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
 import { getAspectRatio } from "../Gallery/aspect";
+import GlassButton from "../GlassButton";
 
 interface Props {
   data: ShowroomPageWp;
@@ -86,35 +87,21 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
       <Grid className="pointer-events-none absolute inset-x-0 top-0 py-[27px]">
         <div className={`${COLS.content} pointer-events-auto text-white`}>
-          <h2 className="font-sans font-normal text-[40px] leading-[100%] tracking-normal mb-4">
-            {data.title}
-          </h2>
+          <h2 className="headline-1 mb-4">{data.title}</h2>
 
           <div className="flex items-center gap-2 mb-4">
             {data.locations.map((location, index) => {
               const isActive = index === selectedLocation;
 
               return (
-                <button
+                <GlassButton
                   key={location.label}
-                  type="button"
                   onClick={() => setSelectedLocation(index)}
-                  className={`
-                    font-sans inline-flex items-center justify-center
-                    rounded-full border-[0.1px]
-                    pt-[5px] pr-4 pb-[5px] pl-4
-                    font-normal text-[14px] leading-[100%] tracking-normal
-                    text-white
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-[#FFFFFF80] border-[#F6F5F1]"
-                        : "bg-transparent border-white/40 hover:bg-white/10"
-                    }
-                  `}
+                  active={isActive}
+                  variant="light"
                 >
                   {location.label}
-                </button>
+                </GlassButton>
               );
             })}
           </div>
@@ -128,7 +115,7 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
       <Grid className="pointer-events-none absolute inset-x-0 bottom-0 py-10">
         <div className={`${COLS.wideText} pointer-events-auto text-white`}>
           <p
-            className="font-sans font-normal text-[40px] leading-[100%] tracking-normal text-[#F6F5F1]"
+            className="headline-1 text-[#F6F5F1]"
             dangerouslySetInnerHTML={{ __html: activeLocation.description }}
           />
         </div>

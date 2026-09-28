@@ -214,13 +214,13 @@ export default function HeaderDesktop() {
             </Link>
 
             <nav
-              className={`${COLS.navMain} mt-[27px] flex flex-col gap-1`}
+              className={`${COLS.navMain} mt-[27px] flex flex-col`}
               onMouseLeave={scheduleSubmenuClose}
             >
               {NAV_ITEMS.map((item) => {
                 const hasSub = !!item.subItems?.length;
                 const isDimmed = activeKey !== null && activeKey !== item.key;
-                const classes = `w-fit text-[40px] leading-[40px] transition-opacity duration-200 ${
+                const classes = `w-fit headline-1 transition-opacity duration-200 ${
                   isDimmed ? "opacity-30" : "opacity-100 hover:opacity-70"
                 } text-[#F6F5F1]`;
 
@@ -257,7 +257,7 @@ export default function HeaderDesktop() {
             </nav>
 
             <nav
-              className={`${COLS.navSub} mt-[27px] flex flex-col gap-1 pt-2 transition-opacity duration-200 ${
+              className={`${COLS.navSub} mt-[27px] flex flex-col pt-2 transition-opacity duration-200 ${
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
               onMouseEnter={cancelSubmenuClose}
@@ -276,7 +276,7 @@ export default function HeaderDesktop() {
                       }
                       closeMenu();
                     }}
-                    className="w-fit font-normal not-italic text-[40px] leading-[100%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
+                    className="w-fit headline-1 text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
                   >
                     {tSub(`${activeItem.key}.${sub.key}`)}
                   </Link>

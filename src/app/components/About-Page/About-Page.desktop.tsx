@@ -135,9 +135,7 @@ export default function AboutPageDesktop({ data }: Props) {
       }}
     >
       <Grid as="section" className="pt-[27px] pb-[40px]">
-        <h1
-          className={`${COLS.aboutTitle} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-        >
+        <h1 className={`${COLS.aboutTitle} headline-1 text-[#A89572]`}>
           {data.title}
         </h1>
         <p
@@ -153,27 +151,24 @@ export default function AboutPageDesktop({ data }: Props) {
 
         <div className={COLS.content}>
           <p
-            className="whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+            className="whitespace-pre-line headline-1 text-[#A89572]"
             dangerouslySetInnerHTML={{ __html: data.team.description }}
           />
         </div>
 
         <ul className={`${COLS.teamList} flex flex-col gap-2`}>
           {data.team.positions.map((position) => (
-            <li
-              key={position.id}
-              className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
-            >
+            <li key={position.id} className="headline-1 text-[#A89572]">
               {position.title}
             </li>
           ))}
         </ul>
 
         <div className={`${COLS.teamList} row-start-2 mt-[100px]`}>
-          <p className="mb-4 font-[Gellix] text-[42px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
+          <p className="mb-4 font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]">
             {data.team.cta_title}
           </p>
-          <button type="button" className="btn-gellix">
+          <button type="button" className="btn-gellix mt-2">
             {data.team.cta_label}
           </button>
         </div>
@@ -200,7 +195,7 @@ export default function AboutPageDesktop({ data }: Props) {
       >
         {sectionNav}
         <p
-          className={`${COLS.aboutPartnersDescription} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
+          className={`${COLS.aboutPartnersDescription} headline-1 text-[#A89572]`}
           dangerouslySetInnerHTML={{ __html: data.partners.description }}
         />
         <div style={{ gridColumn: "1 / -1" }} className="mt-12">

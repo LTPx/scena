@@ -40,10 +40,8 @@ export default function ContactPageDesktop({ data }: Props) {
         >
           <div className="flex flex-col gap-[clamp(24px,8vh,95px)]">
             <div>
-              <h2 className="color-text-footer text-[clamp(20px,3.5vh,42px)] font-normal leading-tight">
-                {t("ctaTitle")}
-              </h2>
-              <a href="/contacto" className="mt-4 btn-gellix">
+              <h2 className="headline-1 text-[#F6F5F1]">{t("ctaTitle")}</h2>
+              <a href="/contacto" className="mt-5 btn-gellix">
                 {t("ctaButton")}
               </a>
             </div>

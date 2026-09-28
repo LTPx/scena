@@ -18,7 +18,7 @@ export default function PressPageDesktop({ data }: Props) {
           className={`${COLS.content} sticky top-[27px] mt-[27px] flex flex-col justify-start`}
         >
           <h1
-            className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+            className="headline-1 text-[#A89572]"
             dangerouslySetInnerHTML={{ __html: data.title }}
           />
         </div>

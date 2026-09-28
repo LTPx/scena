@@ -29,8 +29,11 @@ const MASK_STYLE: CSSProperties = {
   mask: "linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0)",
 };
 
+const ACTIVE_BACKGROUND = "rgba(255, 255, 255, 0.5)";
+const ACTIVE_BORDER_COLOR = "#F6F5F1";
+
 const BASE_CLASS = [
-  "relative inline-flex h-[35px] w-fit items-center justify-center rounded-full px-4",
+  "cursor-pointer relative inline-flex h-[35px] w-fit items-center justify-center rounded-full px-4",
   "font-[family-name:Gellix] font-normal not-italic leading-[100%] tracking-[0%] text-[#FFFFFF]",
   "backdrop-blur-[4px]",
 ].join(" ");
@@ -42,6 +45,7 @@ type CommonProps = {
   className?: string;
   variant?: Variant;
   fontSize?: number;
+  active?: boolean;
 };
 
 type LinkProps = CommonProps & {
@@ -70,15 +74,27 @@ export default function GlassButton(props: GlassButtonProps) {
     className = "",
     variant = "dark",
     fontSize = 14,
+    active = false,
     ...rest
   } = props;
 
-  const style: CSSProperties = {
-    ...VARIANT_STYLE[variant],
-    fontSize: `${fontSize}px`,
-  };
+  const style: CSSProperties = active
+    ? {
+        background: ACTIVE_BACKGROUND,
+        fontSize: `${fontSize}px`,
+      }
+    : {
+        ...VARIANT_STYLE[variant],
+        fontSize: `${fontSize}px`,
+      };
 
-  const border = (
+  const border = active ? (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute inset-0 rounded-full border-[0.1px]"
+      style={{ borderColor: ACTIVE_BORDER_COLOR }}
+    />
+  ) : (
     <span
       aria-hidden
       className="pointer-events-none absolute inset-0 rounded-full p-px"
@@ -89,7 +105,7 @@ export default function GlassButton(props: GlassButtonProps) {
   if (rest.as === "span" || rest.as === "div") {
     const { as: Tag, ...staticRest } = rest as Omit<
       StaticProps,
-      "children" | "className" | "variant" | "fontSize"
+      "children" | "className" | "variant" | "fontSize" | "active"
     >;
     return (
       <Tag
@@ -106,7 +122,7 @@ export default function GlassButton(props: GlassButtonProps) {
   if ("href" in rest && rest.href !== undefined) {
     const { as: _as, ...linkRest } = rest as Omit<
       LinkProps,
-      "children" | "className" | "variant" | "fontSize"
+      "children" | "className" | "variant" | "fontSize" | "active"
     >;
     return (
       <Link
@@ -122,7 +138,7 @@ export default function GlassButton(props: GlassButtonProps) {
 
   const { as: _as, ...buttonRest } = rest as Omit<
     ButtonProps,
-    "children" | "className" | "variant" | "fontSize"
+    "children" | "className" | "variant" | "fontSize" | "active"
   >;
   return (
     <button

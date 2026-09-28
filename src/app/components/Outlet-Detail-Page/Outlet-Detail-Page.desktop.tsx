@@ -98,15 +98,11 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
       className="relative isolate z-0 flex h-dvh flex-col overflow-hidden pb-[40px]"
     >
       <Grid className="mt-[27px] flex-shrink-0">
-        <span
-          className={`${COLS.outletLabel} font-sans text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-        >
+        <span className={`${COLS.outletLabel} headline-1 text-[#A89572]`}>
           Outlet
         </span>
 
-        <h1
-          className={`${COLS.outletDetailTitle} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-        >
+        <h1 className={`${COLS.outletDetailTitle} headline-1 text-[#A89572]`}>
           {product.name}
         </h1>
       </Grid>
@@ -224,7 +220,7 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                         </p>
                       )}
 
-                      <p className="font-sans text-[40px] leading-[100%] text-[#A89572]">
+                      <p className="headline-1 text-[#A89572]">
                         <span className="line-through">
                           RRP: {p.original_price}
                         </span>{" "}

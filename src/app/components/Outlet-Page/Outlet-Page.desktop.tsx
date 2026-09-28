@@ -103,16 +103,14 @@ export default function OutletPageDesktop({ data }: Props) {
         className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[27px]"
       >
         <Grid className="flex-shrink-0">
-          <span
-            className={`${COLS.outletLabel} font-sans text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]`}
-          >
+          <span className={`${COLS.outletLabel} headline-1 text-[#A89572]`}>
             {data.label}
           </span>
 
           <div className={`${COLS.outletContent} flex flex-col`}>
             <h1
               style={{ width: colSpanWidth(6) }}
-              className="whitespace-pre-line font-sans text-[40px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]"
+              className="whitespace-pre-line headline-1 text-[#A89572]"
             >
               {data.title}
             </h1>

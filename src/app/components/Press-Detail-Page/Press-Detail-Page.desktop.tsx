@@ -35,11 +35,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
       );
 
     case "quote":
-      return (
-        <p className="whitespace-pre-line font-sans text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]">
-          {block.text}
-        </p>
-      );
+      return <p className="headline-1 text-[#A89572]">{block.text}</p>;
   }
 }
 
@@ -47,19 +43,15 @@ export default function PressDetailPageDesktop({ data }: Props) {
   return (
     <article data-header-theme="light" className="w-full">
       <Grid className="items-baseline gap-y-8 pt-[27px] pb-[40px] md:gap-y-16">
-        <span
-          className={`${COLS.pressCategory} font-sans text-[40px] font-normal leading-none tracking-normal text-[#A89572]`}
-        >
-          {data.category}
+        <span className={`${COLS.pressCategory} headline-1 text-[#A89572]`}>
+          Noticias
         </span>
         <span
           className={`${COLS.pressNumber} font-sans text-[16px] font-normal leading-[135%] tracking-normal text-[#A89572]`}
         >
           {data.number}
         </span>
-        <h1
-          className={`${COLS.pressTitle} font-sans text-[40px] font-normal leading-[100%] tracking-normal text-[#A89572]`}
-        >
+        <h1 className={`${COLS.pressTitle} headline-1 text-[#A89572]`}>
           {data.title}
         </h1>
 
