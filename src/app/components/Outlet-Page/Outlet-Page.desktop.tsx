@@ -175,8 +175,8 @@ export default function OutletPageDesktop({ data }: Props) {
                 <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
                   {product.name}
                 </p>
-                <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-                  <span className="line-through opacity-50">
+                <p className="font-sans text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] opacity-50">
+                  <span className="line-through">
                     Precio original {product.original_price}
                   </span>{" "}
                   | precio Outlet {product.outlet_price}
