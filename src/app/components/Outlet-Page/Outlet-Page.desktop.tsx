@@ -119,10 +119,9 @@ export default function OutletPageDesktop({ data }: Props) {
 
             <p
               style={{ width: colSpanWidth(6) }}
-              className="whitespace-pre-line font-sans text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]"
-            >
-              {data.description}
-            </p>
+              className="whitespace-pre-line font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
 
             <div className="flex flex-wrap gap-3">
               {data.categories.map((category) => {
