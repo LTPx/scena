@@ -142,9 +142,8 @@ export default function AboutPageDesktop({ data }: Props) {
         </h1>
         <p
           className={`${COLS.aboutDescription} mt-[140px] font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]`}
-        >
-          {data.description}
-        </p>
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        />
       </Grid>
 
       <Gallery gallery={data.gallery} />
@@ -153,9 +152,10 @@ export default function AboutPageDesktop({ data }: Props) {
         {sectionNav}
 
         <div className={COLS.content}>
-          <p className="whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
-            {data.team.description}
-          </p>
+          <p
+            className="whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+            dangerouslySetInnerHTML={{ __html: data.team.description }}
+          />
         </div>
 
         <ul className={`${COLS.teamList} flex flex-col gap-2`}>
@@ -201,9 +201,8 @@ export default function AboutPageDesktop({ data }: Props) {
         {sectionNav}
         <p
           className={`${COLS.aboutPartnersDescription} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-        >
-          {data.partners.description}
-        </p>
+          dangerouslySetInnerHTML={{ __html: data.partners.description }}
+        />
         <div style={{ gridColumn: "1 / -1" }} className="mt-12">
           <PartnersMarquee partners={data.partners.partners} />
         </div>
