@@ -13,7 +13,6 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   AnimatePresence,
   motion,
-  useInView,
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
@@ -46,7 +45,10 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [seeProjects, setSeeProjects] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.5 });
+
+  // Se activa una sola vez cuando el contenedor sticky ya ocupa los 100vh
+  const [hasEntered, setHasEntered] = useState(false);
+
   const [layers, setLayers] = useState<
     { index: number; id: number | "initial"; direction: "down" | "up" }[]
   >([{ index: 0, id: "initial", direction: "down" }]);
@@ -69,6 +71,9 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (!services.length) return;
 
+    // El wrapper llegó al top del viewport => el sticky ocupa 100vh
+    if (latest > 0) setHasEntered(true);
+
     const index = Math.min(
       services.length - 1,
       Math.floor(latest * services.length),
@@ -76,6 +81,11 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
 
     setActiveIndex(index);
   });
+
+  // Caso: recarga de página con el scroll ya dentro de la sección
+  useEffect(() => {
+    if (scrollYProgress.get() > 0) setHasEntered(true);
+  }, [scrollYProgress]);
 
   useEffect(() => {
     if (prevIndexRef.current === activeIndex) return;
@@ -156,7 +166,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
             >
               <TypewriterText
                 text={seeProjects ? "Servicios" : "Nuestros servicios"}
-                play={isInView}
+                play={hasEntered}
               />
             </motion.h2>
           </AnimatePresence>
@@ -176,7 +186,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                 onClick={() => seeProjects && setActiveIndex(index)}
                 initial={{ x: -100, opacity: 0 }}
                 animate={
-                  isInView ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
+                  hasEntered ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
                 }
                 transition={{
                   duration: 1,

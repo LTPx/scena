@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import Image from "next/image";
 import { GalleryHomeWp } from "../../_interfaces/wordpress-components";
 import { offsetForColumn, GRID_MARGIN_PX, COLS } from "../layout/Grid";
@@ -34,7 +39,9 @@ export default function GalleryDesktop({ gallery, title }: GalleryProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(stickyRef, { once: true, amount: 0.9 });
+
+  // Se activa una sola vez cuando el sticky ya ocupa los 100vh
+  const [hasEntered, setHasEntered] = useState(false);
 
   const [travelDistance, setTravelDistance] = useState(0);
   const [wrapperHeight, setWrapperHeight] = useState(0);
@@ -63,6 +70,16 @@ export default function GalleryDesktop({ gallery, title }: GalleryProps) {
     target: wrapperRef,
     offset: ["start start", "end end"],
   });
+
+  // El wrapper llegó al top del viewport => el sticky ocupa 100vh
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest > 0) setHasEntered(true);
+  });
+
+  // Caso: recarga de página con el scroll ya dentro de la sección
+  useEffect(() => {
+    if (scrollYProgress.get() > 0) setHasEntered(true);
+  }, [scrollYProgress]);
 
   const trackX = useTransform(scrollYProgress, [0, 1], [0, -travelDistance]);
 
@@ -114,7 +131,7 @@ export default function GalleryDesktop({ gallery, title }: GalleryProps) {
         {title && (
           <SectionTitle
             text={title}
-            visible={isInView}
+            visible={hasEntered}
             colsClassName={COLS.galleryTitle}
           />
         )}

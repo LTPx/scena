@@ -1,157 +1,75 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useInView,
-} from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 import { WhereWeMakeDifferenceWp } from "../../_interfaces/wordpress-components";
-import Grid, {
-  COLS,
-  trackCardWidth,
-  offsetForColumn,
-  GRID_MARGIN_PX,
-} from "../layout/Grid";
+import Grid, { COLS } from "../layout/Grid";
 import TypewriterText from "../TypewriterText";
 
 interface Props {
   data: WhereWeMakeDifferenceWp;
 }
 
-const CARD_GAP_PX = 8;
-const CARD_WIDTH = trackCardWidth(10, 3, CARD_GAP_PX);
-const TRACK_OFFSET = offsetForColumn(3);
-const END_SPACER_WIDTH = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
-const VH_PER_100VW_TRAVEL = 100;
-
+const CARD_COL_SPAN = 3;
 const TITLE_TOP_PX = 27;
 const TITLE_CARDS_GAP_PX = 50;
+const CARD_STAGGER_S = 0.18;
 
 export default function WhereWeMakeDifferenceDesktop({ data }: Props) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(titleRef, { once: true, amount: 0.9 });
-  const [travelDistance, setTravelDistance] = useState(0);
-  const [wrapperHeight, setWrapperHeight] = useState(0);
-  const [tracksTop, setTracksTop] = useState(TITLE_TOP_PX + TITLE_CARDS_GAP_PX);
-
-  useEffect(() => {
-    const measure = () => {
-      if (!trackRef.current) return;
-
-      const trackWidth = trackRef.current.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const distance = Math.max(trackWidth - viewportWidth, 0);
-
-      setTravelDistance(distance);
-
-      const vh = window.innerHeight;
-      const extraScroll =
-        (distance / viewportWidth) * (VH_PER_100VW_TRAVEL / 100) * vh;
-
-      setWrapperHeight(vh + extraScroll);
-
-      if (titleRef.current) {
-        const titleHeight = titleRef.current.offsetHeight;
-        setTracksTop(TITLE_TOP_PX + titleHeight + TITLE_CARDS_GAP_PX);
-      }
-    };
-
-    measure();
-
-    window.addEventListener("resize", measure);
-
-    return () => window.removeEventListener("resize", measure);
-  }, [data.cards.length, data.title]);
-
-  const { scrollYProgress } = useScroll({
-    target: wrapperRef,
-    offset: ["start start", "end end"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 25,
-    mass: 0.5,
-  });
-
-  const trackX = useTransform(smoothProgress, [0, 1], [0, -travelDistance]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.6 });
 
   return (
-    <div
-      ref={wrapperRef}
+    <Grid
+      ref={sectionRef}
       data-header-theme="light"
-      style={{
-        height: wrapperHeight ? `${wrapperHeight}px` : "150vh",
-      }}
-      className="relative"
+      style={{ paddingTop: `${TITLE_TOP_PX}px` }}
+      className="min-h-screen grid-rows-[auto_auto] content-start overflow-hidden pb-[40px]"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <div
-          ref={titleRef}
-          className="absolute left-0 right-0"
-          style={{ top: `${TITLE_TOP_PX}px` }}
-        >
-          <Grid>
-            <h2
-              className={`${COLS.content} whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
-            >
-              <TypewriterText text={data.title} play={isInView} />
-            </h2>
-          </Grid>
-        </div>
+      <h2
+        className={`${COLS.content} row-start-1 whitespace-pre-line font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]`}
+      >
+        <TypewriterText text={data.title} play={isInView} />
+      </h2>
 
+      {data.cards.map((card, i) => (
         <motion.div
-          ref={trackRef}
-          style={{
-            x: trackX,
-            top: `${tracksTop}px`,
-            paddingLeft: TRACK_OFFSET,
-            gap: `${CARD_GAP_PX}px`,
+          key={`${card.number}-${i}`}
+          initial={{ y: 120, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: 120, opacity: 0 }}
+          transition={{
+            duration: 0.9,
+            delay: isInView ? i * CARD_STAGGER_S : 0,
+            ease: [0.16, 1, 0.3, 1],
           }}
-          className="absolute left-0 flex"
+          style={{
+            gridColumn: `${i * CARD_COL_SPAN + 1} / span ${CARD_COL_SPAN}`,
+            marginTop: `${TITLE_CARDS_GAP_PX}px`,
+            height: "540px",
+          }}
+          className="row-start-2 flex flex-col justify-between rounded-[20px] bg-white p-[20px]"
         >
-          {data.cards.map((card, i) => {
-            return (
-              <div
-                key={`${card.number}-${i}`}
-                style={{ width: CARD_WIDTH, height: "540px" }}
-                className="flex flex-shrink-0 flex-col justify-between rounded-[20px] bg-white p-[20px]"
-              >
-                <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[35px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
-                  {card.title}
-                </h3>
+          <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[35px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
+            {card.title}
+          </h3>
 
-                <div className="flex flex-1 items-center justify-center">
-                  <Image
-                    src={card.icon.url || ""}
-                    alt={card.icon.alt || card.title}
-                    width={144}
-                    height={144}
-                    className="h-36 w-36 object-contain"
-                  />
-                </div>
+          <div className="flex flex-1 items-center justify-center">
+            <Image
+              src={card.icon.url || ""}
+              alt={card.icon.alt || card.title}
+              width={144}
+              height={144}
+              className="h-36 w-36 object-contain"
+            />
+          </div>
 
-                <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-                  {card.description}
-                </p>
-              </div>
-            );
-          })}
-
-          <div
-            aria-hidden
-            style={{ width: `${END_SPACER_WIDTH}px` }}
-            className="flex-shrink-0"
-          />
+          <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
+            {card.description}
+          </p>
         </motion.div>
-      </div>
-    </div>
+      ))}
+    </Grid>
   );
 }

@@ -35,7 +35,7 @@ function App({ children }: Props) {
         <Header />
 
         <SmoothScrollProvider>
-          <main className={hideFooter ? "" : "lg:pb-[calc(100vh-80px)]"}>
+          <main className={hideFooter ? "" : "lg:pb-[calc(100vh)]"}>
             <div className="bg-body lg:pointer-events-auto">{children}</div>
           </main>
         </SmoothScrollProvider>
