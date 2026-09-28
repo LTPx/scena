@@ -53,6 +53,9 @@ export default function PressDetailPageMobile({ data }: Props) {
       data-header-theme="light"
       className="flex w-full flex-col px-[16px] pb-[60px] pt-[220px]"
     >
+      <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
+        Noticias
+      </h1>
       <span
         className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] ${TEXT_COLOR}`}
       >

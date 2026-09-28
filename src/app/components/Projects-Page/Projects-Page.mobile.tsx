@@ -24,6 +24,9 @@ export default function ProjectsPageMobile({
       data-header-theme="light"
       className="relative isolate z-0 pb-[40px] pt-[220px]"
     >
+      <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
+        {data.title}
+      </h1>
       <div
         className={`flex items-center gap-2 overflow-x-auto px-[16px] pb-[16px] ${HIDE_SCROLLBAR}`}
       >

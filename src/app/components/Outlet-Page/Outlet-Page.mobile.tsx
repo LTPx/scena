@@ -19,6 +19,9 @@ export default function OutletPageMobile({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="pb-16 pt-[220px]">
+      <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
+        {data.label}
+      </h1>
       <div className="px-[15px]">
         <h1 className="whitespace-pre-line font-sans text-[30px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]">
           {data.title}
