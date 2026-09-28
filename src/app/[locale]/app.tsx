@@ -31,7 +31,7 @@ function App({ children }: Props) {
 
   return (
     <div className="relative">
-      <div className="relative z-10 lg:pointer-events-none">
+      <div className="relative z-20 lg:pointer-events-none lg:z-10">
         <Header />
 
         <SmoothScrollProvider>
