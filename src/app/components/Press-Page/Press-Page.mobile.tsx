@@ -19,7 +19,7 @@ export default function PressPageMobile({ data }: Props) {
           <li key={item.id}>
             <Link
               href={`/press/${item.slug}`}
-              className={`grid grid-cols-[53px_1fr] font-[Gellix] text-[14px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] transition-opacity duration-300 active:opacity-100 ${
+              className={`grid grid-cols-[53px_1fr] font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] transition-opacity duration-300 active:opacity-100 ${
                 index === 0 ? "opacity-100" : "opacity-30"
               }`}
             >

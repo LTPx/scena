@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/navigation";
+import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import {
@@ -34,7 +34,9 @@ export default function HeaderMobile() {
   const tFooter = useTranslations("Footer");
 
   const blur = animate ? "blur(100px)" : warmed ? "blur(0.01px)" : "blur(0px)";
-
+  const pathname = usePathname();
+  const hideClosedLogo =
+    pathname === "/contact" || pathname.startsWith("/contact/");
   return (
     <header
       ref={headerRef}
@@ -47,7 +49,11 @@ export default function HeaderMobile() {
         transition={introPlaying ? { duration: 0 } : INTRO_REVEAL_TRANSITION}
         className="flex items-center justify-between px-[15px] py-6"
       >
-        <Link ref={logoRef} href="/" className="flex items-center">
+        <Link
+          ref={logoRef}
+          href="/"
+          className={`flex items-center ${hideClosedLogo ? "invisible" : ""}`}
+        >
           <img
             src={`/logos/logo-header-${logoVariant}.svg`}
             alt="scena"

@@ -39,7 +39,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
     case "quote":
       return (
         <p
-          className={`whitespace-pre-line font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] ${TEXT_COLOR}`}
+          className={`whitespace-pre-line font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] ${TEXT_COLOR}`}
         >
           {block.text}
         </p>
@@ -51,7 +51,7 @@ export default function PressDetailPageMobile({ data }: Props) {
   return (
     <article
       data-header-theme="light"
-      className="flex w-full flex-col px-[16px] pb-[60px] pt-[200px]"
+      className="flex w-full flex-col px-[16px] pb-[60px] pt-[220px]"
     >
       <span
         className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] ${TEXT_COLOR}`}

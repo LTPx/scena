@@ -210,9 +210,10 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                         </p>
                       )}
                       {p.description && (
-                        <p className="max-w-[440px] font-[Gellix] text-[16px] leading-[135%] text-[#A89572]">
-                          {p.description}
-                        </p>
+                        <p
+                          className="max-w-[440px] font-[Gellix] text-[16px] leading-[135%] text-[#A89572]"
+                          dangerouslySetInnerHTML={{ __html: p.description }}
+                        />
                       )}
                     </div>
 

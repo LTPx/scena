@@ -35,11 +35,11 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
   return (
     <div
       data-header-theme="light"
-      className="relative min-h-dvh px-[14px] pb-[60px] pt-[200px]"
+      className="relative min-h-dvh px-[14px] pb-[100px] pt-[220px]"
     >
       {/* Título + flecha */}
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-[Gellix] text-[32px] font-normal leading-[100%] text-[#A89572]">
+        <h1 className="font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572]">
           {product.name}
         </h1>
 
@@ -59,7 +59,7 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
       <div
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="relative mt-[20px] flex aspect-[366/420] w-full items-center justify-center bg-white"
+        className="relative mt-[35px] flex aspect-[366/420] w-full items-center justify-center bg-white"
       >
         <div className="relative h-[65%] w-[65%]">
           <AnimatePresence mode="wait">
@@ -109,9 +109,10 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
         )}
 
         {product.description && (
-          <p className="font-[Gellix] text-[16px] leading-[135%] text-[#A89572]">
-            {product.description}
-          </p>
+          <p
+            className="font-[Gellix] text-[16px] leading-[135%] text-[#A89572]"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
         )}
 
         {product.note && (
@@ -120,7 +121,7 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
           </p>
         )}
 
-        <p className="font-[Gellix] text-[32px] leading-[100%] text-[#A89572]">
+        <p className="font-[Gellix] text-[30px] leading-[100%] text-[#A89572]">
           <span className="line-through">RRP: {product.original_price}</span> |
           Outlet: {product.outlet_price}
         </p>

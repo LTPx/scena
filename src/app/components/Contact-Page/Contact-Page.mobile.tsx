@@ -24,7 +24,7 @@ export default function ContactPageMobile({ data }: Props) {
       />
 
       {/* CTA */}
-      <h2 className="color-text-footer font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
+      <h2 className="color-text-footer w-[80%] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
         {t("ctaTitle")}
       </h2>
       <a href="/contacto" className="btn-gellix mt-6 w-fit">

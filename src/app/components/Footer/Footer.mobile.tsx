@@ -18,7 +18,6 @@ export default function FooterMobile() {
         className="-z-10 object-cover"
       />
 
-      {/* CTA */}
       <h2 className="color-text-footer font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
         {t("ctaTitle")}
       </h2>
@@ -26,7 +25,6 @@ export default function FooterMobile() {
         {t("ctaButton")}
       </a>
 
-      {/* Newsletter */}
       <form className="mt-[50px]" onSubmit={(e) => e.preventDefault()}>
         <p className="color-text-footer mb-3 font-[Gellix] text-[20px] font-normal not-italic leading-[100%] tracking-[0%]">
           {t("newsletterLabel")}
@@ -44,7 +42,6 @@ export default function FooterMobile() {
         </button>
       </form>
 
-      {/* Oficinas: scroll horizontal nativo */}
       <div
         className="
           -mx-5 mt-[50px] flex snap-x snap-mandatory gap-8 overflow-x-auto px-5
@@ -71,11 +68,10 @@ export default function FooterMobile() {
         <div aria-hidden className="w-1 flex-shrink-0" />
       </div>
 
-      {/* Redes + legales */}
       <div className="mt-[50px] grid grid-cols-[1fr_35%] gap-4">
         <div className="paragraph-final-footer-mobile">
           <p>{t("followUs")}</p>
-          <p>
+          <p className="text-[20px] leading-[27px]">
             <a href="#">Instagram</a> | <a href="#">Linkedin</a>
           </p>
         </div>
@@ -87,7 +83,6 @@ export default function FooterMobile() {
         </div>
       </div>
 
-      {/* Logo + tagline: empujado al fondo con mt-auto */}
       <div className="mt-auto grid grid-cols-[1fr_35%] items-end gap-4 pt-16">
         <Image
           src="/logo-footer.svg"

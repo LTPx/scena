@@ -10,7 +10,7 @@ interface Props {
 }
 
 const LABEL_CLASS =
-  "font-[Gellix] text-[14px] font-normal not-italic leading-[135%] text-[#A89572]";
+  "font-[Gellix] text-[16px] font-normal not-italic leading-[135%] text-[#A89572]";
 const BIG_TEXT_CLASS =
   "whitespace-pre-line font-[Gellix] text-[30px] font-normal not-italic leading-[100%] text-[#A89572]";
 
@@ -20,7 +20,7 @@ export default function AboutPageMobile({ data }: Props) {
       {/* Intro */}
       <section className="px-[15px] pb-10 pt-[220px]">
         <h1 className={BIG_TEXT_CLASS}>{data.title}</h1>
-        <p className="mt-6 font-[Gellix] text-[14px] font-normal not-italic leading-[135%] text-[#A89572]">
+        <p className="mt-6 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
           {data.description}
         </p>
       </section>
@@ -37,7 +37,7 @@ export default function AboutPageMobile({ data }: Props) {
           {data.team.positions.map((position) => (
             <li
               key={position.id}
-              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] text-[#A89572]"
+              className="font-[Gellix] text-[20px] font-normal not-italic leading-[130%] tracking-[0%] text-[#A89572]"
             >
               {position.title}
             </li>
@@ -45,7 +45,7 @@ export default function AboutPageMobile({ data }: Props) {
         </ul>
 
         <p className={`${BIG_TEXT_CLASS} mt-16 mb-4`}>{data.team.cta_title}</p>
-        <button type="button" className="btn-gellix">
+        <button type="button" className="btn-gellix mt-[10px]">
           {data.team.cta_label}
         </button>
       </section>

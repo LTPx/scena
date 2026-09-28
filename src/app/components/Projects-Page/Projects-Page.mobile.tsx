@@ -22,7 +22,7 @@ export default function ProjectsPageMobile({
   return (
     <div
       data-header-theme="light"
-      className="relative isolate z-0 pb-[40px] pt-[200px]"
+      className="relative isolate z-0 pb-[40px] pt-[220px]"
     >
       <div
         className={`flex items-center gap-2 overflow-x-auto px-[16px] pb-[16px] ${HIDE_SCROLLBAR}`}

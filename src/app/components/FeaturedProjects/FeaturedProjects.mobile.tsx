@@ -33,7 +33,7 @@ export default function FeaturedProjectsMobile({
 
       <h2
         ref={titleRef}
-        className={`px-4 font-[Gellix] text-[32px] font-normal leading-[100%] text-[#A89572] ${
+        className={`px-4 font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572] ${
           showTopBorder ? "mt-[15px]" : ""
         }`}
       >

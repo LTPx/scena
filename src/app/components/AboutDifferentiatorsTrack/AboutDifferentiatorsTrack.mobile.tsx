@@ -32,7 +32,7 @@ export default function AboutDifferentiatorsTrackMobile({ data, nav }: Props) {
             key={`${card.title}-${i}`}
             className="flex min-h-[425px] w-[78%] max-w-[420px] flex-shrink-0 snap-start flex-col justify-between rounded-[20px] bg-white p-5"
           >
-            <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[28px] font-normal not-italic leading-[115%] text-[#A89572]">
+            <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
               {card.title}
             </h3>
 
