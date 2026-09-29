@@ -1,23 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import { Link } from "@/navigation";
 import { ServiceDetailWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
 import { ALIGN_TOP } from "./servicesLayout";
+import { getProjectsHref } from "./projectFilters";
 
 interface Props {
   data: ServiceDetailWp;
 }
 
 export default function ServiceDetailPageDesktop({ data }: Props) {
+  const locale = useLocale();
+
   return (
     <div data-header-theme="light" className="relative min-h-screen">
       <Grid
         fullHeight
         className="grid-rows-[1fr] pt-[27px] pb-[40px] overflow-hidden"
       >
-        {/* Navegadores: FIJOS, misma posición que en Our Services */}
         <div className="pointer-events-none col-start-1 col-span-6 row-start-1 grid grid-cols-6 gap-x-6 self-start">
           <ul
             className={`${COLS.list} pointer-events-auto flex flex-col gap-2`}
@@ -41,14 +44,11 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
           </ul>
         </div>
 
-        {/* Área que hace scroll como un solo bloque (zona roja) */}
         <div
           data-lenis-prevent
           className={`${COLS.content} row-start-1 h-full min-h-0 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
         >
-          {/* Columna que ocupa como mínimo todo el alto visible */}
           <div className="flex min-h-full flex-col">
-            {/* Cabecera con altura fija: la descripción empieza en la línea de los navegadores */}
             <div
               className="flex shrink-0 flex-col gap-6"
               style={{ height: ALIGN_TOP }}
@@ -59,7 +59,6 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
               </h3>
             </div>
 
-            {/* Descripción: texto grande */}
             <div
               className="headline-1 shrink-0 text-[#A89572]"
               dangerouslySetInnerHTML={{
@@ -67,9 +66,6 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
               }}
             />
 
-            {/* Contenido expandido:
-                - sin scroll: mt-auto lo pega al margen inferior
-                - con scroll: pt-10 mantiene la separación y el texto se corta abajo */}
             <div
               className="service-expanded-content mt-auto shrink-0 pt-10"
               dangerouslySetInnerHTML={{ __html: data.expanded_content }}
@@ -77,10 +73,12 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
           </div>
         </div>
 
-        {/* Botón fijo: esquina inferior izquierda */}
         <div className="pointer-events-none col-start-1 col-span-6 row-start-1 grid grid-cols-6 gap-x-6 self-end">
           <div className={`${COLS.list} pointer-events-auto`}>
-            <Link href="/projects" className="btn-gellix">
+            <Link
+              href={getProjectsHref(data.slug, locale)}
+              className="btn-gellix"
+            >
               See Projects
             </Link>
           </div>

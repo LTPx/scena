@@ -3,6 +3,7 @@ import Grid, { COLS } from "../layout/Grid";
 import TypewriterText from "../TypewriterText";
 import { useLenis } from "../SmoothScrollProvider";
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import { Link } from "@/navigation";
 import {
   SERVICE_ORDER,
@@ -18,6 +19,7 @@ import {
   useScroll,
 } from "framer-motion";
 import { ALIGN_TOP } from "../Service-Detail-Page/servicesLayout";
+import { getProjectsHref } from "../Service-Detail-Page/projectFilters";
 
 interface OurServicesProps {
   services: ServiceWp[];
@@ -56,6 +58,7 @@ function slugify(label: string) {
 export default function OurServicesDesktop({ services }: OurServicesProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
+  const locale = useLocale();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
@@ -70,7 +73,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   const layerIdRef = useRef(0);
   const prevIndexRef = useRef(0);
   const lastHandledTokenRef = useRef<number | null>(null);
-  const [ctaHover, setCtaHover] = useState<"know" | "projects">("know");
+  const [ctaHover, setCtaHover] = useState<"know" | "projects" | null>(null);
 
   const inZoneRef = useRef(false);
   const exitingRef = useRef(false);
@@ -195,6 +198,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
       if (inZoneRef.current) lenis.start();
       inZoneRef.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lenis, count]);
 
   useEffect(() => {
@@ -238,6 +242,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
     };
 
     requestAnimationFrame(() => requestAnimationFrame(jump));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingRequest, lenis, count]);
 
   if (!count) {
@@ -245,7 +250,9 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   }
 
   const active = services[activeIndex];
-  const activeHref = `/services/${active.slug ?? slugify(active.label)}`;
+  const activeSlug = active.slug ?? slugify(active.label);
+  const activeHref = `/services/${activeSlug}`;
+  const projectsHref = getProjectsHref(activeSlug, locale);
 
   return (
     <div
@@ -336,9 +343,11 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           <motion.div
             layout
             transition={CTA_TRANSITION}
+            onMouseLeave={() => setCtaHover(null)}
             className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
           >
-            <button
+            <Link
+              href={activeHref}
               onMouseEnter={() => setCtaHover("know")}
               className={`relative z-10 btn-gellix ${
                 ctaHover === "know" ? "text-white" : "text-[#A89572]"
@@ -352,10 +361,10 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                 />
               )}
               <span className="relative z-10">know more</span>
-            </button>
+            </Link>
 
             <Link
-              href={activeHref}
+              href={projectsHref}
               onMouseEnter={() => setCtaHover("projects")}
               className={`relative z-10 btn-gellix bg-transparent ${
                 ctaHover === "projects" ? "text-white" : "text-[#A89572]"

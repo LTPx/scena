@@ -1,15 +1,19 @@
-import ProjectsPage from "@/app/components/Projects-Page";
-import { getProjectsPage } from "@/app/_services/api";
+import { getProjectsPage } from "../../_services/api";
+import ProjectsPage from "../../components/Projects-Page";
+
+type Locale = "en" | "es" | "de";
 
 export default async function Projects({
   params,
   searchParams,
 }: {
-  params: Promise<{ locale: "en" | "es" | "de" }>;
-  searchParams: Promise<{ category?: string }>;
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ filter?: string }>;
 }) {
   const { locale } = await params;
-  const { category } = await searchParams;
+  const { filter } = await searchParams;
+
   const data = await getProjectsPage(locale);
-  return <ProjectsPage data={data} initialFilter={category} />;
+
+  return <ProjectsPage data={data} initialFilter={filter} />;
 }
