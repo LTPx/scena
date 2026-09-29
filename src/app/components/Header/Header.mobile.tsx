@@ -3,12 +3,8 @@
 import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import {
-  setPendingService,
-  type ServiceKey,
-} from "../../context/pendingServiceStore";
 import { INTRO_REVEAL_TRANSITION } from "../../context/introStore";
-import { NAV_ITEMS, LOCALES } from "./navItems";
+import { NAV_ITEMS, LOCALES, getServiceHref } from "./navItems";
 import { useHeaderCore } from "./useHeaderCore";
 
 const PANEL_HEIGHT = 705;
@@ -154,24 +150,20 @@ export default function HeaderMobile() {
                     </span>
 
                     <div className="flex flex-col pt-2 pb-1 pl-14">
-                      {item.subItems.map((sub) => {
-                        const isServiceLink = item.key === "services";
-                        return (
-                          <Link
-                            key={sub.href}
-                            href={isServiceLink ? "/#our-services" : sub.href}
-                            onClick={() => {
-                              if (isServiceLink) {
-                                setPendingService(sub.key as ServiceKey);
-                              }
-                              closeMenu();
-                            }}
-                            className="w-fit font-sans text-[30px] font-normal not-italic leading-[120%] tracking-[0%] text-[#F6F5F1]"
-                          >
-                            {tSub(`${item.key}.${sub.key}`)}
-                          </Link>
-                        );
-                      })}
+                      {item.subItems.map((sub) => (
+                        <Link
+                          key={sub.key}
+                          href={
+                            item.key === "services"
+                              ? getServiceHref(sub.key, locale)
+                              : item.href
+                          }
+                          onClick={closeMenu}
+                          className="w-fit font-sans text-[30px] font-normal not-italic leading-[120%] tracking-[0%] text-[#F6F5F1]"
+                        >
+                          {tSub(`${item.key}.${sub.key}`)}
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 );
