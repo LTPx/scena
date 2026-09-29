@@ -7,6 +7,8 @@ import {
   OutletProductWp,
   ProjectDetailWp,
   ProjectsPageWp,
+  ServiceDetailWp,
+  ServiceWp,
   ShowroomPageWp,
 } from "../_interfaces/wordpress-components";
 import { WordPressFrontendPage } from "../_interfaces/wordpress-page";
@@ -229,6 +231,31 @@ export async function getOutletProductsFull(
 ): Promise<OutletProductWp[]> {
   const url = `${WORDPRESS_API_URL}/custom/v1/outlet-products-full?lang=${locale}`;
   console.log("🌐 GET OUTLET PRODUCTS FULL:", url);
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getServicesPage(
+  locale: Locale,
+): Promise<{ services: ServiceWp[] }> {
+  const url = `${WORDPRESS_API_URL}/custom/v1/services?lang=${locale}`;
+  console.log("🌐 GET SERVICES PAGE:", url);
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json;
+}
+
+export async function getServiceDetail(
+  locale: Locale,
+  slug: string,
+): Promise<ServiceDetailWp> {
+  const url = `${WORDPRESS_API_URL}/custom/v1/service?slug=${slug}&lang=${locale}`;
+  console.log("🌐 GET SERVICE DETAIL:", url);
 
   const res = await fetch(url, { next: { revalidate: 60 } });
   const json = await res.json();

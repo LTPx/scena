@@ -20,11 +20,26 @@ export interface MediaFileWp {
 }
 
 export interface ServiceWp {
+  slug: string;
   label: string;
   title: string;
   description: string;
-  expanded_content: string; // HTML del WYSIWYG de WP: roadmap + diferenciales (h4 + ul/li)
   image: ImageAcf;
+}
+
+export interface ServiceNavItemWp {
+  label: string;
+  slug: string;
+}
+
+export interface ServiceDetailWp {
+  slug: string;
+  label: string;
+  title: string;
+  description: string;
+  expanded_content: string;
+  image: ImageAcf;
+  services_nav: ServiceNavItemWp[];
 }
 
 export type GalleryAspectWp = "auto" | "landscape" | "portrait" | "square";

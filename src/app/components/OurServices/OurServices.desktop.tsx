@@ -3,6 +3,7 @@ import Grid, { COLS } from "../layout/Grid";
 import TypewriterText from "../TypewriterText";
 import { useLenis } from "../SmoothScrollProvider";
 import Image from "next/image";
+import { Link } from "@/navigation";
 import {
   SERVICE_ORDER,
   subscribePendingService,
@@ -28,25 +29,30 @@ const SLIDE_TRANSITION = {
   ease: [0.76, 0, 0.24, 1] as const,
 };
 
-const GROUP_TRANSITION = {
-  duration: 0.6,
-  ease: [0.76, 0, 0.24, 1] as const,
-};
-
 const CTA_TRANSITION = {
   duration: 0.5,
   ease: [0.76, 0, 0.24, 1] as const,
 };
+
+// Respaldo por si un servicio todavía no trae `slug` desde WP.
+// Lo ideal es que el slug venga siempre del backend.
+function slugify(label: string) {
+  return label
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 export default function OurServicesDesktop({ services }: OurServicesProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [seeProjects, setSeeProjects] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Se activa una sola vez cuando el contenedor sticky ya ocupa los 100vh
   const [hasEntered, setHasEntered] = useState(false);
 
   const [layers, setLayers] = useState<
@@ -56,6 +62,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   const layerIdRef = useRef(0);
   const prevIndexRef = useRef(0);
   const lastHandledTokenRef = useRef<number | null>(null);
+  const [ctaHover, setCtaHover] = useState<"know" | "projects">("know");
 
   const pendingRequest = useSyncExternalStore(
     subscribePendingService,
@@ -71,7 +78,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (!services.length) return;
 
-    // El wrapper llegó al top del viewport => el sticky ocupa 100vh
     if (latest > 0) setHasEntered(true);
 
     const index = Math.min(
@@ -82,7 +88,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
     setActiveIndex(index);
   });
 
-  // Caso: recarga de página con el scroll ya dentro de la sección
   useEffect(() => {
     if (scrollYProgress.get() > 0) setHasEntered(true);
   }, [scrollYProgress]);
@@ -141,6 +146,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   }
 
   const active = services[activeIndex];
+  const activeHref = `/services/${active.slug ?? slugify(active.label)}`;
 
   return (
     <div
@@ -156,34 +162,20 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
         className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[27px] pb-[40px] overflow-hidden"
       >
         <div className={`${COLS.content} row-start-1 overflow-hidden`}>
-          <AnimatePresence mode="wait">
-            <motion.h2
-              key={seeProjects ? "servicios" : "nuestros-servicios"}
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="headline-1 text-[#A89572]"
-            >
-              <TypewriterText
-                text={seeProjects ? "Servicios" : "Nuestros servicios"}
-                play={hasEntered}
-              />
-            </motion.h2>
-          </AnimatePresence>
+          <h2 className="headline-1 text-[#A89572]">
+            <TypewriterText text="Nuestros servicios" play={hasEntered} />
+          </h2>
         </div>
 
         <motion.div
           layout
-          transition={GROUP_TRANSITION}
-          className={`col-start-1 col-span-6 row-start-2 grid grid-cols-6 items-start gap-x-6 ${
-            seeProjects ? "self-start mt-[50px]" : "self-center"
-          }`}
+          className="col-start-1 col-span-6 row-start-2 grid grid-cols-6 items-start gap-x-6 self-center"
         >
           <ul className={`${COLS.list} flex flex-col gap-2`}>
             {services.map((service, index) => (
               <motion.li
                 key={service.label}
-                onClick={() => seeProjects && setActiveIndex(index)}
+                onClick={() => setActiveIndex(index)}
                 initial={{ x: -100, opacity: 0 }}
                 animate={
                   hasEntered ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
@@ -193,9 +185,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                   delay: index * 0.14,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572] ${
-                  seeProjects ? "cursor-pointer" : "cursor-default"
-                }`}
+                className="cursor-pointer font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
               >
                 <motion.span
                   className="block"
@@ -211,20 +201,14 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           <div className={COLS.content}>
             <AnimatePresence mode="wait">
               <motion.h3
-                key={
-                  seeProjects
-                    ? `label-${active.label}`
-                    : `title-${active.title}`
-                }
+                key={`title-${active.title}`}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className={`headline-1 text-[#A89572] ${
-                  seeProjects ? "font-quadrant" : "font-sans"
-                }`}
+                className="headline-1 font-sans text-[#A89572]"
               >
-                {seeProjects ? active.label : active.title}
+                {active.title}
               </motion.h3>
             </AnimatePresence>
           </div>
@@ -232,81 +216,59 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
 
         <div className={`${COLS.content} row-start-3 flex flex-col`}>
           <AnimatePresence mode="wait">
-            {!seeProjects ? (
-              <motion.p
-                key="short-desc"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
-                dangerouslySetInnerHTML={{
-                  __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
-                }}
-              />
-            ) : (
-              <motion.div
-                key={`expanded-${active.label}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="max-h-[50vh] overflow-y-auto pr-2"
-              >
-                <p className="font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572] mb-6">
-                  {active.title}
-                </p>
-                <div
-                  className="service-expanded-content"
-                  dangerouslySetInnerHTML={{
-                    __html: active.expanded_content,
-                  }}
-                />
-              </motion.div>
-            )}
+            <motion.p
+              key="short-desc"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
+              dangerouslySetInnerHTML={{
+                __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
+              }}
+            />
           </AnimatePresence>
 
-          <AnimatePresence>
-            {!seeProjects && (
-              <motion.div
-                layoutId="services-cta"
-                layout
-                transition={CTA_TRANSITION}
-                className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
-                exit={{ opacity: 0 }}
-              >
-                <button className="btn-gellix btn-gellix-active">
-                  know more
-                </button>
-                <button
-                  onClick={() => setSeeProjects(true)}
-                  className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"
-                >
-                  See Projects
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <AnimatePresence>
-          {seeProjects && (
-            <motion.div
-              layoutId="services-cta"
-              layout
-              transition={CTA_TRANSITION}
-              className="col-start-1 col-span-2 row-start-3 self-end w-fit"
-              exit={{ opacity: 0 }}
+          <motion.div
+            layout
+            transition={CTA_TRANSITION}
+            className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
+          >
+            <button
+              onMouseEnter={() => setCtaHover("know")}
+              className={`relative z-10 btn-gellix ${
+                ctaHover === "know" ? "text-white" : "text-[#A89572]"
+              }`}
             >
-              <button
-                onClick={() => setSeeProjects(false)}
-                className="btn-gellix bg-white text-[#A89572] hover:bg-[#A89572] hover:text-white"
-              >
-                Cerrar
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {ctaHover === "know" && (
+                <motion.span
+                  layoutId="cta-pill"
+                  className="absolute inset-0 rounded-full bg-[#A89572]"
+                  transition={CTA_TRANSITION}
+                />
+              )}
+              <span className="relative z-10">know more</span>
+            </button>
+
+            {/* Ya no expande en el sitio: navega al detalle del servicio */}
+            <Link
+              href={activeHref}
+              onMouseEnter={() => setCtaHover("projects")}
+              className={`relative z-10 btn-gellix bg-transparent ${
+                ctaHover === "projects" ? "text-white" : "text-[#A89572]"
+              }`}
+            >
+              {ctaHover === "projects" && (
+                <motion.span
+                  layoutId="cta-pill"
+                  className="absolute inset-0 rounded-full bg-[#A89572]"
+                  transition={CTA_TRANSITION}
+                />
+              )}
+              <span className="relative z-10">See Projects</span>
+            </Link>
+          </motion.div>
+        </div>
 
         <div className="absolute left-1/2 top-1/2 z-10 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50" />
 
