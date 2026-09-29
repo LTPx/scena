@@ -25,6 +25,14 @@ interface OurServicesProps {
 
 const VH_PER_STEP = 100;
 
+const STEP_DURATION = 0.9;
+
+const STEP_LOCK_MS = 700;
+
+const FRESH_GAP_MS = 100;
+
+const MIN_DELTA = 4;
+
 const SLIDE_TRANSITION = {
   duration: 0.85,
   ease: [0.76, 0, 0.24, 1] as const,
@@ -35,8 +43,6 @@ const CTA_TRANSITION = {
   ease: [0.76, 0, 0.24, 1] as const,
 };
 
-// Respaldo por si un servicio todavía no trae `slug` desde WP.
-// Lo ideal es que el slug venga siempre del backend.
 function slugify(label: string) {
   return label
     .normalize("NFD")
@@ -52,6 +58,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   const lenis = useLenis();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const [hasEntered, setHasEntered] = useState(false);
@@ -65,6 +72,12 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   const lastHandledTokenRef = useRef<number | null>(null);
   const [ctaHover, setCtaHover] = useState<"know" | "projects">("know");
 
+  const inZoneRef = useRef(false);
+  const exitingRef = useRef(false);
+  const lockedUntilRef = useRef(0);
+  const waitFreshRef = useRef(false);
+  const lastWheelRef = useRef({ time: 0, abs: 0 });
+
   const pendingRequest = useSyncExternalStore(
     subscribePendingService,
     getPendingServiceSnapshot,
@@ -76,22 +89,113 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
     offset: ["start start", "end end"],
   });
 
+  const count = services.length;
+
+  const getMetrics = () => {
+    const el = wrapperRef.current;
+    if (!el || !lenis) return null;
+    const top = el.getBoundingClientRect().top + lenis.scroll;
+    const range = Math.max(el.offsetHeight - window.innerHeight, 0);
+    return { top, range };
+  };
+
+  const stepScroll = (index: number) => {
+    const m = getMetrics();
+    if (!m) return null;
+    return m.top + ((index + 0.5) / count) * m.range;
+  };
+
+  const goTo = (index: number, duration = STEP_DURATION) => {
+    const target = stepScroll(index);
+    if (target === null || !lenis) return;
+    activeIndexRef.current = index;
+    setActiveIndex(index);
+    lenis.scrollTo(target, { duration, force: true });
+  };
+
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (!services.length) return;
+    if (!count) return;
 
     if (latest > 0) setHasEntered(true);
 
-    const index = Math.min(
-      services.length - 1,
-      Math.floor(latest * services.length),
-    );
+    const inZone = latest > 0 && latest < 1;
 
-    setActiveIndex(index);
+    if (exitingRef.current) {
+      if (!inZone) exitingRef.current = false;
+      return;
+    }
+
+    if (inZone && !inZoneRef.current && lenis) {
+      inZoneRef.current = true;
+      lenis.stop();
+
+      const idx = Math.min(count - 1, Math.floor(latest * count));
+      lockedUntilRef.current = performance.now() + STEP_LOCK_MS;
+      waitFreshRef.current = true;
+      goTo(idx, 0.6);
+    } else if (!inZone && inZoneRef.current) {
+      inZoneRef.current = false;
+      lenis?.start();
+    }
   });
 
   useEffect(() => {
     if (scrollYProgress.get() > 0) setHasEntered(true);
   }, [scrollYProgress]);
+
+  useEffect(() => {
+    if (!lenis || !count) return;
+
+    const exit = (target: number) => {
+      inZoneRef.current = false;
+      exitingRef.current = true;
+      lenis.start();
+      lenis.scrollTo(target, { duration: STEP_DURATION, force: true });
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!inZoneRef.current) return;
+
+      e.preventDefault();
+
+      const now = performance.now();
+      const abs = Math.abs(e.deltaY);
+      const prev = lastWheelRef.current;
+      const gap = now - prev.time;
+      const fresh = gap > FRESH_GAP_MS || abs > prev.abs + 10;
+      lastWheelRef.current = { time: now, abs };
+
+      if (abs < MIN_DELTA) return;
+      if (now < lockedUntilRef.current) return;
+
+      if (waitFreshRef.current) {
+        if (!fresh) return;
+        waitFreshRef.current = false;
+      }
+
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const next = activeIndexRef.current + dir;
+
+      lockedUntilRef.current = now + STEP_LOCK_MS;
+      waitFreshRef.current = true;
+
+      if (next < 0 || next >= count) {
+        const m = getMetrics();
+        if (!m) return;
+        exit(next < 0 ? m.top - 2 : m.top + m.range + 2);
+        return;
+      }
+
+      goTo(next);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      if (inZoneRef.current) lenis.start();
+      inZoneRef.current = false;
+    };
+  }, [lenis, count]);
 
   useEffect(() => {
     if (prevIndexRef.current === activeIndex) return;
@@ -111,38 +215,32 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
   useEffect(() => {
     if (!pendingRequest) return;
     if (lastHandledTokenRef.current === pendingRequest.token) return;
-    if (!lenis || !wrapperRef.current || !services.length) return;
+    if (!lenis || !wrapperRef.current || !count) return;
 
     lastHandledTokenRef.current = pendingRequest.token;
 
     const orderIndex = SERVICE_ORDER.indexOf(pendingRequest.key);
-    const targetIndex = Math.min(Math.max(orderIndex, 0), services.length - 1);
+    const jumpIndex = Math.min(Math.max(orderIndex, 0), count - 1);
 
     const jump = () => {
-      const el = wrapperRef.current;
-      if (!el) return;
+      const target = stepScroll(jumpIndex);
+      if (target === null) return;
 
-      const rect = el.getBoundingClientRect();
-      const currentScroll = lenis.scroll;
-      const elementTop = rect.top + currentScroll;
-      const elementHeight = el.offsetHeight;
-      const viewportHeight = window.innerHeight;
+      prevIndexRef.current = jumpIndex;
+      activeIndexRef.current = jumpIndex;
+      setActiveIndex(jumpIndex);
+      setLayers([{ index: jumpIndex, id: "initial", direction: "down" }]);
 
-      const progress = (targetIndex + 0.5) / services.length;
-      const targetScroll =
-        elementTop + progress * Math.max(elementHeight - viewportHeight, 0);
+      lockedUntilRef.current = performance.now() + STEP_LOCK_MS;
+      waitFreshRef.current = true;
 
-      prevIndexRef.current = targetIndex;
-      setActiveIndex(targetIndex);
-      setLayers([{ index: targetIndex, id: "initial", direction: "down" }]);
-
-      lenis.scrollTo(targetScroll, { immediate: true });
+      lenis.scrollTo(target, { immediate: true, force: true });
     };
 
     requestAnimationFrame(() => requestAnimationFrame(jump));
-  }, [pendingRequest, lenis, services.length]);
+  }, [pendingRequest, lenis, count]);
 
-  if (!services.length) {
+  if (!count) {
     return null;
   }
 
@@ -153,7 +251,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
     <div
       id="our-services"
       ref={wrapperRef}
-      style={{ height: `${VH_PER_STEP * services.length}vh` }}
+      style={{ height: `${VH_PER_STEP * count}vh` }}
       className="relative"
     >
       <Grid
@@ -176,7 +274,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
             {services.map((service, index) => (
               <motion.li
                 key={service.label}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => goTo(index)}
                 initial={{ x: -100, opacity: 0 }}
                 animate={
                   hasEntered ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
