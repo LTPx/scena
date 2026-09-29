@@ -17,6 +17,7 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
+import { ALIGN_TOP } from "../Service-Detail-Page/servicesLayout";
 
 interface OurServicesProps {
   services: ServiceWp[];
@@ -167,11 +168,11 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
           </h2>
         </div>
 
-        <motion.div
-          layout
-          className="col-start-1 col-span-6 row-start-2 grid grid-cols-6 items-start gap-x-6 self-center"
-        >
-          <ul className={`${COLS.list} flex flex-col gap-2`}>
+        <div className="pointer-events-none col-start-1 col-span-6 row-start-1 row-end-4 grid grid-cols-6 gap-x-6 self-start">
+          <ul
+            className={`${COLS.list} pointer-events-auto flex flex-col gap-2`}
+            style={{ marginTop: ALIGN_TOP }}
+          >
             {services.map((service, index) => (
               <motion.li
                 key={service.label}
@@ -197,8 +198,13 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
               </motion.li>
             ))}
           </ul>
+        </div>
 
-          <div className={COLS.content}>
+        <div className="pointer-events-none col-start-1 col-span-6 row-start-1 row-end-4 grid grid-cols-6 gap-x-6 self-start">
+          <div
+            className={`${COLS.content} pointer-events-auto`}
+            style={{ marginTop: ALIGN_TOP }}
+          >
             <AnimatePresence mode="wait">
               <motion.h3
                 key={`title-${active.title}`}
@@ -212,7 +218,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
               </motion.h3>
             </AnimatePresence>
           </div>
-        </motion.div>
+        </div>
 
         <div className={`${COLS.content} row-start-3 flex flex-col`}>
           <AnimatePresence mode="wait">
@@ -250,7 +256,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
               <span className="relative z-10">know more</span>
             </button>
 
-            {/* Ya no expande en el sitio: navega al detalle del servicio */}
             <Link
               href={activeHref}
               onMouseEnter={() => setCtaHover("projects")}

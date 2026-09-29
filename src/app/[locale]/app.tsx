@@ -7,25 +7,33 @@ import { usePathname } from "@/navigation";
 import { useIsDesktop } from "../hooks/useIsDesktop";
 
 const HIDDEN_FOOTER_PREFIX_ROUTES = ["/contact", "/showrooms"];
-
-const HIDDEN_FOOTER_DESKTOP_ROUTES = ["/outlet", "/press"];
+const HIDDEN_FOOTER_DESKTOP_PREFIX_ROUTES = ["/outlet"];
 
 interface Props {
   children: React.ReactNode;
 }
 
+const startsWithRoute = (pathname: string, route: string) =>
+  pathname === route || pathname.startsWith(`${route}/`);
+
 function App({ children }: Props) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
 
-  const hiddenEverywhere = HIDDEN_FOOTER_PREFIX_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  const hiddenEverywhere = HIDDEN_FOOTER_PREFIX_ROUTES.some((route) =>
+    startsWithRoute(pathname, route),
   );
 
+  const isPressIndex = /^\/press\/?$/.test(pathname);
+  const isServiceDetail = /^\/services\/[^/]+/.test(pathname);
+
   const hiddenOnDesktop =
-    HIDDEN_FOOTER_DESKTOP_ROUTES.some(
-      (route) => pathname === route || pathname.startsWith(`${route}/`),
-    ) && isDesktop === true;
+    isDesktop === true &&
+    (HIDDEN_FOOTER_DESKTOP_PREFIX_ROUTES.some((route) =>
+      startsWithRoute(pathname, route),
+    ) ||
+      isPressIndex ||
+      isServiceDetail);
 
   const hideFooter = hiddenEverywhere || hiddenOnDesktop;
 
