@@ -14,6 +14,7 @@ interface Props {
 }
 
 const ITEM_WIDTH_CLASS = "min-w-[220px] max-w-[95vw] md:max-w-[80vw]";
+const GAP_PX = 8;
 
 export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -26,7 +27,7 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
     const measure = () => {
       if (!trackRef.current) return;
 
-      setSetWidth(trackRef.current.scrollWidth / 2);
+      setSetWidth((trackRef.current.scrollWidth + GAP_PX) / 2);
     };
 
     measure();
@@ -57,14 +58,14 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
     <section className="relative h-screen w-full overflow-hidden font-gellix">
       <motion.div
         ref={trackRef}
-        style={{ x }}
-        className="flex h-full items-center gap-[8px] will-change-transform"
+        style={{ x, columnGap: GAP_PX }}
+        className="flex h-full items-center will-change-transform"
       >
         {track.map((item, index) => {
           const image = item.image;
           if (!image?.url) return null;
 
-          const aspectRatio = getAspectRatio(image, item.aspect); // 👈 ya no uses resolveAspect + ASPECT_RATIO[]
+          const aspectRatio = getAspectRatio(image, item.aspect);
 
           return (
             <div
@@ -107,7 +108,7 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
           </div>
 
           <p
-            className="font-sans font-normal text-[20px] leading-[100%] tracking-normal text-[#F6F5F1]"
+            className="font-sans font-normal text-[20px] leading-[120%] tracking-normal text-[#F6F5F1] [&_a]:underline"
             dangerouslySetInnerHTML={{ __html: activeLocation.contact }}
           />
         </div>
