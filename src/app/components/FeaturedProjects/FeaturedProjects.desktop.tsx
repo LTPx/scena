@@ -13,7 +13,6 @@ import { Link } from "@/navigation";
 interface Props {
   projects: ProjectHomeWp[];
   title?: string;
-  showTopBorder?: boolean;
   animateEntrance?: boolean;
 }
 
@@ -28,12 +27,9 @@ const END_SPACER_PX = Math.max(GRID_MARGIN_PX - CARD_GAP_PX, 0);
 const VH_PER_100VW_TRAVEL = 90;
 const REVEAL_BUFFER_VH = 100;
 
-const TOP_BORDER_COLOR = "#A89572";
-
 export default function FeaturedProjectsDesktop({
   projects,
   title = "Proyectos destacados",
-  showTopBorder = false,
   animateEntrance = true,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -105,28 +101,8 @@ export default function FeaturedProjectsDesktop({
         ref={stickyRef}
         className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[27px]"
       >
-        {showTopBorder && (
-          <motion.div
-            aria-hidden
-            initial={animateEntrance ? { scaleX: 0 } : false}
-            animate={{ scaleX: isInView ? 1 : 0 }}
-            transition={
-              animateEntrance
-                ? { duration: 0.6, ease: "easeOut" }
-                : { duration: 0 }
-            }
-            style={{
-              marginLeft: startOffset,
-              marginRight: `${GRID_MARGIN_PX}px`,
-              borderTop: `1px solid ${TOP_BORDER_COLOR}`,
-              transformOrigin: "left",
-            }}
-          />
-        )}
         <h2
-          className={`mb-8 headline-1 text-[#A89572] ${
-            showTopBorder ? "mt-[15px]" : ""
-          }`}
+          className="mb-8 headline-1 text-[#A89572]"
           style={{ paddingLeft: startOffset }}
         >
           {animateEntrance ? (

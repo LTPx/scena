@@ -64,7 +64,7 @@ export default function ProjectsPageDesktop({
               className="mt-[27px] headline-1 text-[#A89572]"
               style={{ lineHeight: "100%", letterSpacing: "0%" }}
             >
-              {data.title}
+              Projects
             </h1>
           </div>
 

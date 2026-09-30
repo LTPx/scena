@@ -345,7 +345,7 @@ export default function OurServicesDesktop({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]/80"
+              className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
               dangerouslySetInnerHTML={{
                 __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
               }}
@@ -393,8 +393,6 @@ export default function OurServicesDesktop({
             </Link>
           </motion.div>
         </div>
-
-        <div className="absolute left-1/2 top-1/2 z-10 h-6 w-px -translate-x-1/2 -translate-y-1/2 border-l border-dashed border-[#A89572]/50" />
 
         <div
           data-header-theme="dark"

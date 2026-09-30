@@ -119,7 +119,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
           </h3>
 
           <p
-            className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80"
+            className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]"
             dangerouslySetInnerHTML={{
               __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
             }}
