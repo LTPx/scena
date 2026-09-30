@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { AboutPageWp } from "@/app/_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
+import Image from "next/image";
 
 interface Props {
   data: AboutPageWp["differentiators"];
@@ -44,14 +45,20 @@ export default function AboutDifferentiatorsTrackDesktop({ data }: Props) {
             marginTop: `${TITLE_CARDS_GAP_PX}px`,
             height: "540px",
           }}
-          className="row-start-2 flex flex-col justify-between rounded-[20px] bg-white p-[20px]"
+          className="relative z-10 row-start-2 flex flex-col justify-between rounded-[20px] bg-white p-[20px]"
         >
           <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[34px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
             {card.title}
           </h3>
 
           <div className="flex flex-1 items-center justify-center">
-            <div className="h-36 w-36 rounded-full border border-[#A89572]/40" />
+            <Image
+              src={card.icon.url || ""}
+              alt={card.icon.alt || card.title}
+              width={144}
+              height={144}
+              className="h-36 w-36 object-contain"
+            />
           </div>
 
           <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">

@@ -7,6 +7,8 @@ import { useLenis } from "../SmoothScrollProvider";
 import Gallery from "../Gallery";
 import AboutDifferentiatorsTrack from "../AboutDifferentiatorsTrack";
 import PartnersMarquee from "../PartnersMarquee";
+import { motion } from "framer-motion";
+import { INTRO_REVEAL_TRANSITION } from "../../context/introStore";
 
 interface Props {
   data: AboutPageWp;
@@ -106,7 +108,7 @@ export default function AboutPageDesktop({ data }: Props) {
   };
 
   const sectionNav = (
-    <nav className={`${COLS.list} flex flex-col gap-2`}>
+    <nav className="flex flex-col gap-2">
       {SECTIONS.map((section) => {
         const isActive = section.key === activeSection;
         return (
@@ -135,9 +137,17 @@ export default function AboutPageDesktop({ data }: Props) {
       }}
     >
       <Grid as="section" className="pt-[25px] pb-[40px]">
-        <h1 className={`${COLS.aboutTitle} headline-1 text-[#A89572]`}>
-          {data.title}
-        </h1>
+        <div className={`${COLS.aboutTitle} overflow-hidden`}>
+          <motion.h1
+            initial={{ y: "-150%" }}
+            animate={{ y: "0%" }}
+            transition={INTRO_REVEAL_TRANSITION}
+            className="headline-1 text-[#A89572]"
+          >
+            {data.title}
+          </motion.h1>
+        </div>
+
         <p
           className={`${COLS.aboutDescription} mt-[140px] font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]`}
           dangerouslySetInnerHTML={{ __html: data.description }}
@@ -146,62 +156,80 @@ export default function AboutPageDesktop({ data }: Props) {
 
       <Gallery gallery={data.gallery} />
 
-      <Grid as="section" ref={teamRef} data-section="team" className="py-24">
-        {sectionNav}
+      <div className="relative">
+        <Grid className="pointer-events-none absolute inset-0 z-0 grid-rows-[1fr] pt-24">
+          <div
+            className={`${COLS.list} pointer-events-auto sticky top-24 self-start`}
+          >
+            {sectionNav}
+          </div>
+        </Grid>
 
-        <div className={COLS.content}>
+        <Grid as="section" ref={teamRef} data-section="team" className="py-24">
+          <div
+            className={`${COLS.content} row-start-1 sticky top-24 self-start`}
+          >
+            <p
+              className="whitespace-pre-line headline-1 text-[#A89572] mt-[-6px]"
+              dangerouslySetInnerHTML={{ __html: data.team.description }}
+            />
+          </div>
+
+          <ul
+            className={`${COLS.teamList} row-start-1 flex flex-col mt-[-6px]`}
+          >
+            {data.team.positions.map((position) => (
+              <motion.li
+                key={position.id}
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="headline-1 text-[#A89572]"
+              >
+                {position.title}
+              </motion.li>
+            ))}
+          </ul>
+
+          <div className={`${COLS.teamList} row-start-2 mt-[100px]`}>
+            <p className="mb-4 font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]">
+              {data.team.cta_title}
+            </p>
+            <button type="button" className="btn-gellix mt-2">
+              {data.team.cta_label}
+            </button>
+          </div>
+        </Grid>
+
+        <Gallery gallery={data.team_gallery} />
+
+        <div
+          className="pt-[100px]"
+          ref={differentiatorsRef}
+          data-section="differentiators"
+        >
+          <AboutDifferentiatorsTrack data={data.differentiators} />
+        </div>
+
+        <Grid
+          as="section"
+          ref={partnersRef}
+          data-section="partners"
+          className="pt-[40px] pb-[135px]"
+        >
           <p
-            className="whitespace-pre-line headline-1 text-[#A89572]"
-            dangerouslySetInnerHTML={{ __html: data.team.description }}
+            className={`${COLS.aboutPartnersDescription} headline-1 text-[#A89572]`}
+            dangerouslySetInnerHTML={{ __html: data.partners.description }}
           />
-        </div>
-
-        <ul className={`${COLS.teamList} flex flex-col gap-2`}>
-          {data.team.positions.map((position) => (
-            <li key={position.id} className="headline-1 text-[#A89572]">
-              {position.title}
-            </li>
-          ))}
-        </ul>
-
-        <div className={`${COLS.teamList} row-start-2 mt-[100px]`}>
-          <p className="mb-4 font-[Gellix] text-[40px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]">
-            {data.team.cta_title}
-          </p>
-          <button type="button" className="btn-gellix mt-2">
-            {data.team.cta_label}
-          </button>
-        </div>
-      </Grid>
-
-      <Gallery gallery={data.team_gallery} />
-
-      <div
-        className="pt-[100px]"
-        ref={differentiatorsRef}
-        data-section="differentiators"
-      >
-        <AboutDifferentiatorsTrack
-          data={data.differentiators}
-          nav={sectionNav}
-        />
+          <div
+            style={{ gridColumn: "1 / -1" }}
+            className="relative z-10 mt-12 bg-[#f6f5f1]"
+          >
+            <PartnersMarquee partners={data.partners.partners} />
+          </div>
+        </Grid>
       </div>
-
-      <Grid
-        as="section"
-        ref={partnersRef}
-        data-section="partners"
-        className="pt-[40px] pb-[135px]"
-      >
-        {sectionNav}
-        <p
-          className={`${COLS.aboutPartnersDescription} headline-1 text-[#A89572]`}
-          dangerouslySetInnerHTML={{ __html: data.partners.description }}
-        />
-        <div style={{ gridColumn: "1 / -1" }} className="mt-12">
-          <PartnersMarquee partners={data.partners.partners} />
-        </div>
-      </Grid>
     </div>
   );
 }

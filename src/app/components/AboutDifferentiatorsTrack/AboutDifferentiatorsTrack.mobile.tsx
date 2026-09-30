@@ -5,14 +5,12 @@ import { AboutPageWp } from "../../_interfaces/wordpress-components";
 
 interface Props {
   data: AboutPageWp["differentiators"];
-  nav: ReactNode;
 }
 
-export default function AboutDifferentiatorsTrackMobile({ data, nav }: Props) {
+export default function AboutDifferentiatorsTrackMobile({ data }: Props) {
   return (
     <section data-header-theme="light" className="py-10">
       <div className="px-[15px]">
-        {nav}
         {data.title && (
           <h2 className="mt-6 whitespace-pre-line font-[Gellix] text-[30px] font-normal not-italic leading-[100%] text-[#A89572]">
             {data.title}
