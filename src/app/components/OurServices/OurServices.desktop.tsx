@@ -11,14 +11,20 @@ import {
   getPendingServiceSnapshot,
   getPendingServiceServerSnapshot,
 } from "../../context/pendingServiceStore";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import {
   AnimatePresence,
   motion,
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { ALIGN_TOP } from "../Service-Detail-Page/servicesLayout";
+import { ALIGN_TOP, sortServices } from "../Service-Detail-Page/servicesLayout";
 import { getProjectsHref } from "../Service-Detail-Page/projectFilters";
 
 interface OurServicesProps {
@@ -55,7 +61,14 @@ function slugify(label: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-export default function OurServicesDesktop({ services }: OurServicesProps) {
+export default function OurServicesDesktop({
+  services: rawServices,
+}: OurServicesProps) {
+  const services = useMemo(
+    () => sortServices(rawServices, (s) => s.slug ?? slugify(s.label)),
+    [rawServices],
+  );
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
   const locale = useLocale();
@@ -272,7 +285,6 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
             <TypewriterText text="Nuestros servicios" play={hasEntered} />
           </h2>
         </div>
-
         <div className="pointer-events-none col-start-1 col-span-6 row-start-1 row-end-4 grid grid-cols-6 gap-x-6 self-start">
           <ul
             className={`${COLS.list} pointer-events-auto flex flex-col gap-2`}
@@ -317,7 +329,7 @@ export default function OurServicesDesktop({ services }: OurServicesProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="headline-1 font-sans text-[#A89572]"
+                className="headline-1 font-sans text-[#A89572] mt-[-6px]"
               >
                 {active.title}
               </motion.h3>

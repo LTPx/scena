@@ -16,13 +16,6 @@ let pending: PendingRequest = null;
 let tokenCounter = 0;
 const listeners = new Set<() => void>();
 
-/**
- * Guarda qué servicio se quiere destacar y notifica a los
- * suscriptores. Cada llamada genera un "token" nuevo, así que aunque
- * el valor de `key` sea el mismo que antes (ej. clickeás dos veces
- * "Engineering" seguidas), el efecto que escucha esto igual se
- * vuelve a disparar.
- */
 export function setPendingService(key: ServiceKey) {
   tokenCounter += 1;
   pending = { key, token: tokenCounter };

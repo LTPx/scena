@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useLocale } from "next-intl";
+import { Link } from "@/navigation";
 import { ServiceWp } from "../../_interfaces/wordpress-components";
 import {
   SERVICE_ORDER,
@@ -10,17 +18,34 @@ import {
   getPendingServiceSnapshot,
   getPendingServiceServerSnapshot,
 } from "../../context/pendingServiceStore";
+import { sortServices } from "../Service-Detail-Page/servicesLayout";
+import { getProjectsHref } from "../Service-Detail-Page/projectFilters";
 
 interface Props {
   services: ServiceWp[];
 }
 
-export default function OurServicesMobile({ services }: Props) {
+function slugify(label: string) {
+  return label
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export default function OurServicesMobile({ services: rawServices }: Props) {
+  const services = useMemo(
+    () => sortServices(rawServices, (s) => s.slug ?? slugify(s.label)),
+    [rawServices],
+  );
+
+  const locale = useLocale();
   const wrapperRef = useRef<HTMLElement>(null);
   const lastHandledTokenRef = useRef<number | null>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [showProjects, setShowProjects] = useState(false);
 
   const pendingRequest = useSyncExternalStore(
     subscribePendingService,
@@ -28,7 +53,6 @@ export default function OurServicesMobile({ services }: Props) {
     getPendingServiceServerSnapshot,
   );
 
-  // Pedido desde el submenú "Servicios" del Header
   useEffect(() => {
     if (!pendingRequest) return;
     if (lastHandledTokenRef.current === pendingRequest.token) return;
@@ -40,7 +64,6 @@ export default function OurServicesMobile({ services }: Props) {
     const targetIndex = Math.min(Math.max(orderIndex, 0), services.length - 1);
 
     setActiveIndex(targetIndex);
-    setShowProjects(false);
     requestAnimationFrame(() => {
       wrapperRef.current?.scrollIntoView({
         behavior: "smooth",
@@ -52,6 +75,9 @@ export default function OurServicesMobile({ services }: Props) {
   if (!services.length) return null;
 
   const active = services[activeIndex];
+  const activeSlug = active.slug ?? slugify(active.label);
+  const activeHref = `/services/${activeSlug}`;
+  const projectsHref = getProjectsHref(activeSlug, locale);
 
   return (
     <section
@@ -69,10 +95,7 @@ export default function OurServicesMobile({ services }: Props) {
           <li key={service.label}>
             <button
               type="button"
-              onClick={() => {
-                setActiveIndex(index);
-                setShowProjects(false);
-              }}
+              onClick={() => setActiveIndex(index)}
               className="font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] transition-opacity duration-300"
               style={{ opacity: index === activeIndex ? 1 : 0.4 }}
             >
@@ -84,7 +107,7 @@ export default function OurServicesMobile({ services }: Props) {
 
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${active.label}-${showProjects ? "projects" : "info"}`}
+          key={active.label}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
@@ -95,19 +118,12 @@ export default function OurServicesMobile({ services }: Props) {
             {active.title}
           </h3>
 
-          {showProjects ? (
-            <div
-              className="service-expanded-content mt-10"
-              dangerouslySetInnerHTML={{ __html: active.expanded_content }}
-            />
-          ) : (
-            <p
-              className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80"
-              dangerouslySetInnerHTML={{
-                __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
-              }}
-            />
-          )}
+          <p
+            className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]/80"
+            dangerouslySetInnerHTML={{
+              __html: active.description.replace(/<\/?p[^>]*>/g, "").trim(),
+            }}
+          />
         </motion.div>
       </AnimatePresence>
 
@@ -134,28 +150,18 @@ export default function OurServicesMobile({ services }: Props) {
       </div>
 
       <div className="mt-6 inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
-        <button
-          type="button"
-          onClick={() => setShowProjects(false)}
-          className={
-            !showProjects
-              ? "btn-gellix btn-gellix-active"
-              : "btn-gellix bg-transparent"
-          }
+        <Link
+          href={activeHref}
+          className="btn-gellix bg-transparent text-[#A89572] transition-colors duration-200 active:bg-[#A89572] active:text-white"
         >
           know more
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowProjects(true)}
-          className={
-            showProjects
-              ? "btn-gellix btn-gellix-active"
-              : "btn-gellix bg-transparent"
-          }
+        </Link>
+        <Link
+          href={projectsHref}
+          className="btn-gellix bg-transparent text-[#A89572] transition-colors duration-200 active:bg-[#A89572] active:text-white"
         >
           See Projects
-        </button>
+        </Link>
       </div>
     </section>
   );

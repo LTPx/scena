@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { getShowroomsPage } from "@/app/_services/api";
 import ShowroomsSection from "@/app/components/ShowroomsSection";
 

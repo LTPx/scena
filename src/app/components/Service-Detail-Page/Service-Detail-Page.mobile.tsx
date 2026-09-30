@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/navigation";
 import { ServiceDetailWp } from "../../_interfaces/wordpress-components";
 import { getProjectsHref } from "./projectFilters";
+import { sortServices } from "./servicesLayout";
 
 interface Props {
   data: ServiceDetailWp;
@@ -21,7 +22,7 @@ export default function ServiceDetailPageMobile({ data }: Props) {
 
       <nav aria-label="Services" className="ml-[130px]">
         <ul className="flex flex-col gap-[2px]">
-          {data.services_nav.map((service) => {
+          {sortServices(data.services_nav, (s) => s.slug).map((service) => {
             const isActive = service.slug === data.slug;
             return (
               <li key={service.slug}>

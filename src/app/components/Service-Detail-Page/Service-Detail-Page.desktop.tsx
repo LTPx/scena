@@ -5,7 +5,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/navigation";
 import { ServiceDetailWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
-import { ALIGN_TOP } from "./servicesLayout";
+import { ALIGN_TOP, sortServices } from "./servicesLayout";
 import { getProjectsHref } from "./projectFilters";
 
 interface Props {
@@ -26,7 +26,7 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
             className={`${COLS.list} pointer-events-auto flex flex-col gap-2`}
             style={{ marginTop: ALIGN_TOP }}
           >
-            {data.services_nav.map((service) => {
+            {sortServices(data.services_nav, (s) => s.slug).map((service) => {
               const isActive = service.slug === data.slug;
               return (
                 <li key={service.slug}>
@@ -50,22 +50,18 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
         >
           <div className="flex min-h-full flex-col">
             <div
-              className="flex shrink-0 flex-col gap-6"
+              className="flex shrink-0 flex-col gap-[50px]"
               style={{ height: ALIGN_TOP }}
             >
               <h2 className="headline-1 text-[#A89572]">Servicios</h2>
-              <h3 className="headline-1 font-quadrant text-[#A89572]">
+              <h3 className="font-quadrant text-[66px] font-normal not-italic leading-[110%] tracking-[0%] text-[#A89572]">
                 {data.label}
               </h3>
             </div>
 
-            <div
-              className="headline-1 shrink-0 text-[#A89572]"
-              dangerouslySetInnerHTML={{
-                __html: data.description.replace(/<\/?p[^>]*>/g, "").trim(),
-              }}
-            />
-
+            <h2 className="headline-1 text-[#A89572] mt-[-6px]">
+              {data.title}
+            </h2>
             <div
               className="service-expanded-content mt-auto shrink-0 pt-10"
               dangerouslySetInnerHTML={{ __html: data.expanded_content }}
