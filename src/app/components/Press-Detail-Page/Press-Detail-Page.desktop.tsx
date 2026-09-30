@@ -4,6 +4,7 @@ import {
   NewsDetailWp,
 } from "@/app/_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
+import { Link } from "@/navigation";
 
 interface Props {
   data: NewsDetailWp;
@@ -82,6 +83,17 @@ export default function PressDetailPageDesktop({ data }: Props) {
           </div>
         )}
       </Grid>
+      <div className="pointer-events-none sticky bottom-0 z-50 h-0">
+        <Link
+          href="/press"
+          aria-label="Volver al listado de noticias"
+          className="pointer-events-auto absolute bottom-[40px] left-[40px] flex h-[35px] w-[47px] items-center justify-center rounded-full bg-white px-[16px] py-[5px] text-[#A89572] transition-opacity duration-300 hover:opacity-70"
+        >
+          <span className="flex h-[17px] w-[15px] rotate-180 items-center justify-center gap-[10px] px-[2px] font-sans font-bold not-italic">
+            →
+          </span>
+        </Link>
+      </div>
     </article>
   );
 }
