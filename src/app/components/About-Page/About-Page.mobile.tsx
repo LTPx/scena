@@ -17,7 +17,6 @@ const BIG_TEXT_CLASS =
 export default function AboutPageMobile({ data }: Props) {
   return (
     <div data-header-theme="light" className="relative">
-      {/* Intro */}
       <section className="px-[15px] pb-10 pt-[220px]">
         <h1 className={BIG_TEXT_CLASS}>{data.title}</h1>
         <p className="mt-6 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
@@ -27,7 +26,6 @@ export default function AboutPageMobile({ data }: Props) {
 
       <Gallery gallery={data.gallery} />
 
-      {/* Equipo */}
       <section className="px-[15px] py-12">
         <p className={LABEL_CLASS}>Nuestro equipo</p>
 
@@ -52,13 +50,8 @@ export default function AboutPageMobile({ data }: Props) {
 
       <Gallery gallery={data.team_gallery} />
 
-      {/* Factores diferenciales */}
-      <AboutDifferentiatorsTrack
-        data={data.differentiators}
-        nav={<p className={LABEL_CLASS}>Factores diferenciales</p>}
-      />
+      <AboutDifferentiatorsTrack data={data.differentiators} />
 
-      {/* Partners */}
       <section className="pb-20 pt-6">
         <div className="px-[15px]">
           <p className={LABEL_CLASS}>Partners/Marcas</p>

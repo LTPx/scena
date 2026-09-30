@@ -12,6 +12,7 @@ import Grid, {
   GRID_COLS_COUNT,
 } from "../layout/Grid";
 import { OutletDetailProps, useOutletDetail } from "./useOutletDetail";
+import { Link } from "@/navigation";
 
 const IMAGE_OFFSET = offsetForColumn(1);
 const IMAGE_WIDTH = colSpanWidth(5);
@@ -21,6 +22,11 @@ const NEXT_ARROW_LEFT = offsetForColumn(12);
 const WHEEL_THRESHOLD = 8;
 const WHEEL_IDLE_RESET_MS = 180;
 const GALLERY_FADE_DURATION = 0.35;
+
+const CTA_TRANSITION = {
+  duration: 0.5,
+  ease: [0.76, 0, 0.24, 1] as const,
+};
 
 export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
   const { products } = props;
@@ -40,6 +46,12 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
 
   const [slideWidth, setSlideWidth] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [trackIndex, setTrackIndex] = useState(currentIndex);
+  const [snap, setSnap] = useState(false);
+  const [ctaHover, setCtaHover] = useState<"buy" | "info" | null>(null);
+
+  const total = products.length;
+  const slides = [...products, products[0]];
 
   useEffect(() => {
     const measure = () => {
@@ -89,6 +101,8 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
   function handleNext() {
     if (isTransitioning || products.length <= 1) return;
     setIsTransitioning(true);
+    setCtaHover(null);
+    setTrackIndex((t) => t + 1);
     goNext();
   }
 
@@ -98,9 +112,12 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
       className="relative isolate z-0 flex h-dvh flex-col overflow-hidden pb-[40px]"
     >
       <Grid className="mt-[25px] flex-shrink-0">
-        <span className={`${COLS.outletLabel} headline-1 text-[#A89572]`}>
+        <Link
+          href="/outlet"
+          className={`${COLS.outletLabel} headline-1 text-[#A89572]`}
+        >
           Outlet
-        </span>
+        </Link>
 
         <h1 className={`${COLS.outletDetailTitle} headline-1 text-[#A89572]`}>
           {product.name}
@@ -115,36 +132,51 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
             disabled={isTransitioning}
             aria-label="Siguiente producto"
             style={{ left: NEXT_ARROW_LEFT }}
-            className="absolute top-0 z-10 font-[Gellix] text-[28px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] disabled:opacity-40"
+            className="cursor-pointer absolute top-0 z-10 font-[Gellix] text-[28px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572] disabled:opacity-40"
           >
             →
           </button>
         )}
 
         <motion.div
-          animate={{ x: -currentIndex * slideWidth }}
-          transition={{
-            type: "tween",
-            duration: 0.6,
-            ease: [0.65, 0, 0.35, 1],
+          animate={{ x: -trackIndex * slideWidth }}
+          transition={
+            snap
+              ? { duration: 0 }
+              : { type: "tween", duration: 0.6, ease: [0.65, 0, 0.35, 1] }
+          }
+          onAnimationComplete={() => {
+            if (trackIndex >= total) {
+              setSnap(true);
+              setTrackIndex(0);
+            } else {
+              setSnap(false);
+              setIsTransitioning(false);
+            }
           }}
-          onAnimationComplete={() => setIsTransitioning(false)}
           className="flex h-full"
         >
-          {products.map((p, index) => {
-            const isActive = index === currentIndex;
+          {slides.map((p, index) => {
+            const isActive = index === trackIndex;
             const slideImage = isActive ? activeImage : p.image;
+
+            const canBuy = p.is_available && !!p.payment_link;
+            const hoverBuy = isActive && ctaHover === "buy";
+            const hoverInfo = isActive && ctaHover === "info";
 
             return (
               <div
-                key={p.slug}
+                key={index === total ? `${p.slug}-clone` : p.slug}
                 style={{ width: slideWidth || "100vw" }}
                 className="relative h-full flex-shrink-0 overflow-hidden"
               >
                 <div
                   style={{
-                    paddingLeft: IMAGE_OFFSET,
+                    paddingLeft: index > trackIndex ? 0 : IMAGE_OFFSET,
                     gap: `${GRID_GUTTER_PX}px`,
+                    transition: snap
+                      ? "none"
+                      : "padding-left 0.6s cubic-bezier(0.65, 0, 0.35, 1)",
                   }}
                   className="flex h-full"
                 >
@@ -207,7 +239,7 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                       )}
                       {p.description && (
                         <p
-                          className="max-w-[440px] font-[Gellix] text-[16px] leading-[135%] text-[#A89572]"
+                          className="font-[Gellix] text-[16px] leading-[135%] text-[#A89572]"
                           dangerouslySetInnerHTML={{ __html: p.description }}
                         />
                       )}
@@ -227,30 +259,53 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                         | Outlet: {p.outlet_price}
                       </p>
 
-                      <div className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
+                      <div
+                        onMouseLeave={() => setCtaHover(null)}
+                        className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
+                      >
                         <a
+                          href={canBuy ? p.payment_link : undefined}
                           target="_blank"
-                          href={p.payment_link}
                           rel="noopener noreferrer"
-                          aria-disabled={!p.is_available || !p.payment_link}
+                          aria-disabled={!canBuy}
+                          onMouseEnter={() => canBuy && setCtaHover("buy")}
                           onClick={(e) => {
-                            if (!p.is_available || !p.payment_link)
-                              e.preventDefault();
+                            if (!canBuy) e.preventDefault();
                           }}
-                          className={`btn-gellix btn-gellix-active ${
-                            !p.is_available || !p.payment_link
-                              ? "pointer-events-none opacity-40"
-                              : ""
+                          className={`relative z-10 btn-gellix ${
+                            hoverBuy ? "text-white" : "text-[#A89572]"
+                          } ${!canBuy ? "pointer-events-none opacity-40" : ""}`}
+                        >
+                          {hoverBuy && (
+                            <motion.span
+                              layoutId={`outlet-cta-pill-${index}`}
+                              className="absolute inset-0 rounded-full bg-[#A89572]"
+                              transition={CTA_TRANSITION}
+                            />
+                          )}
+                          <span className="relative z-10">
+                            {p.is_available ? "Comprar ahora" : "Agotado"}
+                          </span>
+                        </a>
+
+                        <Link
+                          href="/contact"
+                          onMouseEnter={() => setCtaHover("info")}
+                          className={`relative z-10 btn-gellix bg-transparent ${
+                            hoverInfo ? "text-white" : "text-[#A89572]"
                           }`}
                         >
-                          {p.is_available ? "Comprar ahora" : "Agotado"}
-                        </a>
-                        <button
-                          type="button"
-                          className="btn-gellix bg-transparent hover:bg-[#A89572] hover:text-white"
-                        >
-                          Solicitar información
-                        </button>
+                          {hoverInfo && (
+                            <motion.span
+                              layoutId={`outlet-cta-pill-${index}`}
+                              className="absolute inset-0 rounded-full bg-[#A89572]"
+                              transition={CTA_TRANSITION}
+                            />
+                          )}
+                          <span className="relative z-10">
+                            Solicitar información
+                          </span>
+                        </Link>
                       </div>
                     </div>
                   </div>
