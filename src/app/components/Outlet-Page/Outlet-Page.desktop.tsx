@@ -100,7 +100,7 @@ export default function OutletPageDesktop({ data }: Props) {
     >
       <div
         data-header-theme="light"
-        className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[27px]"
+        className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[25px]"
       >
         <Grid className="flex-shrink-0">
           <span className={`${COLS.outletLabel} headline-1 text-[#A89572]`}>

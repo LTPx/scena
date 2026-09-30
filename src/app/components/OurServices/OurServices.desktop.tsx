@@ -278,7 +278,7 @@ export default function OurServicesDesktop({
         ref={sectionRef}
         fullHeight
         data-header-theme="light"
-        className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[27px] pb-[40px] overflow-hidden"
+        className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[25px] pb-[40px] overflow-hidden"
       >
         <div className={`${COLS.content} row-start-1 overflow-hidden`}>
           <h2 className="headline-1 text-[#A89572]">

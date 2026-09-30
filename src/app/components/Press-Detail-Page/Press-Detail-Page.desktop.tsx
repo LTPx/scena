@@ -42,7 +42,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
 export default function PressDetailPageDesktop({ data }: Props) {
   return (
     <article data-header-theme="light" className="w-full">
-      <Grid className="items-baseline gap-y-8 pt-[27px] pb-[40px] md:gap-y-16">
+      <Grid className="items-baseline gap-y-8 pt-[25px] pb-[40px] md:gap-y-16">
         <span className={`${COLS.pressCategory} headline-1 text-[#A89572]`}>
           Noticias
         </span>

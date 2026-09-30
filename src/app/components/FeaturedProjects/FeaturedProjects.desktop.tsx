@@ -99,7 +99,7 @@ export default function FeaturedProjectsDesktop({
     >
       <div
         ref={stickyRef}
-        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[27px]"
+        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[25px]"
       >
         <h2
           className="mb-8 headline-1 text-[#A89572]"

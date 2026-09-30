@@ -210,7 +210,7 @@ export default function HeaderDesktop() {
             </Link>
 
             <nav
-              className={`${COLS.navMain} mt-[27px] flex flex-col`}
+              className={`${COLS.navMain} mt-[25px] flex flex-col`}
               onMouseLeave={scheduleSubmenuClose}
             >
               {NAV_ITEMS.map((item) => {
@@ -253,7 +253,7 @@ export default function HeaderDesktop() {
             </nav>
 
             <nav
-              className={`${COLS.navSub} mt-[27px] flex flex-col pt-2 transition-opacity duration-200 ${
+              className={`${COLS.navSub} mt-[25px] flex flex-col transition-opacity duration-200 ${
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
               onMouseEnter={cancelSubmenuClose}

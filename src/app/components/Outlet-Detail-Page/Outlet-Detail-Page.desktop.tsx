@@ -97,7 +97,7 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
       data-header-theme="light"
       className="relative isolate z-0 flex h-dvh flex-col overflow-hidden pb-[40px]"
     >
-      <Grid className="mt-[27px] flex-shrink-0">
+      <Grid className="mt-[25px] flex-shrink-0">
         <span className={`${COLS.outletLabel} headline-1 text-[#A89572]`}>
           Outlet
         </span>

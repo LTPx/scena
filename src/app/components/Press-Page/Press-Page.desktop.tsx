@@ -15,7 +15,7 @@ export default function PressPageDesktop({ data }: Props) {
     <div data-header-theme="light" className="relative isolate z-0">
       <Grid className="items-start">
         <div
-          className={`${COLS.content} sticky top-[27px] mt-[27px] flex flex-col justify-start`}
+          className={`${COLS.content} sticky top-[25px] mt-[25px] flex flex-col justify-start`}
         >
           <h1
             className="headline-1 text-[#A89572]"

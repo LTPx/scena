@@ -53,10 +53,8 @@ export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
     <article data-header-theme="light" className="w-full">
       <div data-header-theme="dark">
         <Cover img={data.hero_image.url}>
-          <Grid className="absolute inset-x-0 top-0 w-full items-center py-10">
-            <h1
-              className={`${COLS.projectsTitle} font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#F6F5F1]`}
-            >
+          <Grid className="absolute inset-x-0 top-[24px] w-full items-center">
+            <h1 className={`${COLS.projectsTitle} headline-1 text-[#F6F5F1]`}>
               {data.title}
             </h1>
 
@@ -93,9 +91,7 @@ export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
         </div>
 
         <div className={`${COLS.projectContent} flex flex-col gap-[70px]`}>
-          <p className="font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]">
-            {data.headline}
-          </p>
+          <p className="headline-1 text-[#A89572] mt-[-6px]">{data.headline}</p>
           <p
             className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
             dangerouslySetInnerHTML={{ __html: data.description }}

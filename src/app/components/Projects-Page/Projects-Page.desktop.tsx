@@ -61,7 +61,7 @@ export default function ProjectsPageDesktop({
         <Grid className="items-start">
           <div className={COLS.projectsTitle}>
             <h1
-              className="mt-[27px] headline-1 text-[#A89572]"
+              className="mt-[25px] headline-1 text-[#A89572]"
               style={{ lineHeight: "100%", letterSpacing: "0%" }}
             >
               Projects

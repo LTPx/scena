@@ -19,7 +19,7 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
     <div data-header-theme="light" className="relative min-h-screen">
       <Grid
         fullHeight
-        className="grid-rows-[1fr] pt-[27px] pb-[40px] overflow-hidden"
+        className="grid-rows-[1fr] pt-[25px] pb-[40px] overflow-hidden"
       >
         <div className="pointer-events-none col-start-1 col-span-6 row-start-1 grid grid-cols-6 gap-x-6 self-start">
           <ul

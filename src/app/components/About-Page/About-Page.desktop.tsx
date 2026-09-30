@@ -134,7 +134,7 @@ export default function AboutPageDesktop({ data }: Props) {
         transitionDuration: `${FADE_DURATION_MS}ms`,
       }}
     >
-      <Grid as="section" className="pt-[27px] pb-[40px]">
+      <Grid as="section" className="pt-[25px] pb-[40px]">
         <h1 className={`${COLS.aboutTitle} headline-1 text-[#A89572]`}>
           {data.title}
         </h1>
