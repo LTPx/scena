@@ -62,10 +62,7 @@ export default function ProjectDetailPageDesktop({ data }: ProjectDetailProps) {
               className={`${COLS.projectFilters} flex w-fit flex-wrap items-center gap-2`}
             >
               {data.categories.map((cat) => (
-                <GlassButton
-                  key={cat.id}
-                  href={`/projects?category=${cat.slug}`}
-                >
+                <GlassButton key={cat.id} href={`/projects?filter=${cat.slug}`}>
                   {cat.name}
                 </GlassButton>
               ))}

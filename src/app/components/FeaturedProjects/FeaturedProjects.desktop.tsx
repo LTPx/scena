@@ -152,7 +152,7 @@ export default function FeaturedProjectsDesktop({
                 {project.categories.map((category) => (
                   <GlassButton
                     key={category.id}
-                    href={`/projects?category=${category.slug}`}
+                    href={`/projects?filter=${category.slug}`}
                   >
                     {category.name}
                   </GlassButton>

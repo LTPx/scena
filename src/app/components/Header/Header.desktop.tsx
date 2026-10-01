@@ -192,9 +192,11 @@ export default function HeaderDesktop() {
         }`}
         aria-hidden={!isOpen}
       >
-        <div
-          className="relative h-[400px] w-full bg-[#BCB6A8] transition-opacity duration-300 ease-out"
-          style={{ opacity: animate ? 1 : 0 }}
+        <motion.div
+          initial={false}
+          animate={{ y: animate ? "0%" : "-100%" }}
+          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+          className="relative z-10 h-[400px] w-full bg-[#BCB6A8]"
         >
           <Grid className="items-start">
             <Link
@@ -281,8 +283,9 @@ export default function HeaderDesktop() {
               {LOCALES.map((l, i) => (
                 <span key={l.code} className="flex items-center gap-2">
                   <Link
-                    href="/"
+                    href={pathname}
                     locale={l.code}
+                    onClick={closeMenu}
                     className={`font-normal not-italic text-[16px] leading-[135%] tracking-[0%] text-[#F6F5F1] transition-colors hover:text-[#F6F5F166] ${
                       locale === l.code ? "" : "opacity-70"
                     }`}
@@ -310,9 +313,9 @@ export default function HeaderDesktop() {
               />
             </button>
           </Grid>
-        </div>
+        </motion.div>{" "}
         <div
-          className="absolute inset-x-0 top-[400px] bottom-0 transition-[backdrop-filter] duration-300 ease-out"
+          className="absolute inset-0 transition-[backdrop-filter] duration-300 ease-out"
           style={{
             backdropFilter: animate
               ? "blur(100px)"

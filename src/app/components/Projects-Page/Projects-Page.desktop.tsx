@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Link } from "@/navigation";
 import Grid, { COLS, offsetForColumn } from "../layout/Grid";
 import GlassButton from "../GlassButton";
+import { useLenis } from "../SmoothScrollProvider";
 import { ProjectsPageProps, useProjectsFilter } from "./useProjectsFilter";
 
 const NEXT_PROJECT_PEEK_PX = 85;
@@ -27,8 +28,21 @@ export default function ProjectsPageDesktop({
     initialFilter,
   );
 
+  const lenis = useLenis();
+
   const stickyRef = useRef<HTMLDivElement>(null);
   const [projectHeight, setProjectHeight] = useState<number | null>(null);
+
+  const handleFilterChange = (slug: string) => {
+    if (slug === activeFilter) return;
+    setActiveFilter(slug);
+
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  };
 
   useEffect(() => {
     const stickyEl = stickyRef.current;
@@ -77,7 +91,7 @@ export default function ProjectsPageDesktop({
                 <button
                   key={filter.slug}
                   type="button"
-                  onClick={() => setActiveFilter(filter.slug)}
+                  onClick={() => handleFilterChange(filter.slug)}
                   className={`btn-gellix ${
                     isActive ? "btn-gellix-active" : "btn-gellix-default"
                   }`}
@@ -93,39 +107,48 @@ export default function ProjectsPageDesktop({
       <div className="flex flex-col gap-[6px] pb-[40px]">
         {filteredProjects.map((item) => (
           <Grid key={item.project}>
-            <Link
-              href={`/projects/${item.slug}`}
+            <div
               style={{ height: projectHeight ? `${projectHeight}px` : "70vh" }}
               className={`${COLS.pressMedia} group relative block w-full overflow-hidden`}
             >
-              <Image
-                src={item.feature_image.url}
-                alt={item.feature_image.alt || item.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="83vw"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{ background: IMAGE_OVERLAY_GRADIENT }}
-              />
+              <Link
+                href={`/projects/${item.slug}`}
+                aria-label={item.title}
+                className="absolute inset-0 block"
+              >
+                <Image
+                  src={item.feature_image.url}
+                  alt={item.feature_image.alt || item.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="83vw"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{ background: IMAGE_OVERLAY_GRADIENT }}
+                />
+              </Link>
 
-              <h2 className="absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-white">
+              <h2 className="pointer-events-none absolute bottom-8 left-8 font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-white">
                 {item.title}
               </h2>
 
               <div
-                className="absolute bottom-8 right-8 flex flex-wrap items-center gap-2"
+                className="pointer-events-none absolute bottom-8 right-8 z-10 flex flex-wrap items-center gap-2"
                 style={{ left: CATEGORIES_LEFT_OFFSET }}
               >
                 {item.categories.map((cat) => (
-                  <GlassButton key={cat.id} as="span">
+                  <GlassButton
+                    key={cat.id}
+                    className="pointer-events-auto"
+                    onClick={() => handleFilterChange(cat.slug)}
+                  >
                     {cat.name}
                   </GlassButton>
                 ))}
               </div>
-            </Link>
+            </div>
           </Grid>
         ))}
       </div>
