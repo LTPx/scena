@@ -18,7 +18,7 @@ export default function IntroDescriptionDesktop({
 
   return (
     <div data-header-theme="light">
-      <Grid className="py-[200px]">
+      <Grid className="py-[250px]">
         <div
           className={`
             ${COLS.wideTextFull}
