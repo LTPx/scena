@@ -266,7 +266,6 @@ body {
   display: none;
 }
 
-/* Footer: al hacer hover en un enlace, los demás del mismo grupo bajan al 50% */
 .footer-links a {
   transition: opacity 0.2s ease;
 }

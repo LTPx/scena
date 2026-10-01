@@ -7,32 +7,23 @@ import Grid, { COLS, colSpanWidth } from "../layout/Grid";
 import GlassButton from "../GlassButton";
 import { OFFICES } from "./offices";
 
-/**
- * Proporción ancho/alto del logo. Debe coincidir con el viewBox de
- * logo-footer.svg (W / H). Con 600x122 = 4.92.
- */
 const LOGO_RATIO = 600 / 122;
 
-/**
- * Unidad base: alto del logo = alto de la fila inferior.
- * Máximo 105px, pero nunca más alto de lo que permitan las 4 columnas
- * (así el logo jamás se encoge ni se sale de su espacio).
- */
-const FOOTER_UNIT = `min(105px, calc(${colSpanWidth(4)} / ${LOGO_RATIO}))`;
+const SCALE = "min(1px, calc(100vw / 1440), calc(100dvh / 800))";
+const px = (n: number) => `calc(var(--s) * ${n})`;
 
-/** Tamaño del tagline relativo al alto del logo (en el diseño ≈ 0.61). */
+const FOOTER_UNIT = `min(${px(105)}, calc(${colSpanWidth(4)} / ${LOGO_RATIO}))`;
+
 const TAGLINE_SCALE = 0.61;
+
 const CTA_LONGEST_LINE_EM = 15;
-/* ------------------------------------------------------------------ */
-/* Utilidades de alineación por baseline                               */
-/* ------------------------------------------------------------------ */
 
 type FontMetrics = {
-  xH: number; // altura de la "x" (em)
-  capH: number; // altura de mayúsculas (em)
-  asc: number; // altura real de "living" (l, i con punto) (em)
-  fa: number; // ascent de la fuente (em)
-  fd: number; // descent de la fuente (em)
+  xH: number;
+  capH: number;
+  asc: number;
+  fa: number;
+  fd: number;
 };
 
 const FALLBACK: FontMetrics = {
@@ -60,7 +51,6 @@ function measureFont(family: string): FontMetrics {
   };
 }
 
-/** Mide la fuente cuando ya está cargada. Devuelve null mientras tanto. */
 function useFontMetrics(family: string) {
   const [m, setM] = useState<FontMetrics | null>(null);
   useEffect(() => {
@@ -79,7 +69,6 @@ function useFontMetrics(family: string) {
   return m;
 }
 
-/** Alto en px de un elemento (se actualiza al redimensionar). */
 function useElementHeight<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [h, setH] = useState(0);
@@ -95,7 +84,6 @@ function useElementHeight<T extends HTMLElement>() {
   return [ref, h] as const;
 }
 
-/** `top` que hay que darle a una línea para que su baseline caiga en `baselineY`. */
 function topForBaseline(
   baselineY: number,
   fontSize: number,
@@ -107,22 +95,17 @@ function topForBaseline(
   return baselineY - baselineInBox;
 }
 
-/* ------------------------------------------------------------------ */
-/* Tagline: "living / technology"                                      */
-/* ------------------------------------------------------------------ */
-
 function Tagline() {
   const [ref, H] = useElementHeight<HTMLDivElement>();
   const m = useFontMetrics("Quadrant Text");
   const ready = !!m && H > 0;
 
   const fs = H * TAGLINE_SCALE;
-  const lh = fs; // alto de caja de cada línea
+  const lh = fs;
   const metrics = m ?? FALLBACK;
 
-  // baseline de "technology" = borde inferior del logo
   const base2 = H;
-  // tope de la "l" / punto de la "i" de "living" = borde superior del logo
+
   const base1 = metrics.asc * fs;
 
   const common = {
@@ -160,22 +143,14 @@ function Tagline() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Columna derecha: Síguenos / Privacy / Design by                     */
-/* ------------------------------------------------------------------ */
-
 function RightInfo() {
   const t = useTranslations("Footer");
   const [ref, H] = useElementHeight<HTMLDivElement>();
   const m = useFontMetrics("Gellix");
   const ready = !!m && H > 0;
   const metrics = m ?? FALLBACK;
-
-  const fs = Math.min(14, Math.max(12, H * 0.133));
-  const lh = fs * 1.5;
-
-  // Mayúsculas de la 1ª línea tocan el borde superior;
-  // baseline de la última línea toca el borde inferior.
+  const fs = 14;
+  const lh = Math.min(fs * 1.5, (H - metrics.capH * fs) / 2.8);
   const b1 = metrics.capH * fs;
   const b2 = b1 + lh;
   const b4 = H;
@@ -218,10 +193,6 @@ function RightInfo() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Footer                                                              */
-/* ------------------------------------------------------------------ */
-
 export default function FooterDesktop() {
   const t = useTranslations("Footer");
 
@@ -235,30 +206,40 @@ export default function FooterDesktop() {
         className="-z-10 object-cover"
       />
       <Grid
-        className="h-full grid-rows-[minmax(0,1fr)_auto] gap-y-12"
-        style={{ ["--u" as string]: FOOTER_UNIT }}
+        className="h-full grid-rows-[minmax(0,1fr)_auto]"
+        style={{
+          ["--s" as string]: SCALE,
+          ["--u" as string]: FOOTER_UNIT,
+          rowGap: px(48),
+        }}
       >
-        {/* ---------- FILA SUPERIOR ---------- */}
         <div
-          className={`${COLS.footerCta} row-start-1 flex min-h-0 flex-col gap-[80px]`}
+          className={`${COLS.footerCta} row-start-1 flex min-h-0 flex-col self-start`}
+          style={{ gap: px(80) }}
         >
           <div>
             <h2
               className="headline-3 whitespace-pre text-[#F6F5F1] mt-[-8px]"
               style={{
-                // nunca más grande que 34px (diseño), y nunca más ancho que las 4 columnas
-                fontSize: `min(34px, calc(${colSpanWidth(4)} / ${CTA_LONGEST_LINE_EM}))`,
+                fontSize: `min(${px(34)}, calc(${colSpanWidth(4)} / ${CTA_LONGEST_LINE_EM}))`,
               }}
             >
               {t("ctaTitle")}
             </h2>
-            <a href="/contacto" className="mt-[80px] btn-gellix">
+            <a
+              href="/contacto"
+              className="btn-gellix"
+              style={{ marginTop: px(80) }}
+            >
               {t("ctaButton")}
             </a>
           </div>
 
           <form className="max-w-md" onSubmit={(e) => e.preventDefault()}>
-            <p className="color-text-footer mb-3 text-[20px]">
+            <p
+              className="color-text-footer"
+              style={{ fontSize: `max(14px, ${px(20)})`, marginBottom: px(12) }}
+            >
               {t("newsletterLabel")}
             </p>
             <input
@@ -273,14 +254,21 @@ export default function FooterDesktop() {
         </div>
 
         <div
-          className={`${COLS.footerOffices} row-start-1 flex min-h-0 flex-col gap-[50px] overflow-y-auto`}
+          className="col-start-10 col-span-3 row-start-1 flex min-h-0 flex-col self-start"
+          style={{ gap: px(50) }}
         >
           {OFFICES.map((office) => (
             <div key={office.label}>
               <GlassButton as="span" variant="light">
                 {office.label}
               </GlassButton>
-              <p className="mt-[14px] paragraph-footer">
+              <p
+                className="paragraph-footer whitespace-nowrap"
+                style={{
+                  marginTop: px(14),
+                  fontSize: `max(11px, ${px(16)})`,
+                }}
+              >
                 {office.address}
                 <br />
                 {office.phone}
@@ -293,9 +281,6 @@ export default function FooterDesktop() {
           ))}
         </div>
 
-        {/* ---------- FILA INFERIOR (todo se alinea al alto del logo) ---------- */}
-
-        {/* LOGO */}
         <div
           className={`${COLS.footerTagline} row-start-2 flex items-end`}
           style={{ height: "var(--u)" }}
@@ -314,12 +299,10 @@ export default function FooterDesktop() {
           />
         </div>
 
-        {/* TAGLINE */}
         <div className={`${COLS.footerCta} row-start-2`}>
           <Tagline />
         </div>
 
-        {/* SÍGUENOS / PRIVACY / DESIGN BY */}
         <div className={`${COLS.footerOffices} row-start-2`}>
           <RightInfo />
         </div>

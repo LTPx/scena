@@ -18,7 +18,7 @@
     }
   },
   "Footer": {
-  "ctaTitle": "Are you passionate about\ntechnology and its integration\ninto architecture?",
+    "ctaTitle": "Are you passionate about\ntechnology and its integration\ninto architecture?",
     "ctaButton": "Join our team",
     "newsletterLabel": "Subscribe to our Newsletter:",
     "emailPlaceholder": "E mail",
@@ -29,7 +29,7 @@
     "designBy": "Design by"
   },
   "Contact": {
-    "ctaTitle": "Are you passionate about technology and its integration into architecture?",
+    "ctaTitle": "Are you passionate about\ntechnology and its integration\ninto architecture?",
     "ctaButton": "Join our team",
     "newsletterLabel": "Subscribe to our Newsletter:",
     "emailPlaceholder": "E mail",
