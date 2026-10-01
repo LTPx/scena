@@ -224,7 +224,7 @@ export default function AboutPageDesktop({ data }: Props) {
           />
           <div
             style={{ gridColumn: "1 / -1" }}
-            className="relative z-10 mt-12 bg-[#f6f5f1]"
+            className="relative z-10 mt-[135px] bg-[#f6f5f1]"
           >
             <PartnersMarquee partners={data.partners.partners} />
           </div>
