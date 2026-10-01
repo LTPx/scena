@@ -20,12 +20,23 @@ function themeAtElement(el: HTMLElement | null): HeaderTheme {
   return themeAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
 }
 
+function isOverFooter(el: HTMLElement | null): boolean {
+  if (!el || typeof document === "undefined") return false;
+  const rect = el.getBoundingClientRect();
+  const hit = document.elementFromPoint(
+    rect.left + rect.width / 2,
+    rect.top + rect.height / 2,
+  );
+  return !!hit?.closest("footer");
+}
+
 export function useHeaderCore() {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [warmed, setWarmed] = useState(false);
   const [logoTheme, setLogoTheme] = useState<HeaderTheme>(DEFAULT_THEME);
   const [menuTheme, setMenuTheme] = useState<HeaderTheme>(DEFAULT_THEME);
+  const [logoHidden, setLogoHidden] = useState(false);
 
   const rafIds = useRef<number[]>([]);
   const tickingRef = useRef(false);
@@ -58,6 +69,7 @@ export function useHeaderCore() {
 
     const nextLogo = themeAtElement(logoRef.current);
     const nextMenu = themeAtElement(menuButtonRef.current);
+    const nextHidden = isOverFooter(logoRef.current);
 
     headerEl.style.pointerEvents = prevHeader;
     if (logoRef.current) logoRef.current.style.pointerEvents = prevLogo;
@@ -66,6 +78,7 @@ export function useHeaderCore() {
 
     setLogoTheme((p) => (p === nextLogo ? p : nextLogo));
     setMenuTheme((p) => (p === nextMenu ? p : nextMenu));
+    setLogoHidden((p) => (p === nextHidden ? p : nextHidden));
   }, []);
 
   const openMenu = useCallback(() => {
@@ -145,6 +158,7 @@ export function useHeaderCore() {
       logoTheme === "light" ? ("brown" as const) : ("white" as const),
     menuVariant:
       menuTheme === "light" ? ("brown" as const) : ("white" as const),
+    logoHidden,
     openMenu,
     closeMenu,
   };

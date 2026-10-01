@@ -4,12 +4,23 @@ import { useState } from "react";
 import { NewsPageWp } from "@/app/_interfaces/wordpress-components";
 import { Link } from "@/navigation";
 import Grid, { COLS } from "../layout/Grid";
+
 interface Props {
   data: NewsPageWp;
 }
 
+const MOCK_COUNT = 24;
+
 export default function PressPageDesktop({ data }: Props) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const mockNews =
+    data.news.length > 0
+      ? Array.from({ length: MOCK_COUNT }, (_, i) => ({
+          ...data.news[0],
+          id: `${data.news[0].id}-mock-${i}`,
+        }))
+      : data.news;
 
   return (
     <div data-header-theme="light" className="relative isolate z-0">
@@ -25,7 +36,7 @@ export default function PressPageDesktop({ data }: Props) {
         <div
           className={`${COLS.newsList} mt-[40px] flex flex-col gap-[clamp(24px,5vh,56px)]`}
         >
-          {data.news.map((item, index) => (
+          {mockNews.map((item, index) => (
             <div
               key={item.id}
               onMouseEnter={() => setHoveredIndex(index)}

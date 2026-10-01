@@ -179,14 +179,14 @@ function RightInfo() {
         <a href="#">{t("privacyPolicy")}</a> | <a href="#">{t("cookies")}</a>
       </p>
       <p style={line(b4)}>
-        {t("designBy")}{" "}
         <a
           href="https://bypositive.es/"
           target="_blank"
           rel="noopener noreferrer"
           className="footer-links"
+          style={{ pointerEvents: "auto" }}
         >
-          Positive
+          {t("designBy")} Positive
         </a>
       </p>
     </div>

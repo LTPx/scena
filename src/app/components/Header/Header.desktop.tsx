@@ -10,22 +10,6 @@ import { NAV_ITEMS, LOCALES, getServiceHref } from "./navItems";
 import { useHeaderCore } from "./useHeaderCore";
 
 const SUBMENU_CLOSE_DELAY_MS = 200;
-type HeaderTheme = "dark" | "light";
-
-const DEFAULT_THEME: HeaderTheme = "dark";
-
-function themeAtPoint(x: number, y: number): HeaderTheme {
-  if (typeof document === "undefined") return DEFAULT_THEME;
-  const el = document.elementFromPoint(x, y);
-  const themedEl = el?.closest<HTMLElement>("[data-header-theme]");
-  return themedEl?.dataset.headerTheme === "light" ? "light" : DEFAULT_THEME;
-}
-
-function themeAtElement(el: HTMLElement | null): HeaderTheme {
-  if (!el) return DEFAULT_THEME;
-  const rect = el.getBoundingClientRect();
-  return themeAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-}
 
 export default function HeaderDesktop() {
   const {
@@ -38,21 +22,19 @@ export default function HeaderDesktop() {
     menuButtonRef,
     logoVariant,
     menuVariant,
+    logoHidden,
     openMenu,
     closeMenu,
   } = useHeaderCore();
 
   const locale = useLocale();
   const pathname = usePathname();
-  const rafIds = useRef<number[]>([]);
   const t = useTranslations("Header");
   const tSub = useTranslations("HeaderSub");
-  const [logoTheme, setLogoTheme] = useState<HeaderTheme>(DEFAULT_THEME);
-  const [menuTheme, setMenuTheme] = useState<HeaderTheme>(DEFAULT_THEME);
-  const tickingRef = useRef(false);
 
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const closeSubmenuTimeoutRef = useRef<number | null>(null);
+
   const cancelSubmenuClose = useCallback(() => {
     if (closeSubmenuTimeoutRef.current !== null) {
       window.clearTimeout(closeSubmenuTimeoutRef.current);
@@ -74,75 +56,12 @@ export default function HeaderDesktop() {
     };
   }, [cancelSubmenuClose]);
 
-  const updateTheme = useCallback(() => {
-    const headerEl = headerRef.current;
-    if (!headerEl) return;
-
-    const prevPointerEvents = headerEl.style.pointerEvents;
-    headerEl.style.pointerEvents = "none";
-
-    const nextLogoTheme = themeAtElement(logoRef.current);
-    const nextMenuTheme = themeAtElement(menuButtonRef.current);
-
-    headerEl.style.pointerEvents = prevPointerEvents;
-
-    setLogoTheme((prev) => (prev === nextLogoTheme ? prev : nextLogoTheme));
-    setMenuTheme((prev) => (prev === nextMenuTheme ? prev : nextMenuTheme));
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) return;
-    updateTheme();
-
-    function onScroll() {
-      if (tickingRef.current) return;
-      tickingRef.current = true;
-      requestAnimationFrame(() => {
-        updateTheme();
-        tickingRef.current = false;
-      });
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [isOpen, updateTheme]);
-
-  useEffect(() => {
-    const id = requestAnimationFrame(updateTheme);
-    return () => cancelAnimationFrame(id);
-  }, [pathname, updateTheme]);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") closeMenu();
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
   useEffect(() => {
     if (!isOpen) {
       setActiveKey(null);
       cancelSubmenuClose();
     }
   }, [isOpen, cancelSubmenuClose]);
-
-  useEffect(() => {
-    return () => {
-      rafIds.current.forEach((id) => cancelAnimationFrame(id));
-    };
-  }, []);
 
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
@@ -160,7 +79,11 @@ export default function HeaderDesktop() {
           <Link
             ref={logoRef}
             href="/"
-            className={`${COLS.logo} pointer-events-auto flex items-center`}
+            className={`${COLS.logo} flex items-center transition-opacity duration-300 ${
+              logoHidden
+                ? "pointer-events-none opacity-0"
+                : "pointer-events-auto opacity-100"
+            }`}
           >
             <img
               src={`/logos/logo-header-${logoVariant}.svg`}
@@ -313,7 +236,7 @@ export default function HeaderDesktop() {
               />
             </button>
           </Grid>
-        </motion.div>{" "}
+        </motion.div>
         <div
           className="absolute inset-0 transition-[backdrop-filter] duration-300 ease-out"
           style={{
