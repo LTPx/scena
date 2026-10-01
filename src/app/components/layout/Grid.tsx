@@ -104,6 +104,7 @@ export const COLS = {
   // Header (submenu, versión anterior), OurServices (heading + content),
   // PressDetailPage (CONTENT_COLS)
   content: "col-start-3 col-span-4",
+  titleCard: "col-start-3 col-span-8",
   // Texto corrido más ancho (p.ej. IntroDescription), col 3 a 9 — AJUSTAR
   // el span si en Figma el bloque termina en otra columna.
   wideText: "col-start-3 col-span-7",

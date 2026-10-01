@@ -215,6 +215,15 @@ body {
   letter-spacing: 0%;
 }
 
+.headline-3 {
+  font-family: Gellix, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 34px;
+  line-height: 115%;
+  letter-spacing: 0%;
+}
+
 .headline-2 {
   font-family: Gellix, sans-serif;
   font-weight: 400;
@@ -255,4 +264,15 @@ body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Footer: al hacer hover en un enlace, los demás del mismo grupo bajan al 50% */
+.footer-links a {
+  transition: opacity 0.2s ease;
+}
+.footer-links:hover a {
+  opacity: 0.5;
+}
+.footer-links a:hover {
+  opacity: 1;
 }
