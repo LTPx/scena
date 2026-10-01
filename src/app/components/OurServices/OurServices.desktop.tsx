@@ -264,6 +264,8 @@ export default function OurServicesDesktop({
 
   const active = services[activeIndex];
   const activeSlug = active.slug ?? slugify(active.label);
+  const pillTarget = ctaHover ?? "know";
+  const pillOpacity = ctaHover ? 1 : 0.7;
   const activeHref = `/services/${activeSlug}`;
   const projectsHref = getProjectsHref(activeSlug, locale);
 
@@ -361,13 +363,15 @@ export default function OurServicesDesktop({
             <Link
               href={activeHref}
               onMouseEnter={() => setCtaHover("know")}
-              className={`relative z-10 btn-gellix ${
-                ctaHover === "know" ? "text-white" : "text-[#A89572]"
+              className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+                pillTarget === "know" ? "text-white" : "text-[#A89572]"
               }`}
             >
-              {ctaHover === "know" && (
+              {pillTarget === "know" && (
                 <motion.span
                   layoutId="cta-pill"
+                  initial={false}
+                  animate={{ opacity: pillOpacity }}
                   className="absolute inset-0 rounded-full bg-[#A89572]"
                   transition={CTA_TRANSITION}
                 />
@@ -378,13 +382,15 @@ export default function OurServicesDesktop({
             <Link
               href={projectsHref}
               onMouseEnter={() => setCtaHover("projects")}
-              className={`relative z-10 btn-gellix bg-transparent ${
-                ctaHover === "projects" ? "text-white" : "text-[#A89572]"
+              className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+                pillTarget === "projects" ? "text-white" : "text-[#A89572]"
               }`}
             >
-              {ctaHover === "projects" && (
+              {pillTarget === "projects" && (
                 <motion.span
                   layoutId="cta-pill"
+                  initial={false}
+                  animate={{ opacity: pillOpacity }}
                   className="absolute inset-0 rounded-full bg-[#A89572]"
                   transition={CTA_TRANSITION}
                 />

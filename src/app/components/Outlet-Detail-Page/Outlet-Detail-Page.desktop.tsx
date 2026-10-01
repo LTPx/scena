@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Grid, {
@@ -27,6 +27,119 @@ const CTA_TRANSITION = {
   duration: 0.5,
   ease: [0.76, 0, 0.24, 1] as const,
 };
+
+type CtaKey = "buy" | "info";
+
+interface OutletCtasProps {
+  canBuy: boolean;
+  isAvailable: boolean;
+  paymentLink?: string;
+  hover: CtaKey | null;
+  onHover: (value: CtaKey | null) => void;
+}
+
+function OutletCtas({
+  canBuy,
+  isAvailable,
+  paymentLink,
+  hover,
+  onHover,
+}: OutletCtasProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [rect, setRect] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  const target: CtaKey = hover ?? (canBuy ? "buy" : "info");
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const measure = () => {
+      const el = container.querySelector<HTMLElement>(`[data-cta="${target}"]`);
+      if (!el) return;
+      const next = {
+        x: el.offsetLeft,
+        y: el.offsetTop,
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+      };
+      setRect((prev) =>
+        prev &&
+        prev.x === next.x &&
+        prev.y === next.y &&
+        prev.width === next.width &&
+        prev.height === next.height
+          ? prev
+          : next,
+      );
+    };
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    container
+      .querySelectorAll("[data-cta]")
+      .forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [target]);
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseLeave={() => onHover(null)}
+      className="relative mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
+    >
+      {rect && (
+        <motion.span
+          aria-hidden
+          initial={false}
+          animate={{
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height,
+            opacity: hover ? 1 : 0.8,
+          }}
+          transition={CTA_TRANSITION}
+          className="pointer-events-none absolute left-0 top-0 rounded-full bg-[#A89572]"
+        />
+      )}
+
+      <a
+        data-cta="buy"
+        href={canBuy ? paymentLink : undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-disabled={!canBuy}
+        onMouseEnter={() => canBuy && onHover("buy")}
+        onClick={(e) => {
+          if (!canBuy) e.preventDefault();
+        }}
+        className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+          target === "buy" ? "text-white" : "text-[#A89572]"
+        } ${!canBuy ? "pointer-events-none opacity-40" : ""}`}
+      >
+        {isAvailable ? "Comprar ahora" : "Agotado"}
+      </a>
+
+      <Link
+        data-cta="info"
+        href="/contact"
+        onMouseEnter={() => onHover("info")}
+        className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+          target === "info" ? "text-white" : "text-[#A89572]"
+        }`}
+      >
+        Solicitar información
+      </Link>
+    </div>
+  );
+}
 
 export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
   const { products } = props;
@@ -102,7 +215,6 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
         window.clearTimeout(wheelIdleTimeoutRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gallery.length]);
 
   function handleNext() {
@@ -170,8 +282,6 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
             const slideImage = isActive ? activeImage : p.image;
 
             const canBuy = p.is_available && !!p.payment_link;
-            const hoverBuy = isActive && ctaHover === "buy";
-            const hoverInfo = isActive && ctaHover === "info";
 
             return (
               <div
@@ -268,54 +378,13 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
                         | Outlet: {p.outlet_price}
                       </p>
 
-                      <div
-                        onMouseLeave={() => setCtaHover(null)}
-                        className="mt-[30px] inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
-                      >
-                        <a
-                          href={canBuy ? p.payment_link : undefined}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-disabled={!canBuy}
-                          onMouseEnter={() => canBuy && setCtaHover("buy")}
-                          onClick={(e) => {
-                            if (!canBuy) e.preventDefault();
-                          }}
-                          className={`relative z-10 btn-gellix ${
-                            hoverBuy ? "text-white" : "text-[#A89572]"
-                          } ${!canBuy ? "pointer-events-none opacity-40" : ""}`}
-                        >
-                          {hoverBuy && (
-                            <motion.span
-                              layoutId={`outlet-cta-pill-${index}`}
-                              className="absolute inset-0 rounded-full bg-[#A89572]"
-                              transition={CTA_TRANSITION}
-                            />
-                          )}
-                          <span className="relative z-10">
-                            {p.is_available ? "Comprar ahora" : "Agotado"}
-                          </span>
-                        </a>
-
-                        <Link
-                          href="/contact"
-                          onMouseEnter={() => setCtaHover("info")}
-                          className={`relative z-10 btn-gellix bg-transparent ${
-                            hoverInfo ? "text-white" : "text-[#A89572]"
-                          }`}
-                        >
-                          {hoverInfo && (
-                            <motion.span
-                              layoutId={`outlet-cta-pill-${index}`}
-                              className="absolute inset-0 rounded-full bg-[#A89572]"
-                              transition={CTA_TRANSITION}
-                            />
-                          )}
-                          <span className="relative z-10">
-                            Solicitar información
-                          </span>
-                        </Link>
-                      </div>
+                      <OutletCtas
+                        canBuy={canBuy}
+                        isAvailable={p.is_available}
+                        paymentLink={p.payment_link}
+                        hover={isActive ? ctaHover : null}
+                        onHover={setCtaHover}
+                      />
                     </div>
                   </div>
                 </div>
