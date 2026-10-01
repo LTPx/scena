@@ -54,11 +54,11 @@ export default function FeaturedProjectsMobile({
         {projects.map((project, i) => (
           <div
             key={`${project.project}-${i}`}
+            data-header-theme="dark"
             className="relative aspect-[4/5] w-full flex-shrink-0 snap-start overflow-hidden"
           >
             <Link
               href={`/projects/${project.slug}`}
-              data-header-theme="dark"
               className="absolute inset-0 block"
             >
               <Image

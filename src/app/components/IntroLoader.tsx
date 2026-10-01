@@ -8,6 +8,7 @@ const EXIT_DURATION = 1;
 const EXIT_EASE = [0.76, 0, 0.24, 1] as const;
 const REVEAL_AT_PROGRESS = 0.1;
 const INTRO_SESSION_KEY = "scena-intro-played";
+const VIDEO_SRC = "/videos/intro-scena.mp4";
 
 function bezier(p1: number, p2: number, s: number) {
   return 3 * (1 - s) ** 2 * s * p1 + 3 * (1 - s) * s ** 2 * p2 + s ** 3;
@@ -58,9 +59,14 @@ export default function IntroLoader() {
 
   useEffect(() => {
     if (shouldSkip) return;
-    const fallback = setTimeout(() => setIsDone(true), 6000);
+    const duration = videoRef.current?.duration;
+    const ms =
+      videoReady && Number.isFinite(duration)
+        ? (duration as number) * 1000 + 1500
+        : 8000;
+    const fallback = setTimeout(() => setIsDone(true), ms);
     return () => clearTimeout(fallback);
-  }, [shouldSkip]);
+  }, [shouldSkip, videoReady]);
 
   useEffect(() => {
     if (shouldSkip) return;
@@ -94,14 +100,15 @@ export default function IntroLoader() {
         >
           <video
             ref={videoRef}
-            src="/videos/intro-scena.mp4"
+            src={VIDEO_SRC}
             autoPlay
             muted
             playsInline
+            preload="auto"
             onEnded={handleEnded}
             onError={() => setIsDone(true)}
             onLoadedData={() => setVideoReady(true)}
-            className={`h-full w-full object-cover transition-opacity duration-300 ${
+            className={`h-full w-full object-contain lg:object-cover transition-opacity duration-300 ${
               videoReady ? "opacity-100" : "opacity-0"
             }`}
           />

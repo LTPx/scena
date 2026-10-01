@@ -33,12 +33,12 @@ export default function HeaderMobile() {
   const pathname = usePathname();
   const hideClosedLogo =
     pathname === "/contact" || pathname.startsWith("/contact/");
+
   return (
     <header
       ref={headerRef}
       className="fixed left-0 top-0 z-100 w-full bg-transparent font-sans"
     >
-      {/* Barra cerrada */}
       <motion.div
         initial={false}
         animate={{ y: introPlaying ? "-100%" : "0%" }}
@@ -73,7 +73,6 @@ export default function HeaderMobile() {
         </button>
       </motion.div>
 
-      {/* Menú abierto */}
       <div
         className={`fixed inset-0 z-50 ${
           isOpen ? "pointer-events-auto" : "pointer-events-none"
@@ -88,7 +87,6 @@ export default function HeaderMobile() {
             opacity: animate ? 1 : 0,
           }}
         >
-          {/* Fila superior: logo + idiomas + cerrar */}
           <div className="flex items-start justify-between">
             <Link
               href="/"
@@ -107,7 +105,7 @@ export default function HeaderMobile() {
                 {LOCALES.map((l, i) => (
                   <span key={l.code} className="flex items-center gap-2">
                     <Link
-                      href="/"
+                      href={pathname}
                       locale={l.code}
                       onClick={closeMenu}
                       className={`text-[#F6F5F1] ${
@@ -139,7 +137,6 @@ export default function HeaderMobile() {
             </div>
           </div>
 
-          {/* Navegación: submenú siempre visible, sin hover */}
           <nav className="mt-[50px] flex flex-col">
             {NAV_ITEMS.map((item) => {
               if (item.subItems?.length) {
@@ -182,7 +179,6 @@ export default function HeaderMobile() {
             })}
           </nav>
 
-          {/* Redes */}
           <div className="mt-10 text-[#F6F5F1]">
             <p className="font-[Gellix] text-[14px] font-normal not-italic leading-[100%] tracking-[0%]">
               {tFooter("followUs")}
@@ -193,7 +189,6 @@ export default function HeaderMobile() {
           </div>
         </div>
 
-        {/* Blur debajo del panel */}
         <div
           className="absolute inset-x-0 bottom-0 transition-[backdrop-filter] duration-300 ease-out"
           style={{

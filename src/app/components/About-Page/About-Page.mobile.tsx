@@ -19,9 +19,10 @@ export default function AboutPageMobile({ data }: Props) {
     <div data-header-theme="light" className="relative">
       <section className="px-[15px] pb-10 pt-[220px]">
         <h1 className={BIG_TEXT_CLASS}>{data.title}</h1>
-        <p className="mt-6 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]">
-          {data.description}
-        </p>
+        <p
+          className="mt-6 font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#A89572]"
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        />
       </section>
 
       <Gallery gallery={data.gallery} />
@@ -55,9 +56,11 @@ export default function AboutPageMobile({ data }: Props) {
       <section className="pb-20 pt-6">
         <div className="px-[15px]">
           <p className={LABEL_CLASS}>Partners/Marcas</p>
-          <p className={`${BIG_TEXT_CLASS} mt-6`}>
-            {data.partners.description}
-          </p>
+
+          <p
+            className={`${BIG_TEXT_CLASS} mt-6`}
+            dangerouslySetInnerHTML={{ __html: data.partners.description }}
+          />
         </div>
 
         <div className="mt-10">

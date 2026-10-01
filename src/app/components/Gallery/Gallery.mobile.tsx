@@ -1,11 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { useInView } from "framer-motion";
 import Image from "next/image";
 import { GalleryHomeWp } from "../../_interfaces/wordpress-components";
-import { GRID_MARGIN_PX } from "../layout/Grid";
-import TypewriterText from "../TypewriterText";
 import { resolveAspect, ResolvedAspect } from "./aspect";
 
 interface GalleryProps {
@@ -14,7 +10,8 @@ interface GalleryProps {
 }
 
 const IMAGE_HEIGHT_PX = 475;
-const GAP_PX = 10;
+const GAP_PX = 15;
+const SIDE_PADDING_PX = 15;
 
 const ASPECT_WIDTH_CLASS: Record<ResolvedAspect, string> = {
   landscape: "w-[85vw]",
@@ -28,30 +25,17 @@ const ASPECT_SIZES: Record<ResolvedAspect, string> = {
   square: "75vw",
 };
 
-export default function GalleryMobile({ gallery, title }: GalleryProps) {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const isInView = useInView(titleRef, { once: true, amount: 0.9 });
-
+export default function GalleryMobile({ gallery }: GalleryProps) {
   if (!gallery?.length) return null;
 
   return (
-    <section data-header-theme="light" className="relative py-[25px]">
-      {/* {title && (
-        <h2
-          ref={titleRef}
-          style={{ paddingInline: GRID_MARGIN_PX / 2 }}
-          className="mb-8 font-[Gellix] text-[32px] font-normal not-italic leading-[100%] text-[#1a1a1a]"
-        >
-          <TypewriterText text={title} play={isInView} />
-        </h2>
-      )} */}
-
+    <section data-header-theme="dark" className="relative py-[25px]">
       <div
         className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           gap: GAP_PX,
-          paddingInline: GRID_MARGIN_PX / 2,
-          scrollPaddingInline: GRID_MARGIN_PX / 2,
+          paddingInline: SIDE_PADDING_PX,
+          scrollPaddingInline: SIDE_PADDING_PX,
         }}
       >
         {gallery.map((item, index) => {

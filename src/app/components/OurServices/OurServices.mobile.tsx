@@ -127,7 +127,10 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative mt-8 aspect-[3/4] w-full overflow-hidden">
+      <div
+        data-header-theme="dark"
+        className="relative mt-8 aspect-[3/4] w-full overflow-hidden"
+      >
         <AnimatePresence mode="popLayout">
           <motion.div
             key={active.image.url}

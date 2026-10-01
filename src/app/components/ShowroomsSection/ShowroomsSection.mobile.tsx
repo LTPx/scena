@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
 import { getAspectRatio } from "../Gallery/aspect";
@@ -18,21 +18,37 @@ export default function ShowroomsSectionMobile({ data }: Props) {
   const [selectedLocation, setSelectedLocation] = useState(0);
 
   const baseImages = data.gallery;
+  const baseLength = baseImages.length;
   const track = [...baseImages, ...baseImages, ...baseImages];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const scroller = scrollerRef.current;
     const trackEl = trackRef.current;
     if (!scroller || !trackEl) return;
 
+    let initialized = false;
+    setWidthRef.current = 0;
+
     const measure = () => {
-      setWidthRef.current = trackEl.scrollWidth / 3;
-      scroller.scrollLeft = setWidthRef.current;
+      const newWidth = (trackEl.scrollWidth + GAP_PX) / 3;
+      if (!newWidth) return;
+
+      const oldWidth = setWidthRef.current;
+      setWidthRef.current = newWidth;
+
+      if (!initialized || !oldWidth) {
+        scroller.scrollLeft = newWidth;
+        initialized = true;
+      } else if (oldWidth !== newWidth) {
+        scroller.scrollLeft = scroller.scrollLeft * (newWidth / oldWidth);
+      }
     };
 
     measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(trackEl);
+    return () => ro.disconnect();
   }, [data.gallery]);
 
   const handleScroll = () => {
@@ -50,7 +66,10 @@ export default function ShowroomsSectionMobile({ data }: Props) {
   const activeLocation = data.locations[selectedLocation];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden font-sans">
+    <section
+      className="relative h-dvh w-full overflow-hidden font-sans"
+      style={{ height: "100dvh" }}
+    >
       <div
         ref={scrollerRef}
         onScroll={handleScroll}
@@ -67,6 +86,9 @@ export default function ShowroomsSectionMobile({ data }: Props) {
 
             const aspectRatio = getAspectRatio(image, item.aspect);
 
+            const isInitiallyVisible =
+              index >= baseLength && index < baseLength + 2;
+
             return (
               <div
                 key={`${image.url}-${index}`}
@@ -77,7 +99,8 @@ export default function ShowroomsSectionMobile({ data }: Props) {
                   src={image.url}
                   alt={image.alt ?? ""}
                   fill
-                  priority={index < 2}
+                  priority={isInitiallyVisible}
+                  loading={isInitiallyVisible ? "eager" : "lazy"}
                   sizes="85vw"
                   className="object-cover"
                 />

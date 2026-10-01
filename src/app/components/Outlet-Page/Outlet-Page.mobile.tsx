@@ -27,9 +27,10 @@ export default function OutletPageMobile({ data }: Props) {
           {data.title}
         </h1>
 
-        <p className="mt-8 whitespace-pre-line font-sans text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]">
-          {data.description}
-        </p>
+        <p
+          className="mt-8 whitespace-pre-line font-sans text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]"
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        />
 
         <div className="mt-8 flex flex-wrap gap-3">
           {data.categories.map((category) => {

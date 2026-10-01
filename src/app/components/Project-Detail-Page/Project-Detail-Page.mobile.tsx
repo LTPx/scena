@@ -12,7 +12,10 @@ function ContentBlock({ block }: { block: ProjectContentBlockWp }) {
   switch (block.type) {
     case "image":
       return (
-        <div className="relative h-[540px] w-full overflow-hidden">
+        <div
+          data-header-theme="dark"
+          className="relative h-[540px] w-full overflow-hidden"
+        >
           <Image
             src={block.image.url}
             alt={block.image.alt}

@@ -42,7 +42,10 @@ export default function ServiceDetailPageMobile({ data }: Props) {
       </nav>
 
       <div className="mt-[120px] px-[15px]">
-        <div className="relative aspect-[3/4] w-full overflow-hidden">
+        <div
+          data-header-theme="dark"
+          className="relative aspect-[3/4] w-full overflow-hidden"
+        >
           <Image
             src={data.image.url}
             alt={data.image.alt || data.label}

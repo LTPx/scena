@@ -25,7 +25,7 @@ export default function ProjectsPageMobile({
       className="relative isolate z-0 pb-[40px] pt-[220px]"
     >
       <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
-        {data.title}
+        Projects
       </h1>
       <div
         className={`flex items-center gap-2 overflow-x-auto px-[16px] pb-[16px] ${HIDE_SCROLLBAR}`}
@@ -48,6 +48,7 @@ export default function ProjectsPageMobile({
       </div>
 
       <div
+        data-header-theme="dark"
         key={activeFilter}
         className={`flex snap-x snap-mandatory gap-[6px] overflow-x-auto scroll-pl-[16px] px-[16px] ${HIDE_SCROLLBAR}`}
       >

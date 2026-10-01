@@ -23,15 +23,13 @@ export default function ContactPageMobile({ data }: Props) {
         className="-z-10 object-cover"
       />
 
-      {/* CTA */}
       <h2 className="color-text-footer w-[80%] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
         {t("ctaTitle")}
       </h2>
-      <a href="/contacto" className="btn-gellix mt-6 w-fit">
+      <a href="/contact" className="btn-gellix mt-6 w-fit">
         {t("ctaButton")}
       </a>
 
-      {/* Newsletter */}
       <form className="mt-[50px]" onSubmit={(e) => e.preventDefault()}>
         <p className="color-text-footer mb-3 font-[Gellix] text-[20px] font-normal not-italic leading-[100%] tracking-[0%]">
           {t("newsletterLabel")}
@@ -46,7 +44,6 @@ export default function ContactPageMobile({ data }: Props) {
         </button>
       </form>
 
-      {/* Oficinas: scroll horizontal nativo */}
       <div
         className="
           -mx-[15px] mt-[50px] flex snap-x snap-mandatory gap-8 overflow-x-auto px-[15px]
@@ -73,7 +70,6 @@ export default function ContactPageMobile({ data }: Props) {
         <div aria-hidden className="w-1 flex-shrink-0" />
       </div>
 
-      {/* Redes + legales */}
       <div className="mt-[50px] grid grid-cols-[1fr_35%] gap-4">
         <div className="text-[#F6F5F1]">
           <p className="font-[Gellix] text-[14px] font-normal leading-[150%]">
@@ -91,7 +87,6 @@ export default function ContactPageMobile({ data }: Props) {
         </div>
       </div>
 
-      {/* Logo + tagline pegados al fondo */}
       <div className="mt-auto grid grid-cols-[1fr_35%] items-end gap-4 pt-16">
         <Image
           src="/logo-footer.svg"
