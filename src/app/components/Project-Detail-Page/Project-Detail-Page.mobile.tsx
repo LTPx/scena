@@ -92,7 +92,6 @@ export default function ProjectDetailPageMobile({ data }: ProjectDetailProps) {
         projects={data.other_projects}
         title="Otros Proyectos"
         animateEntrance={false}
-        showTopBorder
       />
     </article>
   );

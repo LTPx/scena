@@ -12,14 +12,12 @@ import { Link } from "@/navigation";
 interface Props {
   projects: ProjectHomeWp[];
   title?: string;
-  showTopBorder?: boolean;
   animateEntrance?: boolean;
 }
 
 export default function FeaturedProjectsMobile({
   projects,
   title = "Proyectos destacados",
-  showTopBorder = false,
   animateEntrance = true,
 }: Props) {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -27,15 +25,9 @@ export default function FeaturedProjectsMobile({
 
   return (
     <section data-header-theme="light" className="pb-[30px] pt-[27px]">
-      {showTopBorder && (
-        <div aria-hidden className="mx-4 border-t border-[#A89572]" />
-      )}
-
       <h2
         ref={titleRef}
-        className={`px-4 font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572] ${
-          showTopBorder ? "mt-[15px]" : ""
-        }`}
+        className="px-4 font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572]"
       >
         {animateEntrance ? (
           <TypewriterText text={title} play={isInView} />
@@ -75,7 +67,6 @@ export default function FeaturedProjectsMobile({
               </span>
             </Link>
 
-            {/* Tags: fuera del <Link> para no anidar <a> dentro de <a> */}
             <div className="absolute bottom-[68px] left-5 z-10 flex flex-wrap gap-2">
               {project.categories.map((category) => (
                 <GlassButton
@@ -89,7 +80,6 @@ export default function FeaturedProjectsMobile({
           </div>
         ))}
 
-        {/* Espacio final para que la última tarjeta no quede pegada al borde */}
         <div aria-hidden className="w-4 flex-shrink-0" />
       </div>
     </section>
