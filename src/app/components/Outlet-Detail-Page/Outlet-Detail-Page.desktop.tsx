@@ -49,6 +49,7 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
   const [trackIndex, setTrackIndex] = useState(currentIndex);
   const [snap, setSnap] = useState(false);
   const [ctaHover, setCtaHover] = useState<"buy" | "info" | null>(null);
+  const [ready, setReady] = useState(false);
 
   const total = products.length;
   const slides = [...products, products[0]];
@@ -69,6 +70,12 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, []);
+
+  useEffect(() => {
+    if (!slideWidth) return;
+    const raf = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(raf);
+  }, [slideWidth]);
 
   useEffect(() => {
     function handleWheel(e: WheelEvent) {
@@ -139,12 +146,14 @@ export default function OutletDetailPageDesktop(props: OutletDetailPageProps) {
         )}
 
         <motion.div
+          initial={false}
           animate={{ x: -trackIndex * slideWidth }}
           transition={
-            snap
+            snap || !ready
               ? { duration: 0 }
               : { type: "tween", duration: 0.6, ease: [0.65, 0, 0.35, 1] }
           }
+          style={{ opacity: ready ? 1 : 0 }}
           onAnimationComplete={() => {
             if (trackIndex >= total) {
               setSnap(true);
