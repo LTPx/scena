@@ -70,7 +70,11 @@ export default function ProjectsPageDesktop({
     <div data-header-theme="light" className="relative isolate z-0">
       <div
         ref={stickyRef}
-        className="sticky top-0 z-100 bg-[linear-gradient(0deg,rgba(246,245,241,0)_0%,#F6F5F1_49.65%)] pb-10"
+        className="sticky top-0 z-100 pb-10"
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(246,245,241,0) 0%, rgba(246,245,241,0.03) 4.97%, rgba(246,245,241,0.10) 9.93%, rgba(246,245,241,0.22) 14.9%, rgba(246,245,241,0.35) 19.86%, rgba(246,245,241,0.50) 24.83%, rgba(246,245,241,0.65) 29.79%, rgba(246,245,241,0.78) 34.76%, rgba(246,245,241,0.90) 39.72%, rgba(246,245,241,0.97) 44.69%, #F6F5F1 49.65%)",
+        }}
       >
         <Grid className="items-start">
           <div className={COLS.projectsTitle}>
