@@ -7,7 +7,7 @@ import {
   OgImage,
   TargetClass,
 } from "./wordpress";
-import { HomePageWp } from "./wordpress-components";
+import { HomePageWp, YoastSeoWp } from "./wordpress-components";
 
 export interface WordPressFrontendPage {
   id: number;
@@ -25,6 +25,7 @@ export interface WordPressFrontendPage {
   featured_media: number;
   template: string;
   parent: number;
+  yoast_seo: YoastSeoWp;
   aioseo_seo: YoastHeadJSON;
   yoast_head: string;
   yoast_head_json: YoastHeadJSON;

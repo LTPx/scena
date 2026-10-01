@@ -40,6 +40,7 @@ export interface ServiceDetailWp {
   expanded_content: string;
   image: ImageAcf;
   services_nav: ServiceNavItemWp[];
+  yoast_seo?: YoastSeoWp;
 }
 
 export type GalleryAspectWp = "auto" | "landscape" | "portrait" | "square";
@@ -112,6 +113,7 @@ export interface NewsItemWp {
 export interface NewsPageWp {
   title: string;
   news: NewsItemWp[];
+  yoast_seo?: YoastSeoWp;
 }
 
 export interface MediaImageWp {
@@ -155,6 +157,7 @@ export interface NewsDetailWp {
   hero_image: MediaImageWp;
   video?: NewsVideoWp;
   content: NewsContentBlockWp[];
+  yoast_seo?: YoastSeoWp;
 }
 
 export interface ProjectFilterWp {
@@ -170,6 +173,7 @@ export interface ProjectsPageWp {
   title: string;
   filters: ProjectFilterWp[];
   projects: ProjectListItemWp[];
+  yoast_seo?: YoastSeoWp;
 }
 
 export interface ProjectMetaItemWp {
@@ -196,6 +200,7 @@ export interface ProjectDetailWp {
   description: string;
   content: ProjectContentBlockWp[];
   other_projects: ProjectHomeWp[];
+  yoast_seo?: YoastSeoWp;
 }
 
 // --- AboutPage ---
@@ -266,6 +271,7 @@ export interface OutletProductWp {
   description?: string;
   note?: string;
   gallery?: ImageAcf[]; // fotos del producto, controla los dots
+  yoast_seo?: YoastSeoWp;
 }
 
 export interface OutletPageWp {
@@ -274,4 +280,18 @@ export interface OutletPageWp {
   description: string;
   categories: OutletCategoryWp[];
   products: OutletProductWp[];
+  yoast_seo?: YoastSeoWp;
+}
+
+export interface YoastSeoWp {
+  seo_title: string;
+  seo_desc: string;
+  seo_canonical?: string;
+  seo_robots?: { index?: string; follow?: string };
+  og_title?: string;
+  og_desc?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_desc?: string;
+  twitter_image?: string;
 }
