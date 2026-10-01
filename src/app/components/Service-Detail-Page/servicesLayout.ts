@@ -1,7 +1,11 @@
+import { GRID_GUTTER_PX } from "../layout/Grid";
+
 export const PARAGRAPH_TOP = "46vh";
 export const GRID_PADDING_TOP = "27px";
 export const NAV_OFFSET_UP = "40px";
 export const ALIGN_TOP = `calc(${PARAGRAPH_TOP} - ${GRID_PADDING_TOP} - ${NAV_OFFSET_UP})`;
+export const TEXT_IMAGE_GAP_PX = 75;
+export const TEXT_PAD_RIGHT = `${TEXT_IMAGE_GAP_PX - GRID_GUTTER_PX}px`;
 
 const SERVICE_RANK: Record<string, number> = {
   ingenieria: 0,

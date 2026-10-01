@@ -5,8 +5,10 @@ import { useLocale } from "next-intl";
 import { Link } from "@/navigation";
 import { ServiceDetailWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS } from "../layout/Grid";
-import { ALIGN_TOP, sortServices } from "./servicesLayout";
+import { ALIGN_TOP, TEXT_PAD_RIGHT, sortServices } from "./servicesLayout";
 import { getProjectsHref } from "./projectFilters";
+
+const PAGE_BOTTOM_PX = 40;
 
 interface Props {
   data: ServiceDetailWp;
@@ -46,9 +48,16 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
 
         <div
           data-lenis-prevent
-          className={`${COLS.content} row-start-1 h-full min-h-0 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+          className={`${COLS.content} row-start-1 min-h-0 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+          style={{ height: `calc(100% + ${PAGE_BOTTOM_PX}px)` }}
         >
-          <div className="flex min-h-full flex-col">
+          <div
+            className="flex min-h-full flex-col"
+            style={{
+              paddingRight: TEXT_PAD_RIGHT,
+              paddingBottom: PAGE_BOTTOM_PX,
+            }}
+          >
             <div
               className="flex shrink-0 flex-col gap-[50px]"
               style={{ height: ALIGN_TOP }}

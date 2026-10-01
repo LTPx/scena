@@ -24,7 +24,11 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { ALIGN_TOP, sortServices } from "../Service-Detail-Page/servicesLayout";
+import {
+  ALIGN_TOP,
+  TEXT_PAD_RIGHT,
+  sortServices,
+} from "../Service-Detail-Page/servicesLayout";
 import { getProjectsHref } from "../Service-Detail-Page/projectFilters";
 
 interface OurServicesProps {
@@ -322,7 +326,7 @@ export default function OurServicesDesktop({
         <div className="pointer-events-none col-start-1 col-span-6 row-start-1 row-end-4 grid grid-cols-6 gap-x-6 self-start">
           <div
             className={`${COLS.content} pointer-events-auto`}
-            style={{ marginTop: ALIGN_TOP }}
+            style={{ marginTop: ALIGN_TOP, paddingRight: TEXT_PAD_RIGHT }}
           >
             <AnimatePresence mode="wait">
               <motion.h3
@@ -339,7 +343,10 @@ export default function OurServicesDesktop({
           </div>
         </div>
 
-        <div className={`${COLS.content} row-start-3 flex flex-col`}>
+        <div
+          className={`${COLS.content} row-start-3 flex flex-col`}
+          style={{ paddingRight: TEXT_PAD_RIGHT }}
+        >
           <AnimatePresence mode="wait">
             <motion.p
               key="short-desc"
