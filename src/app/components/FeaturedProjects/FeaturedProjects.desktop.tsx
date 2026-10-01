@@ -99,10 +99,10 @@ export default function FeaturedProjectsDesktop({
     >
       <div
         ref={stickyRef}
-        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[25px]"
+        className="sticky top-0 flex h-screen flex-col overflow-hidden pt-[30px]"
       >
         <h2
-          className="mb-8 headline-1 text-[#A89572]"
+          className="mb-8 headline-2 text-[#A89572]"
           style={{ paddingLeft: startOffset }}
         >
           {animateEntrance ? (

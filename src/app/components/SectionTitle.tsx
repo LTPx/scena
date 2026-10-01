@@ -20,8 +20,8 @@ export default function SectionTitle({
   colorClassName = "text-[#F6F5F1]",
 }: SectionTitleProps) {
   return (
-    <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[25px]">
-      <h2 className={`${colsClassName} ${colorClassName} headline-1`}>
+    <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[30px]">
+      <h2 className={`${colsClassName} ${colorClassName} headline-2`}>
         <TypewriterText text={text} play={visible} />
       </h2>
     </Grid>

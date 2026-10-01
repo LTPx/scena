@@ -278,10 +278,10 @@ export default function OurServicesDesktop({
         ref={sectionRef}
         fullHeight
         data-header-theme="light"
-        className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[25px] pb-[40px] overflow-hidden"
+        className="sticky top-0 grid-rows-[auto_1fr_auto] pt-[30px] pb-[40px] overflow-hidden"
       >
         <div className={`${COLS.content} row-start-1 overflow-hidden`}>
-          <h2 className="headline-1 text-[#A89572]">
+          <h2 className="headline-2 text-[#A89572]">
             <TypewriterText text="Nuestros servicios" play={hasEntered} />
           </h2>
         </div>
