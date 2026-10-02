@@ -144,7 +144,7 @@ function BottomRow({
         <span
           ref={tagRef}
           className="block font-quadrant font-normal not-italic tracking-[0%] color-text-footer"
-          style={{ fontSize: px(80), lineHeight: 1, opacity: ready ? 1 : 0 }}
+          style={{ fontSize: px(60), lineHeight: 1, opacity: ready ? 1 : 0 }}
         >
           {tagline}
         </span>

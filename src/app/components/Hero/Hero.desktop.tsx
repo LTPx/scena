@@ -86,8 +86,6 @@ export default function HeroDesktop({ heroPage }: HeroProps) {
     >
       <div className="sticky top-0 h-screen">
         <div className="relative h-full w-full overflow-hidden">
-          {/* Título ahora vive DENTRO del contenedor sticky,
-              así queda fijo el mismo tiempo que el carrusel */}
           <Grid className="pointer-events-none absolute inset-x-0 top-0 z-10 pt-[37px]">
             <motion.div
               initial={false}
