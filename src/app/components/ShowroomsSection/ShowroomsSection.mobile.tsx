@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
 import { getAspectRatio } from "../Gallery/aspect";
@@ -17,9 +17,17 @@ export default function ShowroomsSectionMobile({ data }: Props) {
   const setWidthRef = useRef(0);
   const [selectedLocation, setSelectedLocation] = useState(0);
 
-  const baseImages = data.gallery;
+  const baseImages = useMemo(() => {
+    const galleries = data.galleries ?? [];
+    const current = galleries[selectedLocation];
+    return current && current.length ? current : (galleries[0] ?? []);
+  }, [data.galleries, selectedLocation]);
+
   const baseLength = baseImages.length;
-  const track = [...baseImages, ...baseImages, ...baseImages];
+  const track = useMemo(
+    () => [...baseImages, ...baseImages, ...baseImages],
+    [baseImages],
+  );
 
   useLayoutEffect(() => {
     const scroller = scrollerRef.current;
@@ -49,7 +57,7 @@ export default function ShowroomsSectionMobile({ data }: Props) {
     const ro = new ResizeObserver(measure);
     ro.observe(trackEl);
     return () => ro.disconnect();
-  }, [data.gallery]);
+  }, [baseImages]);
 
   const handleScroll = () => {
     const scroller = scrollerRef.current;
@@ -76,6 +84,7 @@ export default function ShowroomsSectionMobile({ data }: Props) {
         className="hide-scrollbar h-full w-full overflow-x-auto overscroll-x-contain"
       >
         <div
+          key={selectedLocation}
           ref={trackRef}
           className="flex h-full items-center"
           style={{ gap: GAP_PX, width: "max-content" }}

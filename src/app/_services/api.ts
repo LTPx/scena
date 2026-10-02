@@ -175,7 +175,7 @@ export async function getShowroomsPage(
         description: l.description ?? "",
       }),
     ),
-    gallery: s.gallery ?? [],
+    galleries: [s.gallery ?? [], s.gallery_mallorca ?? []],
   };
 }
 

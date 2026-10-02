@@ -89,7 +89,7 @@ export interface ShowroomLocationWp {
 export interface ShowroomPageWp {
   title: string;
   locations: ShowroomLocationWp[];
-  gallery: GalleryHomeWp[]; // antes: ImageAcf[]
+  galleries: GalleryHomeWp[][];
 }
 
 export interface ContactOfficeWp {
@@ -125,7 +125,7 @@ export interface MediaImageWp {
 
 export interface NewsParagraphBlockWp {
   type: "paragraph";
-  text: string; // HTML enriquecido desde el WYSIWYG de ACF
+  text: string;
 }
 
 export interface NewsImageBlockWp {
@@ -203,8 +203,6 @@ export interface ProjectDetailWp {
   yoast_seo?: YoastSeoWp;
 }
 
-// --- AboutPage ---
-
 export interface AboutTeamPositionWp {
   id: number;
   title: string;
@@ -249,8 +247,6 @@ export interface AboutPageWp {
   partners: AboutPartnersWp;
 }
 
-// --- OutletPage ---
-
 export interface OutletCategoryWp {
   label: string;
   slug: string;
@@ -263,14 +259,14 @@ export interface OutletProductWp {
   category: string;
   original_price: string;
   outlet_price: string;
-  image: ImageAcf; // thumbnail usado en el listado
-  payment_link: string; // URL del Stripe Payment Link
-  is_available: boolean; // false = "Agotado", oculta o deshabilita el botón de compra
-  // --- Campos solo usados en el detalle ---
+  image: ImageAcf;
+  payment_link: string;
+  is_available: boolean;
+
   color_name?: string;
   description?: string;
   note?: string;
-  gallery?: ImageAcf[]; // fotos del producto, controla los dots
+  gallery?: ImageAcf[];
   yoast_seo?: YoastSeoWp;
 }
 

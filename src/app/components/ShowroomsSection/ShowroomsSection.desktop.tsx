@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, wrap } from "framer-motion";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
@@ -20,22 +20,31 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [setWidth, setSetWidth] = useState(0);
   const [selectedLocation, setSelectedLocation] = useState(0);
-  const baseImages = data.gallery;
-  const track = [...baseImages, ...baseImages];
+
+  const baseImages = useMemo(() => {
+    const galleries = data?.galleries ?? [];
+    const current = galleries[selectedLocation];
+    return current && current.length ? current : (galleries[0] ?? []);
+  }, [data?.galleries, selectedLocation]);
+
+  const track = useMemo(() => [...baseImages, ...baseImages], [baseImages]);
+
+  const offset = useMotionValue(0);
 
   useEffect(() => {
     const measure = () => {
       if (!trackRef.current) return;
-
       setSetWidth((trackRef.current.scrollWidth + GAP_PX) / 2);
     };
 
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [data.gallery]);
+  }, [baseImages]);
 
-  const offset = useMotionValue(0);
+  useEffect(() => {
+    offset.set(0);
+  }, [selectedLocation, offset]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -57,6 +66,7 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
   return (
     <section className="relative h-screen w-full overflow-hidden font-gellix">
       <motion.div
+        key={selectedLocation}
         ref={trackRef}
         style={{ x, columnGap: GAP_PX }}
         className="flex h-full items-center will-change-transform"
@@ -85,7 +95,9 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
           );
         })}
       </motion.div>
+
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
+
       <Grid className="pointer-events-none absolute inset-x-0 top-0 py-[25px]">
         <div className={`${COLS.content} pointer-events-auto text-white`}>
           <h2 className="headline-1 mb-4">{data.title}</h2>
@@ -113,6 +125,7 @@ export default function ShowroomsSectionDesktop({ data, speed = 0.6 }: Props) {
           />
         </div>
       </Grid>
+
       <Grid className="pointer-events-none absolute inset-x-0 bottom-0 py-10">
         <div className={`${COLS.wideText} pointer-events-auto text-white`}>
           <p
