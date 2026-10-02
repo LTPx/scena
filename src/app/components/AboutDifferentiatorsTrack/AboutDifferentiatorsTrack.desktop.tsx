@@ -40,10 +40,16 @@ export default function AboutDifferentiatorsTrackDesktop({ data }: Props) {
   return (
     <Grid
       ref={sectionRef}
-      style={{ paddingTop: `${TITLE_TOP_PX}px` }}
-      className="min-h-screen grid-rows-[auto_auto] content-start overflow-hidden pb-[40px]"
+      data-header-theme="light"
+      className="min-h-screen grid-rows-[1fr_auto_1fr] overflow-hidden"
     >
-      <h2 className={`${COLS.titleCard} row-start-1 headline-1 text-[#A89572]`}>
+      <h2
+        style={{
+          marginTop: `${TITLE_TOP_PX}px`,
+          marginBottom: `${TITLE_CARDS_GAP_PX}px`,
+        }}
+        className={`${COLS.titleCard} row-start-1 self-start headline-1 text-[#A89572]`}
+      >
         {data.title}
       </h2>
 
@@ -89,7 +95,6 @@ export default function AboutDifferentiatorsTrackDesktop({ data }: Props) {
             onMouseLeave={() => setHoveredIndex(null)}
             style={{
               gridColumn: `${i * cardColSpan + 1} / span ${cardColSpan}`,
-              marginTop: `${TITLE_CARDS_GAP_PX}px`,
               height: "540px",
               willChange: "transform, opacity",
             }}

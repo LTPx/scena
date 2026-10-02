@@ -16,6 +16,48 @@ import { WordPressFrontendPage } from "../_interfaces/wordpress-page";
 export const WORDPRESS_API_URL = "https://staging.e-scena.com/wp-json";
 type Locale = "en" | "es" | "de";
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: "\u00a0",
+};
+
+function decodeEntities(str: string): string {
+  if (typeof str !== "string") return str;
+
+  return str.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity) => {
+    if (entity[0] === "#") {
+      const code =
+        entity[1].toLowerCase() === "x"
+          ? parseInt(entity.slice(2), 16)
+          : parseInt(entity.slice(1), 10);
+      return Number.isNaN(code) ? match : String.fromCodePoint(code);
+    }
+    return NAMED_ENTITIES[entity.toLowerCase()] ?? match;
+  });
+}
+
+function decodeHomeDifference(page: any) {
+  const section = page?.acf?.home_information?.where_we_make_difference;
+  if (!section) return;
+
+  if (typeof section.title === "string") {
+    section.title = decodeEntities(section.title);
+  }
+
+  if (Array.isArray(section.cards)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    section.cards = section.cards.map((card: any) => ({
+      ...card,
+      title: decodeEntities(card.title ?? ""),
+      description: decodeEntities(card.description ?? ""),
+    }));
+  }
+}
+
 export async function getWordPressPage(
   page: string,
 ): Promise<WordPressFrontendPage> {
@@ -54,6 +96,9 @@ export async function getWordPressCustomPage(
 
   const page = await response.json();
   if (!response.ok) throw new Error(page.message);
+
+  if (slug === "home") decodeHomeDifference(page);
+
   return page;
 }
 

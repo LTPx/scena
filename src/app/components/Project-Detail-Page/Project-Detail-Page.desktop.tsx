@@ -5,7 +5,7 @@ import { Cover } from "../Cover";
 import Grid, {
   clampStartCol,
   COLS,
-  PROJECT_IMAGE_HEIGHT,
+  PROJECT_IMAGE_ASPECT,
   PROJECT_IMAGE_SPAN,
 } from "../layout/Grid";
 import ScrollZoomImage from "../ScrollZoomImage";
@@ -23,7 +23,7 @@ function ContentBlock({
   switch (block.type) {
     case "image": {
       const span = PROJECT_IMAGE_SPAN[block.orientation];
-      const height = PROJECT_IMAGE_HEIGHT[block.orientation];
+      const aspectRatio = PROJECT_IMAGE_ASPECT[block.orientation];
       const startCol = clampStartCol(block.start_col, block.orientation);
       const spacing = imageIndex === 0 ? "mt-[150px]" : "mt-[200px]";
 
@@ -33,7 +33,7 @@ function ContentBlock({
           alt={block.image.alt}
           startCol={startCol}
           span={span}
-          height={height}
+          aspectRatio={aspectRatio}
           className={spacing}
         />
       );

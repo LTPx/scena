@@ -14,7 +14,7 @@ interface Props {
   alt: string;
   startCol: number;
   span: number;
-  height: number;
+  aspectRatio: string;
   className?: string;
 }
 
@@ -23,7 +23,7 @@ export default function ScrollZoomImage({
   alt,
   startCol,
   span,
-  height,
+  aspectRatio,
   className = "",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,14 +44,20 @@ export default function ScrollZoomImage({
     <div
       ref={ref}
       data-header-theme="dark"
-      className={`relative w-full overflow-hidden ${className}`}
+      className={`relative w-full self-start overflow-hidden ${className}`}
       style={{
         gridColumn: `${startCol} / span ${span}`,
-        height: `${height}px`,
+        aspectRatio,
       }}
     >
       <motion.div className="absolute inset-0" style={{ scale }}>
-        <Image src={src} alt={alt} fill className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={`${Math.round((span / 12) * 100)}vw`}
+          className="object-cover"
+        />
       </motion.div>
     </div>
   );

@@ -136,8 +136,8 @@ export default function AboutPageDesktop({ data }: Props) {
         transitionDuration: `${FADE_DURATION_MS}ms`,
       }}
     >
-      <Grid as="section" className="pt-[25px] pb-[40px]">
-        <div className={`${COLS.aboutTitle} overflow-hidden`}>
+      <Grid as="section" className="pb-[40px]">
+        <div className={`${COLS.aboutTitle} overflow-hidden pt-[25px]`}>
           <motion.h1
             initial={{ y: "-150%" }}
             animate={{ y: "0%" }}

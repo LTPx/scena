@@ -188,14 +188,21 @@ export function trackCardWidth(
   return `calc((${totalWidth} - ${(cardCount - 1) * gapPx}px) / ${cardCount})`;
 }
 
+/**
+ * Imágenes de la página de proyecto, según Figma (frame de 1728px:
+ * columna ≈115.33px, gutter 24px, margen 40px):
+ * - horizontal: 1369×913 → 10 columnas (≈1369px)
+ * - vertical:   673×1009 → 5 columnas (≈673px)
+ */
 export const PROJECT_IMAGE_SPAN = {
   vertical: 5,
   horizontal: 10,
 } as const;
 
-export const PROJECT_IMAGE_HEIGHT = {
-  vertical: 1000,
-  horizontal: 913,
+/** Proporción ancho / alto del diseño original (para CSS aspect-ratio). */
+export const PROJECT_IMAGE_ASPECT = {
+  vertical: "673 / 1009",
+  horizontal: "1369 / 913",
 } as const;
 
 export type ProjectImageOrientation = keyof typeof PROJECT_IMAGE_SPAN;
