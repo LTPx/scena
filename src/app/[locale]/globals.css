@@ -212,7 +212,7 @@ body {
   font-style: normal;
   font-size: 38px;
   line-height: 120%;
-  letter-spacing: 0%;
+  letter-spacing: -0.02em;
 }
 
 .headline-3 {
