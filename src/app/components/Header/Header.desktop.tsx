@@ -33,6 +33,7 @@ export default function HeaderDesktop() {
   const tSub = useTranslations("HeaderSub");
 
   const [activeKey, setActiveKey] = useState<string | null>(null);
+  const [hoveredSubKey, setHoveredSubKey] = useState<string | null>(null);
   const closeSubmenuTimeoutRef = useRef<number | null>(null);
 
   const cancelSubmenuClose = useCallback(() => {
@@ -62,6 +63,11 @@ export default function HeaderDesktop() {
       cancelSubmenuClose();
     }
   }, [isOpen, cancelSubmenuClose]);
+
+  // Al cambiar de submenú (o cerrarlo) se reinicia el hover de los subítems.
+  useEffect(() => {
+    setHoveredSubKey(null);
+  }, [activeKey]);
 
   const activeItem = NAV_ITEMS.find((item) => item.key === activeKey);
 
@@ -182,22 +188,35 @@ export default function HeaderDesktop() {
                 activeItem ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
               onMouseEnter={cancelSubmenuClose}
-              onMouseLeave={scheduleSubmenuClose}
+              onMouseLeave={() => {
+                setHoveredSubKey(null);
+                scheduleSubmenuClose();
+              }}
             >
-              {activeItem?.subItems?.map((sub) => (
-                <Link
-                  key={sub.key}
-                  href={
-                    activeItem.key === "services"
-                      ? getServiceHref(sub.key, locale)
-                      : activeItem.href
-                  }
-                  onClick={closeMenu}
-                  className="w-fit headline-1 text-[#F6F5F1] transition-colors hover:text-[#F6F5F166]"
-                >
-                  {tSub(`${activeItem.key}.${sub.key}`)}
-                </Link>
-              ))}
+              {activeItem?.subItems?.map((sub) => {
+                // Todos al 100% por defecto; al hacer hover, el ítem señalado
+                // se queda al 100% y el resto baja de opacidad.
+                const isDimmed =
+                  hoveredSubKey !== null && hoveredSubKey !== sub.key;
+
+                return (
+                  <Link
+                    key={sub.key}
+                    href={
+                      activeItem.key === "services"
+                        ? getServiceHref(sub.key, locale)
+                        : activeItem.href
+                    }
+                    onClick={closeMenu}
+                    onMouseEnter={() => setHoveredSubKey(sub.key)}
+                    className={`w-fit headline-1 text-[#F6F5F1] transition-opacity duration-200 ${
+                      isDimmed ? "opacity-30" : "opacity-100"
+                    }`}
+                  >
+                    {tSub(`${activeItem.key}.${sub.key}`)}
+                  </Link>
+                );
+              })}
             </nav>
 
             <nav

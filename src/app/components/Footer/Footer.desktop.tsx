@@ -215,7 +215,7 @@ export default function FooterDesktop() {
       >
         <div
           className={`${COLS.footerCta} row-start-1 flex min-h-0 flex-col self-start`}
-          style={{ gap: px(80) }}
+          style={{ gap: px(140) }}
         >
           <div>
             <h2
@@ -229,7 +229,7 @@ export default function FooterDesktop() {
             <a
               href="/contacto"
               className="btn-gellix"
-              style={{ marginTop: px(80) }}
+              style={{ marginTop: px(20) }}
             >
               {t("ctaButton")}
             </a>

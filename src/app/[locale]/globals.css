@@ -221,7 +221,7 @@ body {
   font-style: normal;
   font-size: 34px;
   line-height: 115%;
-  letter-spacing: 0%;
+  letter-spacing: -0.02em;
 }
 
 .headline-2 {
@@ -230,7 +230,7 @@ body {
   font-style: normal;
   font-size: 38px;
   line-height: 100%;
-  letter-spacing: 0%;
+  letter-spacing: -0.02em;
 }
 
 @layer components {
