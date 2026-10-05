@@ -37,13 +37,14 @@ function HomePage({ home_information, projects }: Props) {
       <main className="relative z-10 bg-[#f6f5f1] lg:-mt-[100vh]">
         <IntroDescription
           description={home_information.intro_description.description}
-          buttonHref="/proyectos"
+          buttonHref="/projects"
         />
         <OurServices services={home_information.our_services} />
         <IntroDescription
           description={home_information.visit_us_description.description}
           buttonHref="/contact"
           buttonLabel="Visítanos"
+          textEndCol={11}
         />
         <Gallery
           gallery={home_information.gallery}

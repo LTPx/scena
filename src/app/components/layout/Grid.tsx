@@ -63,6 +63,7 @@ export const COLS = {
   content: "col-start-3 col-span-4",
   titleCard: "col-start-3 col-span-8",
   wideText: "col-start-3 col-span-7",
+  wideTextIntro: "col-start-3 col-end-13",
   wideTextFull: "col-start-3 col-end-13",
   newsList: "col-start-7 col-end-13",
   projectsTitle: "col-start-3 col-span-3",
