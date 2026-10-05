@@ -4,6 +4,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ShowroomPageWp } from "../../_interfaces/wordpress-components";
 import { getAspectRatio } from "../Gallery/aspect";
+import { useVerticalToHorizontalScroll } from "../Projects-Page/useVerticalToHorizontalScroll";
 
 interface Props {
   data: ShowroomPageWp;
@@ -59,6 +60,10 @@ export default function ShowroomsSectionMobile({ data }: Props) {
     return () => ro.disconnect();
   }, [baseImages]);
 
+  useVerticalToHorizontalScroll(scrollerRef, [selectedLocation], {
+    loopWidth: () => setWidthRef.current,
+  });
+
   const handleScroll = () => {
     const scroller = scrollerRef.current;
     const setWidth = setWidthRef.current;
@@ -94,6 +99,8 @@ export default function ShowroomsSectionMobile({ data }: Props) {
             if (!image?.url) return null;
 
             const aspectRatio = getAspectRatio(image, item.aspect);
+            const [w, h] = aspectRatio.split("/").map((n) => parseFloat(n));
+            const widthVh = Math.round((w / h) * 100);
 
             const isInitiallyVisible =
               index >= baseLength && index < baseLength + 2;
@@ -101,7 +108,7 @@ export default function ShowroomsSectionMobile({ data }: Props) {
             return (
               <div
                 key={`${image.url}-${index}`}
-                className="relative h-full flex-shrink-0 max-w-[95vw]"
+                className="relative h-full flex-shrink-0"
                 style={{ aspectRatio }}
               >
                 <Image
@@ -110,7 +117,7 @@ export default function ShowroomsSectionMobile({ data }: Props) {
                   fill
                   priority={isInitiallyVisible}
                   loading={isInitiallyVisible ? "eager" : "lazy"}
-                  sizes="85vw"
+                  sizes={`${widthVh}vh`}
                   className="object-cover"
                 />
               </div>

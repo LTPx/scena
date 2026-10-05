@@ -1,60 +1,55 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { GalleryHomeWp } from "../../_interfaces/wordpress-components";
-import { resolveAspect, ResolvedAspect } from "./aspect";
+import { getAspectRatioNumber } from "./aspect";
+import { useVerticalToHorizontalScroll } from "../Projects-Page/useVerticalToHorizontalScroll";
 
 interface GalleryProps {
   gallery: GalleryHomeWp[];
   title?: string;
 }
 
-const IMAGE_HEIGHT_PX = 475;
+const IMAGE_HEIGHT_PX = 472;
 const GAP_PX = 15;
 const SIDE_PADDING_PX = 15;
 
-const ASPECT_WIDTH_CLASS: Record<ResolvedAspect, string> = {
-  landscape: "w-[85vw]",
-  portrait: "w-[62vw]",
-  square: "w-[75vw]",
-};
-
-const ASPECT_SIZES: Record<ResolvedAspect, string> = {
-  landscape: "85vw",
-  portrait: "62vw",
-  square: "75vw",
-};
-
 export default function GalleryMobile({ gallery }: GalleryProps) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useVerticalToHorizontalScroll(scrollerRef, [gallery]);
+
   if (!gallery?.length) return null;
 
   return (
     <section data-header-theme="dark" className="relative py-[25px]">
       <div
-        className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        ref={scrollerRef}
+        className="flex overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           gap: GAP_PX,
           paddingInline: SIDE_PADDING_PX,
-          scrollPaddingInline: SIDE_PADDING_PX,
         }}
       >
         {gallery.map((item, index) => {
           if (!item.image?.url) return null;
 
-          const aspect = resolveAspect(item.image, item.aspect);
+          const ratio = getAspectRatioNumber(item.image, item.aspect);
+          const width = Math.round(IMAGE_HEIGHT_PX * ratio);
 
           return (
             <div
               key={`${item.image.url}-${index}`}
-              style={{ height: IMAGE_HEIGHT_PX }}
-              className={`relative flex-shrink-0 snap-start ${ASPECT_WIDTH_CLASS[aspect]}`}
+              className="relative flex-shrink-0"
+              style={{ height: IMAGE_HEIGHT_PX, width }}
             >
               <Image
                 src={item.image.url}
                 alt={item.image.alt ?? ""}
                 fill
                 priority={index === 0}
-                sizes={ASPECT_SIZES[aspect]}
+                sizes={`${width}px`}
                 className="object-cover"
               />
             </div>
