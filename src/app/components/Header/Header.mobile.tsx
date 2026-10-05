@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Transition } from "framer-motion";
 import { INTRO_REVEAL_TRANSITION } from "../../context/introStore";
 import { NAV_ITEMS, LOCALES, getServiceHref } from "./navItems";
 import { useHeaderCore } from "./useHeaderCore";
@@ -32,14 +32,17 @@ export default function HeaderMobile() {
   const tSub = useTranslations("HeaderSub");
   const tFooter = useTranslations("Footer");
 
-  const { hidden: scrollHidden, hasScrolled } = useHideOnScroll(isOpen);
+  const pathname = usePathname();
+  const { hidden: scrollHidden, hasScrolled } = useHideOnScroll(
+    isOpen,
+    pathname,
+  );
   const barHidden = introPlaying || scrollHidden;
-  const barTransition = introPlaying
+  const barTransition: Transition = introPlaying
     ? { duration: 0 }
-    : hasScrolled
-      ? { duration: 0.3, ease: "easeOut" as const }
+    : hasScrolled || pathname !== "/"
+      ? { duration: 0.3, ease: "easeOut" }
       : INTRO_REVEAL_TRANSITION;
-
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   useEffect(() => {
@@ -47,7 +50,6 @@ export default function HeaderMobile() {
   }, [isOpen]);
 
   const blur = animate ? "blur(100px)" : warmed ? "blur(0.01px)" : "blur(0px)";
-  const pathname = usePathname();
   const hideClosedLogo =
     pathname === "/contact" || pathname.startsWith("/contact/");
 

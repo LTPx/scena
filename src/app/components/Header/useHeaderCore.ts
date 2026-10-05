@@ -95,6 +95,7 @@ export function useHeaderCore() {
     setIsOpen(false);
   }, []);
 
+  // Medición en scroll / resize
   useEffect(() => {
     if (isOpen) return;
     updateTheme();
@@ -116,10 +117,28 @@ export function useHeaderCore() {
     };
   }, [isOpen, updateTheme]);
 
+  // Medición al cambiar de ruta: re-mide mientras la nueva página monta
   useEffect(() => {
-    const id = requestAnimationFrame(updateTheme);
-    return () => cancelAnimationFrame(id);
-  }, [pathname, updateTheme]);
+    if (isOpen) return;
+
+    let raf = 0;
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateTheme);
+    };
+
+    schedule();
+
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const stop = window.setTimeout(() => observer.disconnect(), 3000);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+      window.clearTimeout(stop);
+    };
+  }, [pathname, isOpen, updateTheme]);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setWarmed(true));

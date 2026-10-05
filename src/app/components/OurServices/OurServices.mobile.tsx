@@ -25,6 +25,11 @@ interface Props {
   services: ServiceWp[];
 }
 
+const CTA_TRANSITION = {
+  duration: 0.5,
+  ease: [0.76, 0, 0.24, 1] as const,
+};
+
 function slugify(label: string) {
   return label
     .normalize("NFD")
@@ -46,6 +51,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
   const lastHandledTokenRef = useRef<number | null>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [pressed, setPressed] = useState<"know" | "projects" | null>(null);
 
   const pendingRequest = useSyncExternalStore(
     subscribePendingService,
@@ -78,6 +84,18 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
   const activeSlug = active.slug ?? slugify(active.label);
   const activeHref = `/services/${activeSlug}`;
   const projectsHref = getProjectsHref(activeSlug, locale);
+
+  // Mismo comportamiento que desktop: "know more" por defecto con opacidad 0.7,
+  // y opacidad 1 cuando se está presionando un botón
+  const pillTarget = pressed ?? "know";
+  const pillOpacity = pressed ? 1 : 0.7;
+
+  const pressHandlers = (target: "know" | "projects") => ({
+    onPointerDown: () => setPressed(target),
+    onPointerUp: () => setPressed(null),
+    onPointerCancel: () => setPressed(null),
+    onPointerLeave: () => setPressed(null),
+  });
 
   return (
     <section
@@ -152,20 +170,49 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
         </AnimatePresence>
       </div>
 
-      <div className="mt-6 inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1">
+      <motion.div
+        layout
+        transition={CTA_TRANSITION}
+        className="mt-6 inline-flex w-fit items-center gap-1 rounded-full border border-white bg-white p-1"
+      >
         <Link
           href={activeHref}
-          className="btn-gellix bg-transparent text-[#A89572] transition-colors duration-200 active:bg-[#A89572] active:text-white"
+          {...pressHandlers("know")}
+          className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+            pillTarget === "know" ? "text-white" : "text-[#A89572]"
+          }`}
         >
-          know more
+          {pillTarget === "know" && (
+            <motion.span
+              layoutId="cta-pill-mobile"
+              initial={false}
+              animate={{ opacity: pillOpacity }}
+              className="absolute inset-0 rounded-full bg-[#A89572]"
+              transition={CTA_TRANSITION}
+            />
+          )}
+          <span className="relative z-10">know more</span>
         </Link>
+
         <Link
           href={projectsHref}
-          className="btn-gellix bg-transparent text-[#A89572] transition-colors duration-200 active:bg-[#A89572] active:text-white"
+          {...pressHandlers("projects")}
+          className={`relative z-10 btn-gellix bg-transparent duration-300 delay-150 ${
+            pillTarget === "projects" ? "text-white" : "text-[#A89572]"
+          }`}
         >
-          See Projects
+          {pillTarget === "projects" && (
+            <motion.span
+              layoutId="cta-pill-mobile"
+              initial={false}
+              animate={{ opacity: pillOpacity }}
+              className="absolute inset-0 rounded-full bg-[#A89572]"
+              transition={CTA_TRANSITION}
+            />
+          )}
+          <span className="relative z-10">See Projects</span>
         </Link>
-      </div>
+      </motion.div>
     </section>
   );
 }
