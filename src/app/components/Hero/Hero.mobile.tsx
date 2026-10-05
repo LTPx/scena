@@ -26,7 +26,6 @@ function SlideMedia({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Solo reproduce el video cuando su slide está activo
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -72,7 +71,7 @@ export default function HeroMobile({ heroPage }: HeroProps) {
   return (
     <section
       data-header-theme="dark"
-      className="relative z-0 h-[100dvh] w-full overflow-hidden"
+      className="relative z-0 h-[100vh] w-full overflow-hidden"
     >
       <Swiper
         className="h-full w-full"
