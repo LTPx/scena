@@ -8,7 +8,9 @@ const EXIT_DURATION = 1;
 const EXIT_EASE = [0.76, 0, 0.24, 1] as const;
 const REVEAL_AT_PROGRESS = 0.1;
 const INTRO_SESSION_KEY = "scena-intro-played";
-const VIDEO_SRC = "/videos/intro-scena.mp4";
+const VIDEO_DESKTOP = "/videos/intro-scena.mp4";
+const VIDEO_MOBILE = "/videos/intro-scena-mobile.mp4";
+const DESKTOP_QUERY = "(min-width: 1024px)";
 
 function bezier(p1: number, p2: number, s: number) {
   return 3 * (1 - s) ** 2 * s * p1 + 3 * (1 - s) * s ** 2 * p2 + s ** 3;
@@ -35,6 +37,7 @@ export default function IntroLoader() {
   const [isMounted, setIsMounted] = useState(true);
   const [shouldSkip, setShouldSkip] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
 
   useLayoutEffect(() => {
     const alreadyPlayed =
@@ -46,7 +49,12 @@ export default function IntroLoader() {
       setIsDone(true);
       setIsMounted(false);
       setIntroPlaying(false);
+      return;
     }
+
+    setVideoSrc(
+      window.matchMedia(DESKTOP_QUERY).matches ? VIDEO_DESKTOP : VIDEO_MOBILE,
+    );
   }, []);
 
   useEffect(() => {
@@ -98,20 +106,22 @@ export default function IntroLoader() {
           onClick={() => setIsDone(true)}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
         >
-          <video
-            ref={videoRef}
-            src={VIDEO_SRC}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            onEnded={handleEnded}
-            onError={() => setIsDone(true)}
-            onLoadedData={() => setVideoReady(true)}
-            className={`h-full w-full object-contain lg:object-cover transition-opacity duration-300 ${
-              videoReady ? "opacity-100" : "opacity-0"
-            }`}
-          />
+          {videoSrc && (
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              onEnded={handleEnded}
+              onError={() => setIsDone(true)}
+              onLoadedData={() => setVideoReady(true)}
+              className={`h-full w-full object-cover transition-opacity duration-300 ${
+                videoReady ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>

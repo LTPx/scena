@@ -16,7 +16,7 @@ export default function ServiceDetailPageMobile({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="pb-16 pt-[100px]">
-      <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
+      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
         Services
       </h1>
 

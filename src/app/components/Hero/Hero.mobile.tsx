@@ -72,7 +72,7 @@ export default function HeroMobile({ heroPage }: HeroProps) {
   return (
     <section
       data-header-theme="dark"
-      className="relative z-0 h-[100svh] w-full overflow-hidden"
+      className="relative z-0 h-[100dvh] w-full overflow-hidden"
     >
       <Swiper
         className="h-full w-full"

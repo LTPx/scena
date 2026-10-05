@@ -22,7 +22,7 @@ export default function IntroDescriptionMobile({
         className="
           font-sans font-normal not-italic
           text-[30px] leading-[100%] tracking-normal
-          text-[#B4A78C]
+          text-[#a89572]
           [&>p]:inline
         "
       >

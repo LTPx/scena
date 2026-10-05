@@ -19,7 +19,7 @@ export default function OutletPageMobile({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="pb-16 pt-[220px]">
-      <h1 className="pointer-events-none absolute left-[130px] top-[5px] font-[Gellix] text-[40px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89F82]">
+      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
         {data.label}
       </h1>
       <div className="px-[15px]">
@@ -82,9 +82,9 @@ export default function OutletPageMobile({ data }: Props) {
               </p>
               <p className="font-sans text-[14px] font-normal not-italic leading-[135%] text-[#A89572]/50">
                 <span className="line-through">
-                  Precio original {product.original_price}
+                  Original {product.original_price}
                 </span>{" "}
-                | precio Outlet {product.outlet_price}
+                | Outlet {product.outlet_price}
               </p>
             </div>
           </Link>
