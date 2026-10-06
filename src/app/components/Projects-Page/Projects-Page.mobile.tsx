@@ -28,11 +28,13 @@ export default function ProjectsPageMobile({
   const filtersRef = useRef<HTMLDivElement>(null);
   const chipRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const firstRender = useRef(true);
+  const isFirstFilterRun = useRef(true);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
+  // Debe ir ANTES del efecto de scroll: actualiza la altura del wrapper
   useStickyHorizontal(
     wrapperRef,
     stickyRef,
@@ -42,6 +44,7 @@ export default function ProjectsPageMobile({
     { speed: 0.9, center: true },
   );
 
+  // Centra el chip activo en la barra de filtros
   useEffect(() => {
     const container = filtersRef.current;
     const chip = chipRefs.current[activeFilter];
@@ -55,6 +58,27 @@ export default function ProjectsPageMobile({
       behavior: firstRender.current ? "auto" : "smooth",
     });
     firstRender.current = false;
+  }, [activeFilter]);
+
+  // Al cambiar de filtro, vuelve al punto donde empieza el pin
+  useEffect(() => {
+    if (isFirstFilterRun.current) {
+      isFirstFilterRun.current = false;
+      return;
+    }
+
+    const wrapper = wrapperRef.current;
+    const sticky = stickyRef.current;
+    if (!wrapper || !sticky) return;
+
+    const stickyTop = parseFloat(getComputedStyle(sticky).top) || 0;
+    const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    const target = Math.max(0, wrapperTop - stickyTop);
+
+    // Solo sube si el usuario estaba más abajo del inicio del pin
+    if (window.scrollY > target) {
+      window.scrollTo({ top: target, behavior: "auto" });
+    }
   }, [activeFilter]);
 
   return (
