@@ -14,7 +14,7 @@ export default function ContactPageMobile({ data }: Props) {
   const tf = useTranslations("Footer");
 
   return (
-    <div className="relative isolate z-0 flex min-h-dvh flex-col overflow-hidden px-[15px] pb-[20px] pt-[30px] font-sans text-white">
+    <div className="relative isolate z-0 flex min-h-dvh flex-col overflow-hidden px-[15px] pb-[20px] pt-[30px] font-sans text-[#F6F5F1]">
       <Image
         src={data.background_image.url}
         alt={data.background_image.alt || ""}
@@ -23,7 +23,7 @@ export default function ContactPageMobile({ data }: Props) {
         className="-z-10 object-cover"
       />
 
-      <h2 className="color-text-footer w-[80%] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
+      <h2 className="color-text-footer w-[80%] heading-section-title">
         {t("ctaTitle")}
       </h2>
       <a href="/contact" className="btn-gellix mt-6 w-fit">

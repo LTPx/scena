@@ -10,11 +10,9 @@ interface Props {
 export default function PressPageMobile({ data }: Props) {
   return (
     <div data-header-theme="light" className="px-[15px] pb-20 pt-[220px]">
-      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
-        Noticias
-      </h1>
+      <h1 className="heading-header-label">Noticias</h1>
       <h1
-        className="font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+        className="heading-section-title text-[#A89572]"
         dangerouslySetInnerHTML={{ __html: data.title }}
       />
       <ul className="mt-[100px] flex flex-col gap-8">

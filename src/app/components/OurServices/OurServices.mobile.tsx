@@ -104,9 +104,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
       data-header-theme="light"
       className="px-[15px] pb-10 pt-[60px] text-[#A89572]"
     >
-      <h2 className="font-[Gellix] text-[30px] font-normal leading-[100%] tracking-[0%]">
-        Our Services
-      </h2>
+      <h2 className="heading-section-title">Our Services</h2>
 
       <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
         {services.map((service, index) => (
@@ -132,9 +130,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="mt-10"
         >
-          <h3 className="font-[Gellix] text-[30px] font-normal leading-[100%] tracking-[0%]">
-            {active.title}
-          </h3>
+          <h3 className="heading-section-title">{active.title}</h3>
 
           <p
             className="mt-10 font-[Gellix] text-[16px] font-normal leading-[135%] tracking-[0%] text-[#A89572]"

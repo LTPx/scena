@@ -42,7 +42,7 @@ export default function FeaturedProjectsMobile({
       <div ref={stickyRef} className="sticky pb-[30px] pt-[27px]">
         <h2
           ref={titleRef}
-          className="px-4 font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572]"
+          className="px-4 heading-section-title text-[#A89572]"
         >
           {animateEntrance ? (
             <TypewriterText text={title} play={isInView} />

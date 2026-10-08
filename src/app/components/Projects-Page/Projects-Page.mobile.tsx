@@ -61,9 +61,7 @@ export default function ProjectsPageMobile({
       data-header-theme="light"
       className="relative isolate z-0 pb-[40px] pt-[220px]"
     >
-      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
-        Projects
-      </h1>
+      <h1 className="heading-header-label">Projects</h1>
 
       <div className="relative flex flex-wrap items-center gap-2 px-[16px] pb-[16px]">
         {data.filters.map((filter) => {
@@ -123,7 +121,7 @@ export default function ProjectsPageMobile({
                       style={{ background: IMAGE_OVERLAY_GRADIENT }}
                     />
 
-                    <h2 className="absolute bottom-[16px] left-[14px] font-[Gellix] text-[32px] font-normal not-italic leading-[100%] tracking-[0%] text-white">
+                    <h2 className="absolute bottom-[16px] left-[14px] heading-section-title text-white">
                       {item.title}
                     </h2>
                   </Link>

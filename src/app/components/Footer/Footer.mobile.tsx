@@ -18,7 +18,7 @@ export default function FooterMobile() {
         className="-z-10 object-cover"
       />
 
-      <h2 className="color-text-footer font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%]">
+      <h2 className="color-text-footer heading-section-title">
         {t("ctaTitle")}
       </h2>
       <a href="/contacto" className="btn-gellix mt-6 w-fit">

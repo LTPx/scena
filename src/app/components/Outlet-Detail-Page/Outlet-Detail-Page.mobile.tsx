@@ -37,11 +37,8 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
       data-header-theme="light"
       className="relative min-h-dvh px-[14px] pb-[100px] pt-[220px]"
     >
-      {/* Título + flecha */}
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-[Gellix] text-[30px] font-normal leading-[100%] text-[#A89572]">
-          {product.name}
-        </h1>
+        <h1 className="heading-section-title text-[#A89572]">{product.name}</h1>
 
         {props.products.length > 1 && (
           <button
@@ -55,7 +52,6 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
         )}
       </div>
 
-      {/* Imagen */}
       <div
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
@@ -121,7 +117,7 @@ export default function OutletDetailPageMobile(props: OutletDetailProps) {
           </p>
         )}
 
-        <p className="font-[Gellix] text-[30px] leading-[100%] text-[#A89572]">
+        <p className="heading-section-title text-[#A89572]">
           <span className="line-through">RRP: {product.original_price}</span> |
           Outlet: {product.outlet_price}
         </p>

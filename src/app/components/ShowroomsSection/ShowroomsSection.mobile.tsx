@@ -128,10 +128,8 @@ export default function ShowroomsSectionMobile({ data }: Props) {
 
       <div className="pointer-events-none absolute inset-0 bg-black/20" />
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 px-[15px] pt-[100px] text-white">
-        <h2 className="mb-4 text-[30px] font-normal leading-[100%] tracking-normal">
-          {data.title}
-        </h2>
+      <div className="pointer-events-none absolute inset-x-0 top-0 px-[15px] pt-[100px] text-[#F6F5F1]">
+        <h2 className="mb-4 heading-section-title">{data.title}</h2>
 
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {data.locations.map((location, index) => {
@@ -142,7 +140,7 @@ export default function ShowroomsSectionMobile({ data }: Props) {
                 key={location.label}
                 type="button"
                 onClick={() => setSelectedLocation(index)}
-                className={`pointer-events-auto inline-flex h-[35px] items-center justify-center rounded-full border-[0.1px] px-4 text-[14px] font-normal leading-[100%] text-white transition-colors duration-200 ${
+                className={`pointer-events-auto inline-flex h-[35px] items-center justify-center rounded-full border-[0.1px] px-4 text-[14px] font-normal leading-[100%] text-[#F6F5F1] transition-colors duration-200 ${
                   isActive
                     ? "border-[#F6F5F1] bg-[#FFFFFF80]"
                     : "border-white/40 bg-transparent"
@@ -160,9 +158,9 @@ export default function ShowroomsSectionMobile({ data }: Props) {
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 px-[15px] pb-8 text-white">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 px-[15px] pb-8 text-[#F6F5F1]">
         <p
-          className="font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#F6F5F1]"
+          className="heading-section-title text-[#F6F5F1]"
           dangerouslySetInnerHTML={{ __html: activeLocation.description }}
         />
       </div>

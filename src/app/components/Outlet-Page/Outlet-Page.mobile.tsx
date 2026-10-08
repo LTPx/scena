@@ -19,13 +19,9 @@ export default function OutletPageMobile({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="pb-16 pt-[220px]">
-      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
-        {data.label}
-      </h1>
+      <h1 className="heading-header-label">{data.label}</h1>
       <div className="px-[15px]">
-        <h1 className="whitespace-pre-line font-sans text-[30px] font-normal not-italic leading-[100%] tracking-normal text-[#A89572]">
-          {data.title}
-        </h1>
+        <h1 className="heading-section-title text-[#A89572]">{data.title}</h1>
 
         <p
           className="mt-8 whitespace-pre-line font-sans text-[16px] font-normal not-italic leading-[135%] tracking-normal text-[#A89572]"
@@ -53,7 +49,6 @@ export default function OutletPageMobile({ data }: Props) {
         </div>
       </div>
 
-      {/* Carrusel con el dedo */}
       <div
         className="
           hide-scrollbar mt-6 flex snap-x snap-mandatory gap-2

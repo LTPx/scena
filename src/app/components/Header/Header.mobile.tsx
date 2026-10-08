@@ -166,23 +166,9 @@ export default function HeaderMobile() {
                       type="button"
                       onClick={() => setOpenItem(expanded ? null : item.key)}
                       aria-expanded={expanded}
-                      className="flex w-fit items-center gap-3 text-left font-[Gellix] text-[clamp(28px,5.2dvh,40px)] font-normal not-italic leading-[120%] text-[#F6F5F1]"
+                      className="w-fit text-left font-[Gellix] text-[clamp(28px,5.2dvh,40px)] font-normal not-italic leading-[120%] text-[#F6F5F1]"
                     >
                       {t(item.key)}
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        className={`transition-transform duration-300 ${
-                          expanded ? "rotate-180" : ""
-                        }`}
-                        aria-hidden
-                      >
-                        <path d="M2 5l6 6 6-6" />
-                      </svg>
                     </button>
 
                     <AnimatePresence initial={false}>

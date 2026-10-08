@@ -11,8 +11,7 @@ interface Props {
 
 const LABEL_CLASS =
   "font-[Gellix] text-[16px] font-normal not-italic leading-[135%] text-[#A89572]";
-const BIG_TEXT_CLASS =
-  "whitespace-pre-line font-[Gellix] text-[30px] font-normal not-italic leading-[100%] text-[#A89572]";
+const BIG_TEXT_CLASS = "heading-section-title text-[#A89572]";
 
 export default function AboutPageMobile({ data }: Props) {
   return (

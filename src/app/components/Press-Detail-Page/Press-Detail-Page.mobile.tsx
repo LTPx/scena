@@ -39,7 +39,7 @@ function ContentBlock({ block }: { block: NewsContentBlockWp }) {
     case "quote":
       return (
         <p
-          className={`whitespace-pre-line font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] ${TEXT_COLOR}`}
+          className={`whitespace-pre-line heading-section-title ${TEXT_COLOR}`}
         >
           {block.text}
         </p>
@@ -53,18 +53,14 @@ export default function PressDetailPageMobile({ data }: Props) {
       data-header-theme="light"
       className="flex w-full flex-col px-[16px] pb-[60px] pt-[220px]"
     >
-      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
-        Noticias
-      </h1>
+      <h1 className="heading-header-label">Noticias</h1>
       <span
         className={`font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] ${TEXT_COLOR}`}
       >
         {data.number}
       </span>
 
-      <h1
-        className={`mt-[40px] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] ${TEXT_COLOR}`}
-      >
+      <h1 className={`mt-[40px] heading-section-title ${TEXT_COLOR}`}>
         {data.title}
       </h1>
 

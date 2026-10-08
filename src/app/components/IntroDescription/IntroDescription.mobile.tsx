@@ -20,8 +20,7 @@ export default function IntroDescriptionMobile({
     <div data-header-theme="light" className="px-[15px] pt-[30px] pb-[10px]">
       <div
         className="
-          font-sans font-normal not-italic
-          text-[30px] leading-[100%] tracking-normal
+          heading-section-title
           text-[#a89572]
           [&>p]:inline
         "

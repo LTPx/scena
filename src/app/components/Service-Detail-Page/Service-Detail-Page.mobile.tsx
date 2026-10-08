@@ -16,9 +16,7 @@ export default function ServiceDetailPageMobile({ data }: Props) {
 
   return (
     <div data-header-theme="light" className="pb-16 pt-[100px]">
-      <h1 className="pointer-events-none absolute left-[130px] top-[18px] flex h-[18px] items-center font-[Gellix] text-[36px] font-normal not-italic leading-none tracking-[0%] text-[#A89572]">
-        Services
-      </h1>
+      <h1 className="heading-header-label">Services</h1>
 
       <nav aria-label="Services" className="ml-[130px]">
         <ul className="flex flex-col gap-[2px]">
@@ -63,7 +61,7 @@ export default function ServiceDetailPageMobile({ data }: Props) {
         </h2>
 
         <div
-          className="mt-8 font-[Gellix] text-[30px] font-normal not-italic leading-[120%] tracking-[0%] text-[#A89572]"
+          className="mt-8 font-[Gellix] heading-section-title text-[#A89572]"
           dangerouslySetInnerHTML={{
             __html: data.description.replace(/<\/?p[^>]*>/g, "").trim(),
           }}

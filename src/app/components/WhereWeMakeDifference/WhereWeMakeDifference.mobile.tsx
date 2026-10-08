@@ -29,7 +29,7 @@ export default function WhereWeMakeDifferenceMobile({ data }: Props) {
       <div ref={stickyRef} className="sticky py-[55px]">
         <h2
           ref={titleRef}
-          className="whitespace-pre-line px-[15px] font-[Gellix] text-[30px] font-normal not-italic leading-[100%] tracking-[0%] text-[#A89572]"
+          className="whitespace-pre-line px-[15px] heading-section-title text-[#A89572]"
         >
           <TypewriterText text={data.title} play={isInView} />
         </h2>
