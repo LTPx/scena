@@ -10,9 +10,6 @@ import { getAspectRatioNumber } from "../Gallery/aspect";
 const IMAGE_OVERLAY_GRADIENT =
   "linear-gradient(180deg, rgba(255, 255, 255, 0) 67.85%, rgba(0, 0, 0, 0.4) 100%)";
 
-const HIDE_SCROLLBAR =
-  "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
-
 const IMAGE_HEIGHT_PX = 520;
 const GAP_PX = 6;
 
@@ -25,16 +22,12 @@ export default function ProjectsPageMobile({
     initialFilter,
   );
 
-  const filtersRef = useRef<HTMLDivElement>(null);
-  const chipRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const firstRender = useRef(true);
   const isFirstFilterRun = useRef(true);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Debe ir ANTES del efecto de scroll: actualiza la altura del wrapper
   useStickyHorizontal(
     wrapperRef,
     stickyRef,
@@ -44,23 +37,6 @@ export default function ProjectsPageMobile({
     { speed: 0.9, center: true },
   );
 
-  // Centra el chip activo en la barra de filtros
-  useEffect(() => {
-    const container = filtersRef.current;
-    const chip = chipRefs.current[activeFilter];
-    if (!container || !chip) return;
-
-    const left =
-      chip.offsetLeft - (container.clientWidth - chip.offsetWidth) / 2;
-
-    container.scrollTo({
-      left: Math.max(0, left),
-      behavior: firstRender.current ? "auto" : "smooth",
-    });
-    firstRender.current = false;
-  }, [activeFilter]);
-
-  // Al cambiar de filtro, vuelve al punto donde empieza el pin
   useEffect(() => {
     if (isFirstFilterRun.current) {
       isFirstFilterRun.current = false;
@@ -75,7 +51,6 @@ export default function ProjectsPageMobile({
     const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
     const target = Math.max(0, wrapperTop - stickyTop);
 
-    // Solo sube si el usuario estaba más abajo del inicio del pin
     if (window.scrollY > target) {
       window.scrollTo({ top: target, behavior: "auto" });
     }
@@ -90,32 +65,26 @@ export default function ProjectsPageMobile({
         Projects
       </h1>
 
+      <div className="relative flex flex-wrap items-center gap-2 px-[16px] pb-[16px]">
+        {data.filters.map((filter) => {
+          const isActive = activeFilter === filter.slug;
+          return (
+            <button
+              key={filter.slug}
+              type="button"
+              onClick={() => setActiveFilter(filter.slug)}
+              className={`btn-gellix whitespace-nowrap ${
+                isActive ? "btn-gellix-active" : "btn-gellix-default"
+              }`}
+            >
+              {filter.label}
+            </button>
+          );
+        })}
+      </div>
+
       <div ref={wrapperRef} className="relative">
         <div ref={stickyRef} className="sticky">
-          <div
-            ref={filtersRef}
-            className={`relative flex items-center gap-2 overflow-x-auto px-[16px] pb-[16px] ${HIDE_SCROLLBAR}`}
-          >
-            {data.filters.map((filter) => {
-              const isActive = activeFilter === filter.slug;
-              return (
-                <button
-                  key={filter.slug}
-                  ref={(node) => {
-                    chipRefs.current[filter.slug] = node;
-                  }}
-                  type="button"
-                  onClick={() => setActiveFilter(filter.slug)}
-                  className={`btn-gellix flex-shrink-0 whitespace-nowrap ${
-                    isActive ? "btn-gellix-active" : "btn-gellix-default"
-                  }`}
-                >
-                  {filter.label}
-                </button>
-              );
-            })}
-          </div>
-
           <div
             data-header-theme="dark"
             className="overflow-hidden"
