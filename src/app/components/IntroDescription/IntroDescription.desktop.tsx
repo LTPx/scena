@@ -14,7 +14,7 @@ interface Props {
 
 export default function IntroDescriptionDesktop({
   description,
-  buttonLabel = "Ver Proyectos",
+  buttonLabel = "Ver proyectos",
   buttonHref = "/proyectos",
   textEndCol,
 }: Props) {

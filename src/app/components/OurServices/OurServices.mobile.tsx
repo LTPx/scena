@@ -84,9 +84,6 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
   const activeSlug = active.slug ?? slugify(active.label);
   const activeHref = `/services/${activeSlug}`;
   const projectsHref = getProjectsHref(activeSlug, locale);
-
-  // Mismo comportamiento que desktop: "know more" por defecto con opacidad 0.7,
-  // y opacidad 1 cuando se está presionando un botón
   const pillTarget = pressed ?? "know";
   const pillOpacity = pressed ? 1 : 0.7;
 
@@ -187,7 +184,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
               transition={CTA_TRANSITION}
             />
           )}
-          <span className="relative z-10">know more</span>
+          <span className="relative z-10">Explorar</span>
         </Link>
 
         <Link
@@ -206,7 +203,7 @@ export default function OurServicesMobile({ services: rawServices }: Props) {
               transition={CTA_TRANSITION}
             />
           )}
-          <span className="relative z-10">See Projects</span>
+          <span className="relative z-10">Ver proyectos</span>
         </Link>
       </motion.div>
     </section>

@@ -1,12 +1,16 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { AboutPageWp } from "../../_interfaces/wordpress-components";
 import { useStickyHorizontal } from "../Projects-Page/useStickyHorizontal";
 
 interface Props {
   data: AboutPageWp["differentiators"];
 }
+
+const CARD_TITLE_MIN_LINES = 2;
+const CARD_TITLE_LINE_HEIGHT = 1.15;
 
 export default function AboutDifferentiatorsTrackMobile({ data }: Props) {
   const wrapperRef = useRef<HTMLElement>(null);
@@ -38,14 +42,27 @@ export default function AboutDifferentiatorsTrackMobile({ data }: Props) {
             {data.cards.map((card, i) => (
               <article
                 key={`${card.title}-${i}`}
-                className="flex min-h-[425px] w-[78vw] max-w-[420px] flex-shrink-0 flex-col justify-between rounded-[20px] bg-white p-5"
+                className="flex min-h-[450px] w-[78vw] max-w-[420px] flex-shrink-0 flex-col justify-between rounded-[20px] bg-white p-5"
               >
-                <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
+                <h3
+                  style={{
+                    minHeight: `${CARD_TITLE_MIN_LINES * CARD_TITLE_LINE_HEIGHT}em`,
+                  }}
+                  className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]"
+                >
                   {card.title}
                 </h3>
 
                 <div className="flex flex-1 items-center justify-center py-6">
-                  <div className="h-32 w-32 rounded-full border border-[#A89572]/40" />
+                  {card.icon?.url && (
+                    <Image
+                      src={card.icon.url}
+                      alt={card.icon.alt || card.title}
+                      width={144}
+                      height={144}
+                      className="h-32 w-32 object-contain"
+                    />
+                  )}
                 </div>
 
                 <p className="font-[Gellix] text-[16px] font-normal not-italic leading-[135%] text-[#A89572]">

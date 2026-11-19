@@ -13,6 +13,9 @@ interface Props {
 const TITLE_TOP_PX = 27;
 const TITLE_CARDS_GAP_PX = 50;
 
+const CARD_TITLE_MIN_LINES = 2;
+const CARD_TITLE_LINE_HEIGHT = 1.15;
+
 const CARD_START_Y = 90;
 const CARD_BASE_DELAY_S = 0.25;
 const CARD_STAGGER_S = 0.3;
@@ -100,13 +103,17 @@ export default function AboutDifferentiatorsTrackDesktop({ data }: Props) {
             }}
             className="relative z-10 row-start-2"
           >
-            {/* Capa interna: la card visible, con la escala del hover. */}
             <motion.div
               animate={{ scale: hoverScale }}
               transition={HOVER_TRANSITION}
               className="flex h-full w-full flex-col justify-between rounded-[20px] bg-white p-[20px]"
             >
-              <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[34px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
+              <h3
+                style={{
+                  minHeight: `${CARD_TITLE_MIN_LINES * CARD_TITLE_LINE_HEIGHT}em`,
+                }}
+                className="whitespace-pre-line font-[Quadrant_Text] text-[34px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]"
+              >
                 {card.title}
               </h3>
 

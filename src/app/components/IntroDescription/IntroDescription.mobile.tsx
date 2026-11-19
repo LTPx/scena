@@ -8,7 +8,7 @@ interface Props {
 
 export default function IntroDescriptionMobile({
   description,
-  buttonLabel = "Ver Proyectos",
+  buttonLabel = "Ver proyectos",
   buttonHref = "/proyectos",
 }: Props) {
   const html = description

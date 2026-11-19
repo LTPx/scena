@@ -168,24 +168,32 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageWp> {
   if (!a) throw new Error("about_information no encontrado");
 
   return {
-    title: a.title ?? "",
-    description: a.description ?? "",
+    title: decodeEntities(a.title ?? ""),
+    description: decodeEntities(a.description ?? ""),
     gallery: a.gallery ?? [],
     team_gallery: a.team_gallery ?? [],
     team: {
-      description: a.team?.description ?? "",
+      description: decodeEntities(a.team?.description ?? ""),
       positions: (a.team?.positions ?? []).map(
-        (p: { title: string }, i: number) => ({ id: i + 1, title: p.title }),
+        (p: { title: string }, i: number) => ({
+          id: i + 1,
+          title: decodeEntities(p.title ?? ""),
+        }),
       ),
-      cta_title: a.team?.cta_title ?? "",
-      cta_label: a.team?.cta_label ?? "",
+      cta_title: decodeEntities(a.team?.cta_title ?? ""),
+      cta_label: decodeEntities(a.team?.cta_label ?? ""),
     },
     differentiators: {
-      title: a.differentiators?.title ?? "",
-      cards: a.differentiators?.cards ?? [],
+      title: decodeEntities(a.differentiators?.title ?? ""),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cards: (a.differentiators?.cards ?? []).map((card: any) => ({
+        ...card,
+        title: decodeEntities(card.title ?? ""),
+        description: decodeEntities(card.description ?? ""),
+      })),
     },
     partners: {
-      description: a.partners?.description ?? "",
+      description: decodeEntities(a.partners?.description ?? ""),
       partners: (a.partners?.partners ?? []).map(
         (
           p: {
@@ -195,7 +203,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageWp> {
           i: number,
         ) => ({
           id: i + 1,
-          name: p.name,
+          name: decodeEntities(p.name ?? ""),
           logo: p.logo,
         }),
       ),

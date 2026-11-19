@@ -38,12 +38,13 @@ function HomePage({ home_information, projects }: Props) {
         <IntroDescription
           description={home_information.intro_description.description}
           buttonHref="/projects"
+          textEndCol={11}
         />
         <OurServices services={home_information.our_services} />
         <IntroDescription
           description={home_information.visit_us_description.description}
           buttonHref="/contact"
-          buttonLabel="Visítanos"
+          buttonLabel="Ver showrooms"
           textEndCol={11}
         />
         <Gallery

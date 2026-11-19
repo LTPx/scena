@@ -383,7 +383,7 @@ export default function OurServicesDesktop({
                   transition={CTA_TRANSITION}
                 />
               )}
-              <span className="relative z-10">know more</span>
+              <span className="relative z-10">Explorar</span>
             </Link>
 
             <Link
@@ -402,7 +402,7 @@ export default function OurServicesDesktop({
                   transition={CTA_TRANSITION}
                 />
               )}
-              <span className="relative z-10">See Projects</span>
+              <span className="relative z-10">Ver proyectos</span>
             </Link>
           </motion.div>
         </div>

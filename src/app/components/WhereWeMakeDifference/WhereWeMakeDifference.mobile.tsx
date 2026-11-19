@@ -11,6 +11,9 @@ interface Props {
   data: WhereWeMakeDifferenceWp;
 }
 
+const CARD_TITLE_MIN_LINES = 2;
+const CARD_TITLE_LINE_HEIGHT = 1.15;
+
 export default function WhereWeMakeDifferenceMobile({ data }: Props) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const isInView = useInView(titleRef, { once: true, amount: 0.9 });
@@ -45,7 +48,12 @@ export default function WhereWeMakeDifferenceMobile({ data }: Props) {
                 key={`${card.number}-${i}`}
                 className="flex min-h-[450px] w-[78vw] max-w-[420px] flex-shrink-0 flex-col justify-between rounded-[20px] bg-white p-5"
               >
-                <h3 className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]">
+                <h3
+                  style={{
+                    minHeight: `${CARD_TITLE_MIN_LINES * CARD_TITLE_LINE_HEIGHT}em`,
+                  }}
+                  className="whitespace-pre-line font-[Quadrant_Text] text-[24px] font-normal not-italic leading-[115%] tracking-[0%] text-[#A89572]"
+                >
                   {card.title}
                 </h3>
 
