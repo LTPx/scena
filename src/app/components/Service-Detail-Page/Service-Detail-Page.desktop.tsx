@@ -63,9 +63,9 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
               style={{ height: ALIGN_TOP }}
             >
               <h2 className="headline-1 text-[#A89572]">Servicios</h2>
-              <h3 className="font-quadrant text-[66px] font-normal not-italic leading-[110%] tracking-[0%] text-[#A89572]">
+              <h1 className="font-quadrant text-[66px] font-normal not-italic leading-[110%] tracking-[0%] text-[#A89572]">
                 {data.label}
-              </h3>
+              </h1>
             </div>
 
             <h2 className="headline-1 text-[#A89572] mt-[-6px]">
@@ -84,7 +84,7 @@ export default function ServiceDetailPageDesktop({ data }: Props) {
               href={getProjectsHref(data.slug, locale)}
               className="btn-gellix"
             >
-              See Projects
+              Ver proyectos
             </Link>
           </div>
         </div>
