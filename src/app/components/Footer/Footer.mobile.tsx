@@ -55,10 +55,12 @@ export default function FooterMobile() {
               {office.label}
             </GlassButton>
             <p className="paragraph-footer-mobile mt-[15px]">
-              {office.address}
-              <br />
-              {office.phone}
-              <br />
+              {office.address.split(" · ").map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+              <span className="block">{office.phone}</span>
               <a href={`mailto:${office.email}`} className="underline">
                 {office.email}
               </a>
@@ -72,7 +74,7 @@ export default function FooterMobile() {
         <div className="paragraph-final-footer-mobile">
           <p>{t("followUs")}</p>
           <p className="text-[20px] leading-[27px]">
-            <a href="#">Instagram</a> | <a href="#">Linkedin</a>
+            <a href="#">Instagram</a> | <a href="#">LinkedIn</a>
           </p>
         </div>
 

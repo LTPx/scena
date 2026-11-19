@@ -7,7 +7,7 @@ export const OFFICES = [
   },
   {
     label: "Technical Office",
-    address: "Gran Via Asima, 31 - 07009 Palma",
+    address: "Gran Vía Asima, 31 - 07009 Palma · Fray Luis de León, 9 - 07011 Palma",
     phone: "+34 971 29 04 87",
     email: "scena@e-scena.com",
   },

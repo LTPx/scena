@@ -173,7 +173,7 @@ function RightInfo() {
     >
       <p style={line(b1)}>{t("followUs")}</p>
       <p className="footer-links" style={line(b2)}>
-        <a href="#">Instagram</a> | <a href="#">Linkedin</a>
+        <a href="#">Instagram</a> | <a href="#">LinkedIn</a>
       </p>
       <p className="footer-links" style={line(b3)}>
         <a href="#">{t("privacyPolicy")}</a> | <a href="#">{t("cookies")}</a>
@@ -263,16 +263,18 @@ export default function FooterDesktop() {
                 {office.label}
               </GlassButton>
               <p
-                className="paragraph-footer whitespace-nowrap"
+                className="paragraph-footer"
                 style={{
                   marginTop: px(14),
                   fontSize: `max(11px, ${px(16)})`,
                 }}
               >
-                {office.address}
-                <br />
-                {office.phone}
-                <br />
+                {office.address.split(" · ").map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+                <span className="block">{office.phone}</span>
                 <a href={`mailto:${office.email}`} className="underline">
                   {office.email}
                 </a>

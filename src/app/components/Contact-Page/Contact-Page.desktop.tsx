@@ -234,10 +234,12 @@ export default function ContactPageDesktop({ data }: Props) {
                 className="paragraph-footer whitespace-nowrap"
                 style={{ marginTop: px(14), fontSize: `max(11px, ${px(16)})` }}
               >
-                {office.address}
-                <br />
-                {office.phone}
-                <br />
+                {office.address.split(" · ").map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+                <span className="block">{office.phone}</span>
                 <a href={`mailto:${office.email}`} className="underline">
                   {office.email}
                 </a>
