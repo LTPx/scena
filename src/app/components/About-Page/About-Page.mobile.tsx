@@ -54,7 +54,7 @@ export default function AboutPageMobile({ data }: Props) {
 
       <section className="pb-20 pt-6">
         <div className="px-[15px]">
-          <p className={LABEL_CLASS}>Partners/Marcas</p>
+          <p className={LABEL_CLASS}>Nuestros partners</p>
 
           <p
             className={`${BIG_TEXT_CLASS} mt-6`}

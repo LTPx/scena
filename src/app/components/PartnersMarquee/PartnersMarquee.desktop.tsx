@@ -11,16 +11,12 @@ interface Props {
 const CARD_WIDTH = 220;
 const CARD_HEIGHT = 90;
 const GAP_PX = 16;
-// px por segundo -> controla la velocidad del loop, constante sin
-// importar cuántos partners haya.
+
 const SPEED_PX_PER_SEC = 60;
 
 export default function PartnersMarqueeDesktop({ partners }: Props) {
   if (!partners?.length) return null;
 
-  // Duplicamos la lista para que el loop sea perfectamente continuo:
-  // cuando el primer set termina de salir por la izquierda, el segundo
-  // set ya está exactamente en la posición inicial.
   const track = [...partners, ...partners];
   const singleSetWidth = partners.length * (CARD_WIDTH + GAP_PX);
   const duration = singleSetWidth / SPEED_PX_PER_SEC;

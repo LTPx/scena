@@ -18,8 +18,8 @@ type SectionKey = "team" | "differentiators" | "partners";
 
 const SECTIONS: { key: SectionKey; label: string }[] = [
   { key: "team", label: "Nuestro equipo" },
-  { key: "differentiators", label: "Factores diferenciales" },
-  { key: "partners", label: "Partners/Marques" },
+  { key: "differentiators", label: "Factores diferenciadores" },
+  { key: "partners", label: "Nuestros partners" },
 ];
 
 const easeInOutCubic = (t: number) =>
