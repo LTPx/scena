@@ -194,8 +194,6 @@ export default function HeaderDesktop() {
               }}
             >
               {activeItem?.subItems?.map((sub) => {
-                // Todos al 100% por defecto; al hacer hover, el ítem señalado
-                // se queda al 100% y el resto baja de opacidad.
                 const isDimmed =
                   hoveredSubKey !== null && hoveredSubKey !== sub.key;
 

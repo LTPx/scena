@@ -29,7 +29,6 @@ export const LOCALES = [
 
 type Locale = "es" | "en" | "de";
 
-// key del submenú -> slug del servicio en cada idioma (el que devuelve WP)
 const SERVICE_SLUGS: Record<Locale, Record<string, string>> = {
   es: {
     engineering: "ingenieria",
