@@ -259,9 +259,17 @@ export default function FooterDesktop() {
         >
           {OFFICES.map((office) => (
             <div key={office.label}>
-              <GlassButton as="span" variant="light">
-                {office.label}
-              </GlassButton>
+              <a
+                href={office.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${office.label} - Google Maps`}
+                className="inline-block"
+              >
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>
+              </a>
               <p
                 className="paragraph-footer"
                 style={{

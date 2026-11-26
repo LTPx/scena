@@ -51,9 +51,17 @@ export default function FooterMobile() {
       >
         {OFFICES.map((office) => (
           <div key={office.label} className="w-[70%] flex-shrink-0 snap-start">
-            <GlassButton as="span" variant="light">
-              {office.label}
-            </GlassButton>
+            <a
+              href={office.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${office.label} - Google Maps`}
+              className="inline-block"
+            >
+              <GlassButton as="span" variant="light">
+                {office.label}
+              </GlassButton>
+            </a>
             <p className="paragraph-footer-mobile mt-[15px]">
               {office.address.split(" · ").map((line) => (
                 <span key={line} className="block">

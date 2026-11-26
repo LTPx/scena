@@ -137,7 +137,6 @@ function BottomRow({
   const dSmall = baselineFromBottom(FOLLOW_LINE, FOLLOW_FONT, g);
 
   const shift = dSmall - dTag;
-
   return (
     <>
       <div className={`${COLS.footerTagline} row-start-3 flex items-end`}>
@@ -227,9 +226,23 @@ export default function ContactPageDesktop({ data }: Props) {
         >
           {data.offices.map((office) => (
             <div key={office.label}>
-              <GlassButton as="span" variant="light">
-                {office.label}
-              </GlassButton>
+              {office.maps_url ? (
+                <a
+                  href={office.maps_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${office.label} - Google Maps`}
+                  className="inline-block"
+                >
+                  <GlassButton as="span" variant="light">
+                    {office.label}
+                  </GlassButton>
+                </a>
+              ) : (
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>
+              )}
               <p
                 className="paragraph-footer whitespace-nowrap"
                 style={{ marginTop: px(14), fontSize: `max(11px, ${px(16)})` }}

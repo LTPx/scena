@@ -97,6 +97,7 @@ export interface ContactOfficeWp {
   address: string;
   phone: string;
   email: string;
+  maps_url?: string;
 }
 
 export interface ContactPageWp {

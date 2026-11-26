@@ -246,11 +246,13 @@ export async function getContactPage(locale: Locale): Promise<ContactPageWp> {
         address: string;
         phone: string;
         email: string;
+        maps_url?: string;
       }) => ({
         label: o.label ?? "",
         address: o.address ?? "",
         phone: o.phone ?? "",
         email: o.email ?? "",
+        maps_url: o.maps_url ?? "",
       }),
     ),
   };

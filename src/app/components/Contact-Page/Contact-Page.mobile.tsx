@@ -53,9 +53,23 @@ export default function ContactPageMobile({ data }: Props) {
       >
         {data.offices.map((office) => (
           <div key={office.label} className="w-[70%] flex-shrink-0 snap-start">
-            <GlassButton as="span" variant="light">
-              {office.label}
-            </GlassButton>
+            {office.maps_url ? (
+              <a
+                href={office.maps_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${office.label} - Google Maps`}
+                className="inline-block"
+              >
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>
+              </a>
+            ) : (
+              <GlassButton as="span" variant="light">
+                {office.label}
+              </GlassButton>
+            )}
             <p className="mt-[15px] font-[Gellix] text-[16px] font-normal not-italic leading-[135%] tracking-[0%] text-[#F6F5F1]">
               {office.address}
               <br />
