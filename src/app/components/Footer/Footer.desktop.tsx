@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ContactOfficeWp } from "../../_interfaces/wordpress-components";
 import Grid, { COLS, colSpanWidth } from "../layout/Grid";
 import GlassButton from "../GlassButton";
-import { OFFICES } from "./offices";
+
+interface Props {
+  offices: ContactOfficeWp[];
+}
 
 const LOGO_RATIO = 600 / 122;
 
@@ -193,7 +197,7 @@ function RightInfo() {
   );
 }
 
-export default function FooterDesktop() {
+export default function FooterDesktop({ offices }: Props) {
   const t = useTranslations("Footer");
 
   return (
@@ -257,19 +261,25 @@ export default function FooterDesktop() {
           className="col-start-10 col-span-3 row-start-1 flex min-h-0 flex-col self-start"
           style={{ gap: px(50) }}
         >
-          {OFFICES.map((office) => (
+          {offices.map((office) => (
             <div key={office.label}>
-              <a
-                href={office.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${office.label} - Google Maps`}
-                className="inline-block"
-              >
+              {office.maps_url ? (
+                <a
+                  href={office.maps_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${office.label} - Google Maps`}
+                  className="inline-block"
+                >
+                  <GlassButton as="span" variant="light">
+                    {office.label}
+                  </GlassButton>
+                </a>
+              ) : (
                 <GlassButton as="span" variant="light">
                   {office.label}
                 </GlassButton>
-              </a>
+              )}
               <p
                 className="paragraph-footer"
                 style={{

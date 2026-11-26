@@ -2,10 +2,14 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ContactOfficeWp } from "../../_interfaces/wordpress-components";
 import GlassButton from "../GlassButton";
-import { OFFICES } from "./offices";
 
-export default function FooterMobile() {
+interface Props {
+  offices: ContactOfficeWp[];
+}
+
+export default function FooterMobile({ offices }: Props) {
   const t = useTranslations("Footer");
 
   return (
@@ -49,19 +53,25 @@ export default function FooterMobile() {
           [&::-webkit-scrollbar]:hidden
         "
       >
-        {OFFICES.map((office) => (
+        {offices.map((office) => (
           <div key={office.label} className="w-[70%] flex-shrink-0 snap-start">
-            <a
-              href={office.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${office.label} - Google Maps`}
-              className="inline-block"
-            >
+            {office.maps_url ? (
+              <a
+                href={office.maps_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${office.label} - Google Maps`}
+                className="inline-block"
+              >
+                <GlassButton as="span" variant="light">
+                  {office.label}
+                </GlassButton>
+              </a>
+            ) : (
               <GlassButton as="span" variant="light">
                 {office.label}
               </GlassButton>
-            </a>
+            )}
             <p className="paragraph-footer-mobile mt-[15px]">
               {office.address.split(" · ").map((line) => (
                 <span key={line} className="block">

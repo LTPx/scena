@@ -5,18 +5,20 @@ import Header from "../components/Header";
 import SmoothScrollProvider from "../components/SmoothScrollProvider";
 import { usePathname } from "@/navigation";
 import { useIsDesktop } from "../hooks/useIsDesktop";
+import { ContactOfficeWp } from "../_interfaces/wordpress-components";
 
 const HIDDEN_FOOTER_PREFIX_ROUTES = ["/contact", "/showrooms"];
 const HIDDEN_FOOTER_DESKTOP_PREFIX_ROUTES = ["/outlet"];
 
 interface Props {
   children: React.ReactNode;
+  offices: ContactOfficeWp[];
 }
 
 const startsWithRoute = (pathname: string, route: string) =>
   pathname === route || pathname.startsWith(`${route}/`);
 
-function App({ children }: Props) {
+function App({ children, offices }: Props) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
 
@@ -51,7 +53,7 @@ function App({ children }: Props) {
 
       {!hideFooter && (
         <div className="relative z-10 lg:fixed lg:inset-0 lg:z-0 lg:flex lg:h-screen lg:items-end">
-          <Footer />
+          <Footer offices={offices} />
         </div>
       )}
     </div>

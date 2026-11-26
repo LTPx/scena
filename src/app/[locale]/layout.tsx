@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { routing } from "@/routing";
 import { SITE_URL } from "@/app/_services/seo";
+import { getContactPage } from "@/app/_services/api";
 import "./globals.css";
 import App from "./app";
 
@@ -30,11 +31,15 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  const offices = await getContactPage(locale as "en" | "es" | "de")
+    .then((c) => c.offices)
+    .catch(() => []);
+
   return (
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <App>{children}</App>
+          <App offices={offices}>{children}</App>
         </NextIntlClientProvider>
       </body>
     </html>
